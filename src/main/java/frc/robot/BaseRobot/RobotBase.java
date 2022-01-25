@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
 //Pneumatic System
 /*
 import edu.wpi.first.wpilibj.Solenoid;

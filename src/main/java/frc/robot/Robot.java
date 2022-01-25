@@ -30,15 +30,10 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
-  public void teleopInit() {
-    CANTesting.initCAN();
-  }
+  public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {
-    CANTesting.testCAN();
-    CANTesting.shuffleboard();
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void disabledInit() {}
@@ -47,12 +42,8 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   @Override
-  public void testInit() {
-    CANTesting.initCAN();
-  }
+  public void testInit() {}
 
   @Override
-  public void testPeriodic() {
-    CANTesting.shuffleboard();
-  }
+  public void testPeriodic() {}
 }
