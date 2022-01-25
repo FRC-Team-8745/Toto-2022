@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
 //Pneumatic System
 /*
 import edu.wpi.first.wpilibj.Solenoid;
@@ -53,5 +55,7 @@ public class RobotBase {
     public static void shuffleboard() {
         SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
         SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
+        SmartDashboard.putNumber("Right Motor Temprature", rightDrive.getMotorTemperature());
+        SmartDashboard.putNumber("Left Motor Temprature", leftDrive.getMotorTemperature());
     }
 }
