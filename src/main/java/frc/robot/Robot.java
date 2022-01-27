@@ -27,17 +27,17 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {}
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    Auto.AutoDrive();
+  }
 
   @Override
   public void teleopInit() {
-    CANTesting.initCAN();
   }
 
   @Override
   public void teleopPeriodic() {
-    CANTesting.testCAN();
-    CANTesting.shuffleboard();
+    Drivetrain.drive();
   }
 
   @Override
@@ -48,11 +48,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    CANTesting.initCAN();
   }
 
   @Override
   public void testPeriodic() {
-    CANTesting.shuffleboard();
   }
 }

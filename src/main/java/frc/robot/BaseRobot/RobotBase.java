@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 
-import javax.swing.text.StyleContext.SmallAttributeSet;
 
 //Pneumatic System
 /*
@@ -40,10 +39,12 @@ public class RobotBase {
     // Motor Control
     public static CANSparkMax rightDrive = new CANSparkMax(1, MotorType.kBrushless);
     public static CANSparkMax leftDrive = new CANSparkMax(2, MotorType.kBrushless);
+    public static CANSparkMax rotate = new CANSparkMax(3,MotorType.kBrushless);
 
     // Sensors
     public static RelativeEncoder rightEncoder = rightDrive.getEncoder();
     public static RelativeEncoder leftEncoder = leftDrive.getEncoder();
+    public static RelativeEncoder rotateEncoder = rotate.getEncoder();
     public static ADXRS450_Gyro Gyro = new ADXRS450_Gyro();
 
     // Base robot
@@ -55,7 +56,9 @@ public class RobotBase {
     public static void shuffleboard() {
         SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
         SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
+        SmartDashboard.putNumber("Climber Encoder", rotateEncoder.getPosition());
         SmartDashboard.putNumber("Right Motor Temprature", rightDrive.getMotorTemperature());
         SmartDashboard.putNumber("Left Motor Temprature", leftDrive.getMotorTemperature());
+        SmartDashboard.putNumber("Climber Rotate Temprature", rotate.getMotorTemperature());
     }
 }
