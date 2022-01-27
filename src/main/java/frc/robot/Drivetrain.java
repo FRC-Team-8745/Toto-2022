@@ -24,7 +24,6 @@ public class Drivetrain {
         } else {
             speedModifierDriving = 0.5;
         }
-
         // Set variables for the left and right motors to the controllers axis, using
         // both the up/down and left/right values and some math; multiplied by the speed
         // modifier
