@@ -15,17 +15,19 @@ public class Auto {
             RobotBase.leftDrive.stopMotor();
         }
         //once it reaches the low hub, make itdump the pre-loaded ball into the hu
-        if((RobotBase.leftEncoder.getPosition() >17 && RobotBase.leftEncoder.getPosition() <19) && 
+        /*if((RobotBase.leftEncoder.getPosition() >17 && RobotBase.leftEncoder.getPosition() <19) && 
         (RobotBase.rightEncoder.getPosition() >17 && RobotBase.rightEncoder.getPosition() <19 )){
             RobotBase.rotate.set(0.1);
         } else if(RobotBase.rotateEncoder.getPosition() > 17 && RobotBase.rotateEncoder.getPosition() <
          19){
             RobotBase.rotate.stopMotor();
-        } 
+        } */
         //make it drive out of the tarmac
-        if(RobotBase.rotateEncoder.getPosition() > 17 && RobotBase.rotateEncoder.getPosition() < 19){
+        //if(RobotBase.rotateEncoder.getPosition() > 17 && RobotBase.rotateEncoder.getPosition() < 19){
+        if((RobotBase.leftEncoder.getPosition() >17 && RobotBase.leftEncoder.getPosition() <19) && (RobotBase.rightEncoder.getPosition() >17 && RobotBase.rightEncoder.getPosition() <19 )){
             RobotBase.leftDrive.set(-0.1);
             RobotBase.rightDrive.set(-0.1); 
+        if()
         }
         }
     }
