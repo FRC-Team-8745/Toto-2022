@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
 //Sensors
 //import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 //Base Robot
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -30,8 +30,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class RobotBase {
     // Controllers
-    public static XboxController xbox = new XboxController(0);
-    public static Joystick main = new Joystick(1);
+    public static XboxController xbox = new XboxController(1);
+    public static Joystick main = new Joystick(0);
 
     // Pneumatic System
 
@@ -42,11 +42,13 @@ public class RobotBase {
     // Sensors
     public static RelativeEncoder rightEncoder = rightDrive.getEncoder();
     public static RelativeEncoder leftEncoder = leftDrive.getEncoder();
-    public static ADXRS450_Gyro Gyro = new ADXRS450_Gyro();
 
     // Base robot
     public static PowerDistribution PDP = new PowerDistribution();
     public static PneumaticsControlModule PCM = new PneumaticsControlModule();
+
+    // PID
+    public static PIDController pid = new PIDController(0.5, 0.01, 4);
 
 
     // Shuffleboard
@@ -55,5 +57,10 @@ public class RobotBase {
         SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
         SmartDashboard.putNumber("Right Motor Temprature", rightDrive.getMotorTemperature());
         SmartDashboard.putNumber("Left Motor Temprature", leftDrive.getMotorTemperature());
+    }
+
+    public static void initSparks() {
+        rightDrive.restoreFactoryDefaults();
+        leftDrive.restoreFactoryDefaults();
     }
 }

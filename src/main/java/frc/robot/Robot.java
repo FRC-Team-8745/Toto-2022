@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.BaseRobot.RobotBase;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,10 +31,15 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    RobotBase.initSparks();
+  }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    RobotBase.shuffleboard();
+    Drivetrain.drive();
+  }
 
   @Override
   public void disabledInit() {}
@@ -45,5 +51,7 @@ public class Robot extends TimedRobot {
   public void testInit() {}
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    RobotBase.shuffleboard();
+  }
 }
