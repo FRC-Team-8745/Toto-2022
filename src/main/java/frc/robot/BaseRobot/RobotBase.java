@@ -23,7 +23,6 @@ import edu.wpi.first.math.controller.PIDController;
 
 //Base Robot
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.PneumaticsControlModule;
 
 //Other
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -45,7 +44,6 @@ public class RobotBase {
 
     // Base robot
     public static PowerDistribution PDP = new PowerDistribution();
-    public static PneumaticsControlModule PCM = new PneumaticsControlModule();
 
     // PID
     public static PIDController pid = new PIDController(0.5, 0.01, 4);
@@ -62,5 +60,6 @@ public class RobotBase {
     public static void initSparks() {
         rightDrive.restoreFactoryDefaults();
         leftDrive.restoreFactoryDefaults();
+        leftDrive.setInverted(true);
     }
 }

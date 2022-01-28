@@ -29,8 +29,8 @@ public class Drivetrain {
         // both the up/down and left/right values and some math; multiplied by the speed
         // modifier
         RobotBase.leftDrive.set(
-                (-RobotBase.main.getRawAxis(1) * 0.5 - RobotBase.main.getRawAxis(0) * 0.5) * speedModifierDriving);
+                (RobotBase.main.getRawAxis(1) * 0.5 - RobotBase.main.getRawAxis(0) * 0.5) * speedModifierDriving);
         RobotBase.rightDrive.set(
-                (-RobotBase.main.getRawAxis(1) * 0.5 + RobotBase.main.getRawAxis(0) * 0.5) * speedModifierDriving);
+                (RobotBase.main.getRawAxis(1) * 0.5 + RobotBase.main.getRawAxis(0) * 0.5) * speedModifierDriving);
     }
 }
