@@ -61,4 +61,11 @@ public class RobotBase {
         SmartDashboard.putNumber("Left Motor Temprature", leftDrive.getMotorTemperature());
         SmartDashboard.putNumber("Climber Rotate Temprature", rotate.getMotorTemperature());
     }
+
+    public static void initSparks() {
+        rightDrive.restoreFactoryDefaults();
+        leftDrive.restoreFactoryDefaults();
+        leftDrive.setInverted(true);
+        leftEncoder.setInverted(true);
+    }
 }

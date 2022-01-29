@@ -27,7 +27,9 @@ public class Auto {
         if((RobotBase.leftEncoder.getPosition() >17 && RobotBase.leftEncoder.getPosition() <19) && (RobotBase.rightEncoder.getPosition() >17 && RobotBase.rightEncoder.getPosition() <19 )){
             RobotBase.leftDrive.set(-0.1);
             RobotBase.rightDrive.set(-0.1); 
-        if()
+        if((RobotBase.leftEncoder.getPosition() > -19 && RobotBase.leftEncoder.getPosition() < -17) && (RobotBase.rightEncoder.getPosition() > -19 && RobotBase.rightEncoder.getPosition() < -17 ))
+            RobotBase.leftDrive.stopMotor();
+            RobotBase.rightDrive.stopMotor();
         }
         }
     }
