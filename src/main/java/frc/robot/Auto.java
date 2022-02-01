@@ -7,7 +7,7 @@ public class Auto {
     
     public static void AutoDrive(){
         //make the robot drive forward towards the low hub
-        if(RobotBase.leftEncoder.getPosition() < 18 && RobotBase.rightEncoder.getPosition() < 18){
+        /*if(RobotBase.leftEncoder.getPosition() < 18 && RobotBase.rightEncoder.getPosition() < 18){
             RobotBase.leftDrive.set(0.1);
             RobotBase.rightDrive.set(0.1);
         } else {
@@ -24,13 +24,15 @@ public class Auto {
         } */
         //make it drive out of the tarmac
         //if(RobotBase.rotateEncoder.getPosition() > 17 && RobotBase.rotateEncoder.getPosition() < 19){
-        if((RobotBase.leftEncoder.getPosition() >17 && RobotBase.leftEncoder.getPosition() <19) && (RobotBase.rightEncoder.getPosition() >17 && RobotBase.rightEncoder.getPosition() <19 )){
+        //if((RobotBase.leftEncoder.getPosition() >17 && RobotBase.leftEncoder.getPosition() <19) && (RobotBase.rightEncoder.getPosition() >17 && RobotBase.rightEncoder.getPosition() <19 )){
+        if(RobotBase.leftEncoder.getPosition() > -18 && RobotBase.rightEncoder.getPosition() > -18){    
             RobotBase.leftDrive.set(-0.1);
             RobotBase.rightDrive.set(-0.1); 
-        if((RobotBase.leftEncoder.getPosition() > -19 && RobotBase.leftEncoder.getPosition() < -17) && (RobotBase.rightEncoder.getPosition() > -19 && RobotBase.rightEncoder.getPosition() < -17 ))
+        //if((RobotBase.leftEncoder.getPosition() > -19 && RobotBase.leftEncoder.getPosition() < -17) && (RobotBase.rightEncoder.getPosition() > -19 && RobotBase.rightEncoder.getPosition() < -17 ))
+        } else {
             RobotBase.leftDrive.stopMotor();
             RobotBase.rightDrive.stopMotor();
         }
         }
-    }
+}
 
