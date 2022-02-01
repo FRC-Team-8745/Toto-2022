@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 //Base Robot
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.PneumaticsControlModule;
 
 //Other
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -49,8 +48,6 @@ public class RobotBase {
 
     // Base robot
     public static PowerDistribution PDP = new PowerDistribution();
-    public static PneumaticsControlModule PCM = new PneumaticsControlModule();
-
 
     // Shuffleboard
     public static void shuffleboard() {
@@ -66,6 +63,5 @@ public class RobotBase {
         rightDrive.restoreFactoryDefaults();
         leftDrive.restoreFactoryDefaults();
         leftDrive.setInverted(true);
-        leftEncoder.setInverted(true);
     }
 }
