@@ -5,7 +5,7 @@ public class Test {
         if (Robot.cont.getRawButton(1))
             Robot.left.set(-0.5);
         else if (Robot.cont.getRawButton(2))
-            Robot.left.set(-1);
+            Robot.left.set(0.5);
         else
             Robot.left.stop();
     }
