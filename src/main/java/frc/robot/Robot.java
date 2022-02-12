@@ -4,54 +4,74 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.BaseRobot.RobotBaseX;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to
+ * each mode, as described in the TimedRobot documentation. If you change the
+ * name of this class or
+ * the package after creating this project, you must also update the
+ * build.gradle file in the
  * project.
  */
 public class Robot extends TimedRobot {
   /**
-   * This function is run when the robot is first started up and should be used for any
+   * This function is run when the robot is first started up and should be used
+   * for any
    * initialization code.
    */
-  @Override
-  public void robotInit() {}
+
+  //public static BrushlessNEO right = new BrushlessNEO(2, true);
+  public static BrushlessNEO left = new BrushlessNEO(1, false);
+  public static Joystick cont = new Joystick(0);
+  public static XboxController xbox = new XboxController(1);
+  //public static Drivetrain drive = new Drivetrain(right, left, cont, xbox);
 
   @Override
-  public void robotPeriodic() {}
+  public void robotInit() {
+  }
 
   @Override
-  public void autonomousInit() {}
+  public void robotPeriodic() {
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousInit() {
+    //RobotBaseX.init();
+  }
+
+  @Override
+  public void autonomousPeriodic() {
+    //Auto.AutoDrive();
+    //RobotBaseX.shuffleboard();
+  }
 
   @Override
   public void teleopInit() {
-    RobotBaseX.initStuff();
+    //RobotBaseX.init();
   }
 
   @Override
   public void teleopPeriodic() {
-    RobotBaseX.shuffleboard();
-    Drivetrain.drive();
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
-  public void testInit() {}
+  public void testInit() {
+  }
 
   @Override
   public void testPeriodic() {
-    RobotBaseX.shuffleboard();
+    Test.test();
   }
 }

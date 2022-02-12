@@ -1,7 +1,7 @@
 package frc.robot;
 
-//Import the central system for the components
-import frc.robot.BaseRobot.*;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 /*
  * Button numbers: [1: trigger] [2: sidebutton] [3:labeled] [4: labeled] [5:
@@ -10,39 +10,49 @@ import frc.robot.BaseRobot.*;
  */
 
 public class Drivetrain {
+    private BrushlessNEO right;
+    private BrushlessNEO left;
+    private Joystick cont;
+    private XboxController xbox;
+
+    public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, Joystick cont_, XboxController xbox_) {
+        right = right_;
+        left = left_;
+        cont = cont_;
+        xbox = xbox_;
+    }
+
+    public void set(double speed) {
+        if (speed <= 1 && speed >= -1) {
+            this.right.set(speed);
+            this.left.set(speed);
+        }
+    }
+
+    public void stop() {
+        this.right.stop();
+        this.left.stop();
+    }
 
     // Declare variables for the speed modifiers
-    private static double speedModifierDriving;
+    private static double speedModifier;
 
     // Main drive method
-    public static void drive() {
-
+    public void driveTeleop() {
         // Set the speed modifier depending on wether or not the trigger(1) on the
         // joystick is held down
-        if (RobotBaseX.main.getRawButtonPressed(1)) {
-            speedModifierDriving = 1;
+        if (this.cont.getRawButtonPressed(1)) {
+            speedModifier = 1;
         } else {
-            speedModifierDriving = 0.5;
-        }
-
-        if (RobotBaseX.main.getRawButtonPressed(6)) {
-            RobotBaseX.piston.toggle();
-        }
-
-        if (RobotBaseX.main.getRawButtonPressed(8)) {
-            RobotBaseX.comp.disable();
-        }
-
-        if (RobotBaseX.main.getRawButtonPressed(7)) {
-            RobotBaseX.comp.enableDigital();
+            speedModifier = 0.5;
         }
 
         // Set variables for the left and right motors to the controllers axis, using
         // both the up/down and left/right values and some math; multiplied by the speed
         // modifier
-        RobotBaseX.leftDrive.set(
-                (RobotBaseX.main.getRawAxis(1) * 0.5 - RobotBaseX.main.getRawAxis(0) * 0.5) * speedModifierDriving);
-        RobotBaseX.rightDrive.set(
-                (RobotBaseX.main.getRawAxis(1) * 0.5 + RobotBaseX.main.getRawAxis(0) * 0.5) * speedModifierDriving);
+        this.left.set(
+                (this.cont.getRawAxis(1) * 0.5 - this.cont.getRawAxis(0) * 0.5) * speedModifier);
+        this.right.set(
+                (this.cont.getRawAxis(1) * 0.5 + this.cont.getRawAxis(0) * 0.5) * speedModifier);
     }
 }
