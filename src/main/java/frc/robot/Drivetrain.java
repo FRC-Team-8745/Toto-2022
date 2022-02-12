@@ -25,18 +25,6 @@ public class Drivetrain {
             speedModifierDriving = 0.5;
         }
 
-        if (RobotBaseX.main.getRawButtonPressed(6)) {
-            RobotBaseX.piston.toggle();
-        }
-
-        if (RobotBaseX.main.getRawButtonPressed(8)) {
-            RobotBaseX.comp.disable();
-        }
-
-        if (RobotBaseX.main.getRawButtonPressed(7)) {
-            RobotBaseX.comp.enableDigital();
-        }
-
         // Set variables for the left and right motors to the controllers axis, using
         // both the up/down and left/right values and some math; multiplied by the speed
         // modifier

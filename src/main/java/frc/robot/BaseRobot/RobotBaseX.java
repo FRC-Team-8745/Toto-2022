@@ -2,25 +2,14 @@ package frc.robot.BaseRobot;
 
 //Controllers
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
-
-//Pneumatic System
-
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-
 
 //Motor Control
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
-//Sensors
-//import edu.wpi.first.wpilibj.DigitalInput;
 
 //Base Robot
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -32,10 +21,6 @@ public class RobotBaseX {
     // Controllers
     public static XboxController xbox = new XboxController(1);
     public static Joystick main = new Joystick(0);
-
-    // Pneumatic System
-    public static Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
-    public static DoubleSolenoid piston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 0);
 
     // Motor Control
     public static CANSparkMax rightDrive = new CANSparkMax(1, MotorType.kBrushless);
@@ -64,6 +49,5 @@ public class RobotBaseX {
         rightDrive.restoreFactoryDefaults();
         leftDrive.restoreFactoryDefaults();
         leftDrive.setInverted(true);
-        piston.set(Value.kForward);
     }
 }
