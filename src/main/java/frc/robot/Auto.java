@@ -6,32 +6,32 @@ import frc.robot.BaseRobot.*;
 public class Auto {
     
     public static void AutoDrive(){
-        //make the robot drive forward towards the low hub
-        /*if(RobotBase.leftEncoder.getPosition() < 18 && RobotBase.rightEncoder.getPosition() < 18){
-            RobotBase.leftDrive.set(0.1);
-            RobotBase.rightDrive.set(0.1);
+        //make the robot drive backward to the tarmac
+        if(RobotBaseX.leftEncoder.getPosition() > -18 && RobotBaseX.rightEncoder.getPosition() > -18){
+            RobotBaseX.leftDrive.set(0.5);
+            RobotBaseX.rightDrive.set(0.5);
         } else {
-            RobotBase.rightDrive.stopMotor();;
-            RobotBase.leftDrive.stopMotor();
+            RobotBaseX.rightDrive.stopMotor();;
+            RobotBaseX.leftDrive.stopMotor();
         }
-        //once it reaches the low hub, make itdump the pre-loaded ball into the hu
-        /*if((RobotBase.leftEncoder.getPosition() >17 && RobotBase.leftEncoder.getPosition() <19) && 
-        (RobotBase.rightEncoder.getPosition() >17 && RobotBase.rightEncoder.getPosition() <19 )){
-            RobotBase.rotate.set(0.1);
-        } else if(RobotBase.rotateEncoder.getPosition() > 17 && RobotBase.rotateEncoder.getPosition() <
+        /
+        if((RobotBaseX.leftEncoder.getPosition() >17 && RobotBaseX.leftEncoder.getPosition() <19) && 
+        (RobotBaseX.rightEncoder.getPosition() >17 && RobotBaseX.rightEncoder.getPosition() <19 )){
+            RobotBaseX.rotate.set(0.1);
+        } else if(RobotBaseX.rotateEncoder.getPosition() > 17 && RobotBaseX.rotateEncoder.getPosition() <
          19){
-            RobotBase.rotate.stopMotor();
-        } */
+            RobotBaseX.rotate.stopMotor();
+        } 
         //make it drive out of the tarmac
-        //if(RobotBase.rotateEncoder.getPosition() > 17 && RobotBase.rotateEncoder.getPosition() < 19){
-        //if((RobotBase.leftEncoder.getPosition() >17 && RobotBase.leftEncoder.getPosition() <19) && (RobotBase.rightEncoder.getPosition() >17 && RobotBase.rightEncoder.getPosition() <19 )){
-        if(RobotBase.leftEncoder.getPosition() > -18 && RobotBase.rightEncoder.getPosition() > -18){    
-            RobotBase.leftDrive.set(-0.1);
-            RobotBase.rightDrive.set(-0.1); 
-        //if((RobotBase.leftEncoder.getPosition() > -19 && RobotBase.leftEncoder.getPosition() < -17) && (RobotBase.rightEncoder.getPosition() > -19 && RobotBase.rightEncoder.getPosition() < -17 ))
+        //if(RobotBaseX.rotateEncoder.getPosition() > 17 && RobotBaseX.rotateEncoder.getPosition() < 19){
+        //if((RobotBaseX.leftEncoder.getPosition() >17 && RobotBaseX.leftEncoder.getPosition() <19) && (RobotBaseX.rightEncoder.getPosition() >17 && RobotBaseX.rightEncoder.getPosition() <19 )){
+        if(RobotBaseX.leftEncoder.getPosition() > -18 && RobotBaseX.rightEncoder.getPosition() > -18){    
+            RobotBaseX.leftDrive.set(-0.1);
+            RobotBaseX.rightDrive.set(-0.1); 
+        //if((RobotBaseX.leftEncoder.getPosition() > -19 && RobotBaseX.leftEncoder.getPosition() < -17) && (RobotBaseX.rightEncoder.getPosition() > -19 && RobotBaseX.rightEncoder.getPosition() < -17 ))
         } else {
-            RobotBase.leftDrive.stopMotor();
-            RobotBase.rightDrive.stopMotor();
+            RobotBaseX.leftDrive.stopMotor();
+            RobotBaseX.rightDrive.stopMotor();
         }
         }
 }

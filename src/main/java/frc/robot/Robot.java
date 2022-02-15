@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.BaseRobot.*;
 
@@ -27,7 +26,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    frc.robot.BaseRobot.RobotBase.initSparks();
+    frc.robot.BaseRobot.RobotBaseX.initSparks();
   }
 
   @Override
