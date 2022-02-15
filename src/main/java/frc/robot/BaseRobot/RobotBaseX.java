@@ -2,6 +2,7 @@ package frc.robot.BaseRobot;
 
 //Controllers
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -40,6 +41,7 @@ public class RobotBaseX {
     public static CANSparkMax leftDrive = new CANSparkMax(2, MotorType.kBrushless);
     public static CANSparkMax shooter = new CANSparkMax(3,MotorType.kBrushless);
     public static CANSparkMax intake = new CANSparkMax(4,MotorType.kBrushless);
+    public static Spark cLifter = new Spark(1);
     // Sensors
     public static RelativeEncoder rightEncoder = rightDrive.getEncoder();
     public static RelativeEncoder leftEncoder = leftDrive.getEncoder();

@@ -14,13 +14,13 @@ public class Auto {
             RobotBaseX.rightDrive.stopMotor();;
             RobotBaseX.leftDrive.stopMotor();
         }
-        /
+        //
         if((RobotBaseX.leftEncoder.getPosition() >17 && RobotBaseX.leftEncoder.getPosition() <19) && 
         (RobotBaseX.rightEncoder.getPosition() >17 && RobotBaseX.rightEncoder.getPosition() <19 )){
-            RobotBaseX.rotate.set(0.1);
-        } else if(RobotBaseX.rotateEncoder.getPosition() > 17 && RobotBaseX.rotateEncoder.getPosition() <
+            RobotBaseX.shooter.set(0.1);
+        } else if(RobotBaseX.shooterEncoder.getPosition() > 17 && RobotBaseX.shooterEncoder.getPosition() <
          19){
-            RobotBaseX.rotate.stopMotor();
+            RobotBaseX.shooter.stopMotor();
         } 
         //make it drive out of the tarmac
         //if(RobotBaseX.rotateEncoder.getPosition() > 17 && RobotBaseX.rotateEncoder.getPosition() < 19){

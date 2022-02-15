@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    frc.robot.BaseRobot.RobotBaseX.initSparks();
+    RobotBaseX.initSparks();
   }
 
   @Override
