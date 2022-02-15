@@ -31,8 +31,8 @@ public class RobotBaseX {
     public static CANSparkMax shooter = new CANSparkMax(4, MotorType.kbrushless);
     
     // Shooter encoders
-    public static shooterEncoder = shooter.getEncoder();
-    public static loaderEncoder = loader.getEncoder();
+    public static RelativeEncoder shooterEncoder = shooter.getEncoder();
+    public static RelativeEncoder loaderEncoder = loader.getEncoder();
 
     // Sensors
     public static RelativeEncoder rightEncoder = rightDrive.getEncoder();
