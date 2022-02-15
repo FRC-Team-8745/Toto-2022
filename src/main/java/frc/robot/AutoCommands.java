@@ -1,4 +1,3 @@
-/*
 package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -20,13 +19,10 @@ public class AutoCommands {
     // Reset Encoders before using
     // Returns true when reached
     public void driveFeet(double feet, double speed) {
-        if (Math.abs((Robot.right.getPosition() * circumference) - feet) < 0.25) {
+        if (Math.abs((Robot.right.getPosition() * circumference) - feet) < 0.25)
             Robot.drive.stop();
-        }
 
         Robot.left.set(speed);
-        Robot.right.set(drivePID.calculate(Robot.right.getPosition() - Robot.left.getPosition(), 0));
-
+        Robot.right.set(speed + drivePID.calculate(Robot.right.getPosition() - Robot.left.getPosition(), 0));
     }
 }
-*/

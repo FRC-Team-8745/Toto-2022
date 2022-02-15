@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -24,11 +25,14 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  //public static BrushlessNEO right = new BrushlessNEO(2, true);
+  public static BrushlessNEO right = new BrushlessNEO(2, true);
   public static BrushlessNEO left = new BrushlessNEO(1, false);
   public static Joystick cont = new Joystick(0);
   public static XboxController xbox = new XboxController(1);
-  //public static Drivetrain drive = new Drivetrain(right, left, cont, xbox);
+  public static Double[] drivePID = { 0.0, 1.0, 2.0 };
+  public static Double[] turnPID = { 0.0, 0.1, 0.2 };
+  public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
+  public static Drivetrain drive = new Drivetrain(right, left, cont, xbox, auto);
 
   @Override
   public void robotInit() {
@@ -40,18 +44,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    //RobotBaseX.init();
+    // RobotBaseX.init();
   }
 
   @Override
   public void autonomousPeriodic() {
-    //Auto.AutoDrive();
-    //RobotBaseX.shuffleboard();
+    // Auto.AutoDrive();
+    // RobotBaseX.shuffleboard();
   }
 
   @Override
   public void teleopInit() {
-    //RobotBaseX.init();
+    // RobotBaseX.init();
   }
 
   @Override

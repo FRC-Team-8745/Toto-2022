@@ -1,9 +1,6 @@
 /*
 package frc.robot;
 
-//imports packages allowing us to code without all the imports in this file
-import frc.robot.BaseRobot.*;
-
 public class Auto {
     private static int step = 1;
 
