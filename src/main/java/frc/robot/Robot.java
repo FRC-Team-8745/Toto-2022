@@ -19,7 +19,12 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+    RobotBaseX.leftEncoder.setPosition(0);
+    RobotBaseX.rightEncoder.setPosition(0);
+    RobotBaseX.shooterEncoder.setPosition(0);
+    RobotBaseX.intakeEncoder.setPosition(0);
+  }
 
   @Override
   public void robotPeriodic() {}
@@ -27,6 +32,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     RobotBaseX.initSparks();
+    RobotBaseX.leftEncoder.setPosition(0);
+    RobotBaseX.rightEncoder.setPosition(0);
+    RobotBaseX.shooterEncoder.setPosition(0);
+    RobotBaseX.intakeEncoder.setPosition(0);
   }
 
   @Override
@@ -36,6 +45,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    //RobotBaseX.leftEncoder.setPosition(0);
+    //RobotBaseX.rightEncoder.setPosition(0);
+    //RobotBaseX.shooterEncoder.setPosition(0);
+    //RobotBaseX.intakeEncoder.setPosition(0);
   }
 
   @Override
@@ -51,6 +64,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+    RobotBaseX.leftEncoder.setPosition(0);
+    RobotBaseX.rightEncoder.setPosition(0);
+    RobotBaseX.shooterEncoder.setPosition(0);
+    RobotBaseX.intakeEncoder.setPosition(0);
   }
 
   @Override
