@@ -25,6 +25,14 @@ public class RobotBaseX {
     // Motor Control
     public static CANSparkMax rightDrive = new CANSparkMax(1, MotorType.kBrushless);
     public static CANSparkMax leftDrive = new CANSparkMax(2, MotorType.kBrushless);
+    
+    // shooter Control
+    public static CANSparkMax loader = new CANSparkMax(3, MotorType.kBrushless);
+    public static CANSparkMax shooter = new CANSparkMax(4, MotorType.kbrushless);
+    
+    // Shooter encoders
+    public static shooterEncoder = shooter.getEncoder();
+    public static loaderEncoder = loader.getEncoder();
 
     // Sensors
     public static RelativeEncoder rightEncoder = rightDrive.getEncoder();
@@ -39,10 +47,16 @@ public class RobotBaseX {
 
     // Shuffleboard
     public static void shuffleboard() {
+        //driving encoders/temps
         SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
         SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
         SmartDashboard.putNumber("Right Motor Temprature", rightDrive.getMotorTemperature());
         SmartDashboard.putNumber("Left Motor Temprature", leftDrive.getMotorTemperature());
+        //shooting encoders/temps
+        SmartDashboard.putNumber("Loader Encoder", loaderEncoder.getPosition());
+        SmartDashboard.putNumber("Shooter Encoder", shooterEncoder.getPosition());
+        SmartDashboard.putNumber("Loader Motor Temprature", loader.getMotorTemperature());
+        SmartDashboard.putNumber("Shooter Motor Temprature", shooter.getMotorTemperature());
     }
 
     public static void initStuff() {
