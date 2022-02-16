@@ -5,6 +5,7 @@ import edu.wpi.first.math.controller.PIDController;
 public class AutoCommands {
     PIDController drivePID;
     PIDController turnPID;
+    // TODO: replace with imu get degrees mathod
     double imu;
     double circumference;
 
@@ -16,13 +17,25 @@ public class AutoCommands {
         circumference = circumference_;
     }
 
-    // Reset Encoders before using
-    // Returns true when reached
-    public void driveFeet(double feet, double speed) {
-        if (Math.abs((Robot.right.getPosition() * circumference) - feet) < 0.25)
+    public int driveFeet(double feet, double speed, boolean resetOnEnd) {
+        if (Math.abs((Robot.right.getPosition() * circumference) - feet) < 0.25) {
             Robot.drive.stop();
+            return 1;
+        }
 
         Robot.left.set(speed);
         Robot.right.set(speed + drivePID.calculate(Robot.right.getPosition() - Robot.left.getPosition(), 0));
+        return 0;
+    }
+
+    public int turnDegrees(double degrees, double speed, boolean resetOnEnd) {
+        if (Math.abs(imu - degrees) < 5) {
+            Robot.drive.stop();
+            return 1;
+        }
+
+        Robot.left.set(speed);
+        Robot.right.set(-speed - turnPID.calculate(imu - degrees, 0));
+        return 0;
     }
 }

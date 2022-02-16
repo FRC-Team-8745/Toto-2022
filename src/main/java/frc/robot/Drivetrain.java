@@ -14,9 +14,11 @@ public class Drivetrain {
     private BrushlessNEO left;
     private Joystick cont;
     private XboxController xbox;
-    private AutoCommands auto.
+    private AutoCommands auto;
+    private int step;
 
-    public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, Joystick cont_, XboxController xbox_, AutoCommands auto_) {
+    public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, Joystick cont_, XboxController xbox_,
+            AutoCommands auto_) {
         right = right_;
         left = left_;
         cont = cont_;
@@ -36,8 +38,22 @@ public class Drivetrain {
         this.left.stop();
     }
 
+    public void resetEncoders() {
+        this.right.resetPosition();
+        this.left.resetPosition();
+    }
+
     public void driveAuto() {
-        while (AutoCommands.driveFeet)
+        this.resetEncoders();
+
+        switch (step) {
+            case 0:
+                step += auto.driveFeet(2.3, 0.5, true);
+                break;
+            case 1:
+                step += auto.turnDegrees(1243, 1, true);
+                break;
+        }
     }
 
     // Declare variable for drive speed
@@ -46,7 +62,7 @@ public class Drivetrain {
     public void driveTeleop() {
 
         /*
-         * Set the speed based the trigger(1) of the joystick
+         * Set the speed based on the trigger(1) of the joystick
          */
 
         if (this.cont.getRawButtonPressed(1)) {
@@ -64,7 +80,6 @@ public class Drivetrain {
         if (this.xbox.getRawButtonPressed(2)) {
             // this.loader.set(1);
         }
-
 
         /*
          * Set variables for the left and right motors to the controllers axis, using
