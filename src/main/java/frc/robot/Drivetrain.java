@@ -13,6 +13,7 @@ public class Drivetrain {
 
     // Declare variables for the speed modifiers
     private static double speedModifierDriving;
+    private static boolean runShooter;
 
     // Main drive method
     public static void drive() {
@@ -25,14 +26,16 @@ public class Drivetrain {
             speedModifierDriving = 0.5;
         }
         
-        // If sidebuttong pressed start the shooter
+        // If sidebutton is pressed start the shooter
         if (RobotBaseX.main.getRawButtonPressed(2)) {
-            RobotBaseX.shooter.set(1);
+           runShooter = true;
         }
         // Stop motor if button 3 pressed
         if (RobotBaseX.main.getRawButtonPressed(3)) {
-            RobotBaseX.shooter.set(0);
+            runShooter = false;
         }
+
+        RobotBaseX.shooter.set(runShooter ? 1.0 : 0.0);
 
 
         // If button 4 pressed start loader otherwise stop it.
