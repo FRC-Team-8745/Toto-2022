@@ -37,9 +37,9 @@ public class Drivetrain {
 
         // If button 4 pressed start loader otherwise stop it.
         if (RobotBaseX.main.getRawButtonPressed(4)) {
-            RobotBaseX.loader.set(1);
+            RobotBaseX.clifter.set(1);
         } else {
-            RobotBaseX.loader.set(0);
+            RobotBaseX.clifter.set(0);
         }
         
         // Set variables for the left and right motors to the controllers axis, using
