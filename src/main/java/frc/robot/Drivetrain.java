@@ -25,13 +25,16 @@ public class Drivetrain {
         } else {
             speedModifierDriving = 0.5;
         }
-        
+        //intake code
+        if(RobotBaseX.main.getRawButton(2)){
+            RobotBaseX.intake.set(1); 
+        }        
         // If sidebutton is pressed start the shooter
-        if (RobotBaseX.main.getRawButtonPressed(2)) {
+        if (RobotBaseX.main.getRawButtonPressed(3)) {
            runShooter = true;
         }
         // Stop motor if button 3 pressed
-        if (RobotBaseX.main.getRawButtonPressed(3)) {
+        if (RobotBaseX.main.getRawButtonPressed(4)) {
             runShooter = false;
         }
 
@@ -39,7 +42,7 @@ public class Drivetrain {
 
 
         // If button 4 pressed start loader otherwise stop it.
-        if (RobotBaseX.main.getRawButtonPressed(4)) {
+        if (RobotBaseX.main.getRawButtonPressed(1)) {
             RobotBaseX.cLifter.set(1);
         } else {
             RobotBaseX.cLifter.set(0);
