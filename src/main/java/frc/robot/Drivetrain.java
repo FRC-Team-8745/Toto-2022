@@ -27,7 +27,7 @@ public class Drivetrain {
         }
         //intake code
         if(RobotBaseX.main.getRawButton(2)){
-            RobotBaseX.intake.set(1); 
+            RobotBaseX.intake.set(0.5); 
         }        
         // If sidebutton is pressed start the shooter
         if (RobotBaseX.main.getRawButtonPressed(3)) {
