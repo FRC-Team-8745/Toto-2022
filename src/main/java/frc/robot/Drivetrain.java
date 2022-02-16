@@ -24,6 +24,24 @@ public class Drivetrain {
         } else {
             speedModifierDriving = 0.5;
         }
+        
+        // If sidebuttong pressed start the shooter
+        if (RobotBaseX.main.getRawButtonPressed(2)) {
+            RobotBaseX.shooter.set(1);
+        }
+        // Stop motor if button 3 pressed
+        if (RobotBaseX.main.getRawButtonPressed(3)) {
+            RobotBaseX.shooter.set(0);
+        }
+
+
+        // If button 4 pressed start loader otherwise stop it.
+        if (RobotBaseX.main.getRawButtonPressed(4)) {
+            RobotBaseX.loader.set(1);
+        } else {
+            RobotBaseX.loader.set(0);
+        }
+        
         // Set variables for the left and right motors to the controllers axis, using
         // both the up/down and left/right values and some math; multiplied by the speed
         // modifier
