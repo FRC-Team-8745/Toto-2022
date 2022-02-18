@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 /*
  * Button numbers: [1: trigger] [2: sidebutton] [3:labeled] [4: labeled] [5:
@@ -12,28 +13,34 @@ import edu.wpi.first.wpilibj.XboxController;
 public class Drivetrain {
     private BrushlessNEO right;
     private BrushlessNEO left;
+    private BrushlessNEO shooter;
+    private BrushlessNEO intake;
+    private Spark loader;
     private Joystick cont;
     private XboxController xbox;
     private AutoCommands auto;
     private int step;
 
-    public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, Joystick cont_, XboxController xbox_,
-            AutoCommands auto_) {
+    public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO shooter_, BrushlessNEO intake_,
+            Spark loader_, Joystick cont_, XboxController xbox_, AutoCommands auto_) {
         right = right_;
         left = left_;
+        shooter = shooter_;
+        intake = intake_;
+        loader = loader_;
         cont = cont_;
         xbox = xbox_;
         auto = auto_;
     }
 
-    public void set(double speed) {
+    public void setDrive(double speed) {
         if (speed <= 1 && speed >= -1) {
             this.right.set(speed);
             this.left.set(speed);
         }
     }
 
-    public void stop() {
+    public void stopDrive() {
         this.right.stop();
         this.left.stop();
     }
@@ -61,10 +68,7 @@ public class Drivetrain {
 
     public void driveTeleop() {
 
-        /*
-         * Set the speed based on the trigger(1) of the joystick
-         */
-
+        // Set the speed based on the trigger(1) of the joystick
         if (this.cont.getRawButtonPressed(1)) {
             driveSpeed = 1;
         } else {
@@ -72,14 +76,22 @@ public class Drivetrain {
         }
 
         // Shooter
-        if (this.xbox.getRawButtonPressed(3)) {
-            // this.shooter.set(1);
-        }
+        if (this.cont.getRawButton(3))
+            this.shooter.set(1);
+        else
+            this.shooter.stop();
 
         // Loader
-        if (this.xbox.getRawButtonPressed(2)) {
-            // this.loader.set(1);
-        }
+        if (this.cont.getRawButton(4))
+            this.loader.set(1);
+        else
+            this.loader.stopMotor();
+
+        // Intake
+        if (this.cont.getRawButton(5))
+            this.intake.set(1);
+        else
+            this.intake.stop();
 
         /*
          * Set variables for the left and right motors to the controllers axis, using
