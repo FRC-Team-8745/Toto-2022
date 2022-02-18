@@ -96,6 +96,19 @@ public class Drivetrain {
             this.intake.set(1);
         else
             this.intake.stop();
+        
+        // Climbers
+        //TODO: change button numbers
+        if (this.cont.getRawButton(6)) {
+            this.climber1.set(.25);
+            this.climber2.set(.25);
+        } else if (this.cont.getRawButton(7)) {
+            this.climber1.set(-.25);
+            this.climber2.set(-.25);
+        } else {
+            this.climber1.set(0);
+            this.climber2.set(0);
+        }
 
         /*
          * Set variables for the left and right motors to the controllers axis, using
