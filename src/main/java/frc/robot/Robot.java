@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,41 +26,84 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  public static BrushlessNEO right = new BrushlessNEO(2, true);
-  public static BrushlessNEO left = new BrushlessNEO(1, false);
+  /*
+   * Motor CAN ID's:
+   * Right drive: 1
+   * Left drive: 2
+   * Shooter: 3
+   * Intake: 4
+   * 
+   * Motor PWM ID's:
+   * Loader: 0
+   */
+
+  public static BrushlessNEO right = new BrushlessNEO(1, false);
+  public static BrushlessNEO left = new BrushlessNEO(2, true);
+  public static BrushlessNEO shooter = new BrushlessNEO(3, true);
+  public static BrushlessNEO intake = new BrushlessNEO(4, false);
+  public static Spark loader = new Spark(0);
   public static Joystick cont = new Joystick(0);
   public static XboxController xbox = new XboxController(1);
   public static Double[] drivePID = { 0.0, 1.0, 2.0 };
   public static Double[] turnPID = { 0.0, 0.1, 0.2 };
   public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
-  public static Drivetrain drive = new Drivetrain(right, left, cont, xbox, auto);
+  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, cont, xbox, auto);
 
   @Override
   public void robotInit() {
+    // Reset encoders
+    right.resetPosition();
+    left.resetPosition();
+    shooter.resetPosition();
+    intake.resetPosition();
+    // Set the Spark controller to inverted
+    loader.setInverted(true);
   }
 
   @Override
   public void robotPeriodic() {
+    /*
+     * Put data about the robot on the dashboard.
+     * Includes:
+     * - All NEO encoder positions and CAN id's
+     * - Shooter RPM and status
+     * - Status lights for the temprature of each NEO motor
+     */
+
+    // Encoder positions
+    SmartDashboard.putNumber("Right Motor Position, ID " + right.getCAN(), right.getPosition());
+    SmartDashboard.putNumber("Left Motor Position, ID " + left.getCAN(), left.getPosition());
+    SmartDashboard.putNumber("Shooter Position, ID " + shooter.getCAN(), shooter.getPosition());
+    SmartDashboard.putNumber("Intake Position, ID " + intake.getCAN(), intake.getPosition());
+
+    // Shooter status
+    SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
+    SmartDashboard.putBoolean("Shooter Ready", (shooter.getRPM() > 3000));
+
+    // Temprature warnings
+    SmartDashboard.putBoolean("Right Tempratue", !(right.getTemp() > 150));
+    SmartDashboard.putBoolean("Left Tempratue", !(left.getTemp() > 150));
+    SmartDashboard.putBoolean("Shooter Tempratue", !(shooter.getTemp() > 150));
+    SmartDashboard.putBoolean("Intake Tempratue", !(intake.getTemp() > 150));
   }
 
   @Override
   public void autonomousInit() {
-    // RobotBaseX.init();
   }
 
   @Override
   public void autonomousPeriodic() {
-    // Auto.AutoDrive();
-    // RobotBaseX.shuffleboard();
+    // Autonomous code in Auto.java
+    Auto.AutoDrive();
   }
 
   @Override
   public void teleopInit() {
-    // RobotBaseX.init();
   }
 
   @Override
   public void teleopPeriodic() {
+    drive.driveTeleop();
   }
 
   @Override
@@ -75,6 +120,5 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-    Test.test();
   }
 }

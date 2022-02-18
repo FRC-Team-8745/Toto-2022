@@ -1,68 +1,44 @@
-/*
 package frc.robot;
 
 public class Auto {
-    private static int step = 1;
 
     public static void AutoDrive() {
-        // make the robot drive forward towards the low hub
-        /*
-         * if(RobotBaseX.leftEncoder.getPosition() < 18 &&
-         * RobotBaseX.rightEncoder.getPosition() < 18){
-         * RobotBaseX.leftDrive.set(0.1);
-         * RobotBaseX.rightDrive.set(0.1);
-         * } else {
-         * RobotBaseX.rightDrive.stopMotor();;
-         * RobotBaseX.leftDrive.stopMotor();
-         * }
-         * //once it reaches the low hub, make itdump the pre-loaded ball into the hu
-         * /*if((RobotBaseX.leftEncoder.getPosition() >17 &&
-         * RobotBaseX.leftEncoder.getPosition() <19) &&
-         * (RobotBaseX.rightEncoder.getPosition() >17 &&
-         * RobotBaseX.rightEncoder.getPosition() <19 )){
-         * RobotBaseX.rotate.set(0.1);
-         * } else if(RobotBaseX.rotateEncoder.getPosition() > 17 &&
-         * RobotBaseX.rotateEncoder.getPosition() <
-         * 19){
-         * RobotBaseX.rotate.stopMotor();
-         * }
-         */
-        // make it drive out of the tarmac
-        // if(RobotBaseX.rotateEncoder.getPosition() > 17 &&
-        // RobotBaseX.rotateEncoder.getPosition() < 19){
-        // if((RobotBaseX.leftEncoder.getPosition() >17 &&
-        // RobotBaseX.leftEncoder.getPosition() <19) &&
-        // (RobotBaseX.rightEncoder.getPosition() >17 &&
-        // RobotBaseX.rightEncoder.getPosition() <19 )){
-            /*
-        if (step == 1) {
-            if (RobotBaseX.left.getPosition() < 40 && RobotBaseX.right.getPosition() < 40) {
-                RobotBaseX.left.set(0.1);
-                RobotBaseX.right.set(0.1);
-                // if((RobotBaseX.leftEncoder.getPosition() > -19 &&
-                // RobotBaseX.leftEncoder.getPosition() < -17) &&
-                // (RobotBaseX.rightEncoder.getPosition() > -19 &&
-                // RobotBaseX.rightEncoder.getPosition() < -17 ))
-            } else {
-                RobotBaseX.left.stop();
-                RobotBaseX.right.stop();
-                RobotBaseX.zeroEncoders();
-                step ++;
-            }
+        // make the robot drive backward to the tarmac
+        // TODO: fix guesstimate
+        if (Robot.left.getPosition() > -18 && Robot.right.getPosition() > -18) {
+            Robot.left.set(0.5);
+            Robot.right.set(0.5);
+        } else {
+            Robot.right.stop();
+            Robot.left.stop();
+            Robot.left.resetPosition();
+            Robot.right.resetPosition();
+            Robot.shooter.resetPosition();
+            Robot.intake.resetPosition();
         }
-        if (step == 2) {
-            if(RobotBaseX.left.getPosition() < 20 && RobotBaseX.right.getPosition() > -20) {
-                RobotBaseX.left.set(0.1);
-                RobotBaseX.right.set(-0.1);
-            } else {
-                RobotBaseX.left.stop();
-                RobotBaseX.right.stop();
-                RobotBaseX.zeroEncoders();
-                step ++;
-            }
-            
+        // shoot cargo
+        // TODO: fix guesstimate
+        if ((Robot.left.getPosition() < -17 && Robot.left.getPosition() > -19) &&
+                (Robot.right.getPosition() < -17 && Robot.right.getPosition() > -19)) {
+            Robot.shooter.set(1);
+        } else if (Robot.shooter.getPosition() > 17 && Robot.shooter.getPosition() < 19) {
+            Robot.shooter.stop();
+            Robot.left.resetPosition();
+            Robot.right.resetPosition();
+            Robot.shooter.resetPosition();
+            Robot.intake.resetPosition();
         }
 
+        if (Robot.left.getPosition() > -10 && Robot.right.getPosition() > -10) {
+            Robot.left.set(-0.1);
+            Robot.right.set(-0.1);
+        } else {
+            Robot.left.stop();
+            Robot.right.stop();
+            Robot.left.resetPosition();
+            Robot.right.resetPosition();
+            Robot.shooter.resetPosition();
+            Robot.intake.resetPosition();
+        }
     }
 }
-*/

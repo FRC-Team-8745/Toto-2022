@@ -23,36 +23,40 @@ public class BrushlessNEO {
 
     // Reset the encoder position to zero
     public void resetPosition() {
-        encoder.setPosition(0);
+        this.encoder.setPosition(0);
     }
 
     // Get the encoder position
     public double getPosition() {
-        return encoder.getPosition();
+        return this.encoder.getPosition();
     }
 
     // Get the current RPM of the motor
     public double getRPM() {
-        return encoder.getVelocity();
+        return this.encoder.getVelocity();
     }
 
     // Get the current temprature of the motor
     public double getTemp() {
-        return (motor.getMotorTemperature() * (9 / 5)) + 32;
+        return (this.motor.getMotorTemperature() * (9 / 5)) + 32;
     }
 
     // Get the current speed of the motor
     public double getSpeed() {
-        return motor.get();
+        return this.motor.get();
     }
 
     // Stop the motor
     public void stop() {
-        motor.stopMotor();
+        this.motor.stopMotor();
     }
 
-    // Set the idle mode of the motor
+    // Set the idle mode of the this.motor
     public void idleMode(IdleMode mode) {
-        motor.setIdleMode(mode);
+        this.motor.setIdleMode(mode);
+    }
+
+    public int getCAN() {
+        return this.motor.getDeviceId();
     }
 }
