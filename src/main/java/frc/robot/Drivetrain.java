@@ -1,7 +1,5 @@
 package frc.robot;
 
-import java.sql.Time;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -18,7 +16,9 @@ public class Drivetrain {
     private BrushlessNEO shooter;
     private BrushlessNEO intake;
     private Spark loader;
+    //Joystick Import
     private Joystick cont;
+    //Xbox Import
     private XboxController xbox;
     private AutoCommands auto;
     private int step;
