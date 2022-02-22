@@ -52,19 +52,6 @@ public class Drivetrain {
         this.left.resetPosition();
     }
 
-    public void driveAuto() {
-        this.resetEncoders();
-
-        switch (step) {
-            case 0:
-                step += auto.driveFeet(2.3, 0.5, true);
-                break;
-            case 1:
-                step += auto.turnDegrees(1243, 1, true);
-                break;
-        }
-    }
-
     // Declare variable for drive speed
     private double driveSpeed;
 
