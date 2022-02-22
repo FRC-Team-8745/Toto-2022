@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.sql.Time;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -81,6 +83,15 @@ public class Drivetrain {
         else
             this.shooter.stop();
 
+        //Shooter Pottential Fire Function
+        if(this.cont.getRawButton(1)){
+            this.shooter.set(1);
+        } else if(this.shooter.getPosition() > 5 && this.shooter.getPosition() < 6){
+            this.loader.set(1);
+        } else if(this.shooter.getPosition() > 40 && this.shooter.getPosition() < 41){
+            this.loader.stopMotor();
+            this.shooter.stop();
+        }
         // Loader
         if (this.cont.getRawButton(4))
             this.loader.set(1);
