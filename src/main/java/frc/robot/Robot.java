@@ -41,13 +41,16 @@ public class Robot extends TimedRobot {
   public static BrushlessNEO left = new BrushlessNEO(2, true);
   public static BrushlessNEO shooter = new BrushlessNEO(3, true);
   public static BrushlessNEO intake = new BrushlessNEO(4, false);
+  //TODO: fix climber CAN ids and inversions
+  public static BrushlessNEO climber1 = new BrushlessNEO(5, false);
+  public static BrushlessNEO climber2 = new BrushlessNEO(6, false);
   public static Spark loader = new Spark(0);
   public static Joystick cont = new Joystick(0);
   public static XboxController xbox = new XboxController(1);
   public static Double[] drivePID = { 0.0, 1.0, 2.0 };
   public static Double[] turnPID = { 0.0, 0.1, 0.2 };
   public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
-  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, cont, xbox, auto);
+  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climber1, climber2, cont, xbox, auto);
 
   @Override
   public void robotInit() {

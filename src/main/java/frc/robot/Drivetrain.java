@@ -15,6 +15,8 @@ public class Drivetrain {
     private BrushlessNEO left;
     private BrushlessNEO shooter;
     private BrushlessNEO intake;
+    private BrushlessNEO climber1;
+    private BrushlessNEO climber2;
     private Spark loader;
     //Joystick Import
     private Joystick cont;
@@ -24,12 +26,14 @@ public class Drivetrain {
     private int step;
 
     public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO shooter_, BrushlessNEO intake_,
-            Spark loader_, Joystick cont_, XboxController xbox_, AutoCommands auto_) {
+            Spark loader_, BrushlessNEO climber1_, BrushlessNEO climber2_, Joystick cont_, XboxController xbox_, AutoCommands auto_) {
         right = right_;
         left = left_;
         shooter = shooter_;
         intake = intake_;
         loader = loader_;
+        climber1 = climber1_;
+        climber2 = climber2_;
         cont = cont_;
         xbox = xbox_;
         auto = auto_;
@@ -90,6 +94,19 @@ public class Drivetrain {
             this.intake.set(1);
         else
             this.intake.stop();
+        
+        // Climbers
+        //TODO: change button numbers
+        if (this.cont.getRawButton(6)) {
+            this.climber1.set(.25);
+            this.climber2.set(.25);
+        } else if (this.cont.getRawButton(7)) {
+            this.climber1.set(-.25);
+            this.climber2.set(-.25);
+        } else {
+            this.climber1.set(0);
+            this.climber2.set(0);
+        }
 
         /*
          * Set variables for the left and right motors to the controllers axis, using
