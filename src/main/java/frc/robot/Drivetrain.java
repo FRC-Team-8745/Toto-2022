@@ -23,6 +23,7 @@ public class Drivetrain {
     //Xbox Import
     private XboxController xbox;
     private int step;
+    private ShooterCommands com;
 
     public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO shooter_, BrushlessNEO intake_,
             Spark loader_, BrushlessNEO climber1_, BrushlessNEO climber2_, Joystick cont_, XboxController xbox_, ShooterCommands com_) {
@@ -74,24 +75,24 @@ public class Drivetrain {
             this.shooter.stop();
 
         //Shooter Pottential Fire Function
-//TODO: check this please. This should fire when the button is pressed. Will it?
+        //TODO: check this please. This should fire when the button is pressed. Will it?
         if(this.cont.getRawButtonPressed(1)){
-        switch (step) {
+        switch (this.step) {
             case 0:
                 shooter.set(1);
-                step += com.returnValue();
+                this.step += this.com.returnValue();
                 break;
             case 1:
                 loader.set(1);
-                step += com.returnValue();
+                this.step += this.com.returnValue();
                 break;
             case 2:
                 loader.stopMotor();
                 shooter.stop();
+                this.step = 0
                 break;
-            case 3:
+            }
         }
-    }
         // Loader
         if (this.cont.getRawButton(4))
             this.loader.set(1);
