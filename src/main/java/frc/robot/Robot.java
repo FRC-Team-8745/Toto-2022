@@ -43,7 +43,6 @@ public class Robot extends TimedRobot {
   public static BrushlessNEO left = new BrushlessNEO(2, true);
   public static BrushlessNEO shooter = new BrushlessNEO(3, true);
   public static BrushlessNEO intake = new BrushlessNEO(4, false);
-  //TODO: fix climber CAN ids and inversions
   public static BrushlessNEO climber1 = new BrushlessNEO(5, false);
   public static BrushlessNEO climber2 = new BrushlessNEO(6, false);
   public static Spark loader = new Spark(0);
