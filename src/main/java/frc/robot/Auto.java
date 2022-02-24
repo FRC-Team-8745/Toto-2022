@@ -17,17 +17,17 @@ public class Auto {
 
         switch (step) {
             case 0:
-                step += auto.driveFeet(-4, 0.5, true);
+                step += this.auto.driveFeet(-4, 0.5, true);
                 break;
             case 1:
-                step += auto.autoShoot(5, 1, true);
+                step += this.auto.autoShoot(5, 1, true);
                 break;
             case 2:
-                step += auto.turnDegrees(45, 1, true);
+                step += this.auto.turnDegrees(45, 1, true);
                 break;
             case 3:
-                step += auto.driveFeet(4, 1, true);
-                auto.autoIntake(4, 0.5, true);
+                step += this.auto.driveFeet(4, 1, true);
+                this.auto.autoIntake(4, 0.5, true);
                 break;
             case 4:
 
