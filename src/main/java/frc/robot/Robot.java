@@ -49,8 +49,12 @@ public class Robot extends TimedRobot {
   public static Spark loader = new Spark(0);
   public static Joystick cont = new Joystick(0);
   public static XboxController xbox = new XboxController(1);
+  //Todo: Tune PID
   public static Double[] drivePID = { 0.0, 1.0, 2.0 };
   public static Double[] turnPID = { 0.0, 0.1, 0.2 };
+  //TODO: fix shootercommands class so we don't need PID values
+  public static Double[] teleDrivePID = {0.0, 1.0, 2.0};
+  public static Double[] teleTurnPID = {0.0, 0.1, 0.2};
   public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
   public static ShooterCommands com = new ShooterCommands(teleDrivePID, teleTurnPID, 6.0);
   public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, cont, xbox, com);
