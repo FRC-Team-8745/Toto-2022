@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -61,6 +63,9 @@ public class Robot extends TimedRobot {
     intake.resetPosition();
     // Set the Spark controller to inverted
     loader.setInverted(true);
+    // Lock climber arms
+    climber1.idleMode(IdleMode.kBrake);
+    climber2.idleMode(IdleMode.kBrake);
   }
 
   @Override
