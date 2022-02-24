@@ -53,7 +53,8 @@ public class Robot extends TimedRobot {
   public static Double[] turnPID = { 0.0, 0.1, 0.2 };
   public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
   public static ShooterCommands com = new ShooterCommands(teleDrivePID, teleTurnPID, 6.0);
-  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climber1, climber2, cont, xbox, auto, com);
+  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, cont, xbox, com);
+  public static Auto noCont = new Auto(auto);
 
   @Override
   public void robotInit() {
@@ -103,7 +104,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     // Autonomous code in Auto.java
-    Auto.AutoDrive();
+    noCont.AutoDrive();
   }
 
   @Override
