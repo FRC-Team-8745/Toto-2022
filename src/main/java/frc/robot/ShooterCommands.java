@@ -8,7 +8,7 @@ public class ShooterCommands {
     // TODO: Replace 'imu' with the imu's getDegrees method
     double imu;
     double circumference;
-    public ShooterCommands() {
+    public ShooterCommands(BrushlessNEO shooter) {
     }
 
     public int teleShoot(double shoot, double speed, boolean resetOnEnd) {
