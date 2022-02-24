@@ -22,11 +22,10 @@ public class Drivetrain {
     private Joystick cont;
     //Xbox Import
     private XboxController xbox;
-    private AutoCommands auto;
     private int step;
 
     public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO shooter_, BrushlessNEO intake_,
-            Spark loader_, BrushlessNEO climber1_, BrushlessNEO climber2_, Joystick cont_, XboxController xbox_, AutoCommands auto_, ShooterCommands com_) {
+            Spark loader_, BrushlessNEO climber1_, BrushlessNEO climber2_, Joystick cont_, XboxController xbox_, ShooterCommands com_) {
         right = right_;
         left = left_;
         shooter = shooter_;
@@ -36,7 +35,6 @@ public class Drivetrain {
         climber2 = climber2_;
         cont = cont_;
         xbox = xbox_;
-        auto = auto_;
         com = com_;
     }
 
