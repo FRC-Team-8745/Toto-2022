@@ -89,7 +89,7 @@ public class Drivetrain {
             case 2:
                 loader.stopMotor();
                 shooter.stop();
-                this.step = 0
+                this.step = 0;
                 break;
             }
         }
