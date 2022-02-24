@@ -6,8 +6,12 @@ public class Shooter {
         shooter = shooter_;
     }
 
-    public void teleShoot(double speed) {
+    public void shoot(double speed) {
         
+    }
+
+    public int returnValue() {
+        return 1;
     }
 
 }
