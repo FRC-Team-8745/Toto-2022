@@ -75,14 +75,24 @@ public class Drivetrain {
             this.shooter.stop();
 
         //Shooter Pottential Fire Function
-        if(this.cont.getRawButton(1)){
-            this.shooter.set(1);
-        } else if(this.shooter.getPosition() > 5 && this.shooter.getPosition() < 6){
-            this.loader.set(1);
-        } else if(this.shooter.getPosition() > 40 && this.shooter.getPosition() < 41){
-            this.loader.stopMotor();
-            this.shooter.stop();
+//TODO: check this please. This should fire when the button is pressed. Will it?
+        if(this.cont.getRawButtonPressed(1)){
+        switch (step) {
+            case 0:
+                shooter.set(1);
+                step += com.returnValue();
+                break;
+            case 1:
+                loader.set(1);
+                step += com.returnValue();
+                break;
+            case 2:
+                loader.stopMotor();
+                shooter.stop();
+                break;
+            case 3:
         }
+    }
         // Loader
         if (this.cont.getRawButton(4))
             this.loader.set(1);
