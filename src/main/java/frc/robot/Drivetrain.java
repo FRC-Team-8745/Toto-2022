@@ -67,32 +67,34 @@ public class Drivetrain {
         } else {
             driveSpeed = 0.5;
         }
+        /*
 
         // Shooter
         if (this.cont.getRawButton(3))
             this.shooter.set(1);
         else
             this.shooter.stop();
+        */
 
         //Shooter Pottential Fire Function
-        //TODO: check this please. This should fire when the button is pressed. Will it?
         if(this.cont.getRawButtonPressed(1)){
         switch (this.step) {
             case 0:
-                shooter.set(1);
+                this.shooter.set(1);
                 this.step += this.com.returnValue();
                 break;
             case 1:
-                loader.set(1);
+                this.loader.set(1);
                 this.step += this.com.returnValue();
                 break;
             case 2:
-                loader.stopMotor();
-                shooter.stop();
+                this.loader.stopMotor();
+                this.shooter.stop();
                 this.step = 0;
                 break;
             }
         }
+        /*
         // Loader
         if (this.cont.getRawButton(4))
             this.loader.set(1);
@@ -104,13 +106,13 @@ public class Drivetrain {
             this.intake.set(1);
         else
             this.intake.stop();
+        */
         
         // Climbers
-        //TODO: change button numbers
         if (this.cont.getRawButton(6)) {
             this.climber1.set(.25);
             this.climber2.set(.25);
-        } else if (this.cont.getRawButton(7)) {
+        } else if (this.cont.getRawButton(4)) {
             this.climber1.set(-.25);
             this.climber2.set(-.25);
         } else {
