@@ -1,15 +1,13 @@
 package frc.robot;
 
-import edu.wpi.first.math.controller.PIDController;
-
 public class Shooter {
-    PIDController teleDrivePID;
-    PIDController teleTurnPID;
-    public Shooter(BrushlessNEO shooter) {
+    private BrushlessNEO shooter;
+    public Shooter(BrushlessNEO shooter_) {
+        shooter = shooter_;
     }
 
-    public int teleShoot(double shoot, double speed, boolean resetOnEnd) {
-
+    public void teleShoot(double speed) {
+        
     }
 
 }
