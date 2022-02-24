@@ -94,19 +94,20 @@ public class Drivetrain {
                 break;
             }
         }
+        
         /*
         // Loader
         if (this.cont.getRawButton(4))
             this.loader.set(1);
         else
             this.loader.stopMotor();
-
+        */
+        
         // Intake
         if (this.cont.getRawButton(5))
             this.intake.set(1);
         else
             this.intake.stop();
-        */
         
         // Climbers
         if (this.cont.getRawButton(6)) {
