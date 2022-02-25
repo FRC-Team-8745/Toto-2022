@@ -40,6 +40,4 @@ public class AutoCommands {
         Robot.right.set(-speed - turnPID.calculate(imu - degrees, 0));
         return 0;
     }
-
-
 }

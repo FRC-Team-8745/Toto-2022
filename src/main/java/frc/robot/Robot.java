@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -43,18 +44,19 @@ public class Robot extends TimedRobot {
   public static BrushlessNEO left = new BrushlessNEO(2, true);
   public static BrushlessNEO shooter = new BrushlessNEO(3, true);
   public static BrushlessNEO intake = new BrushlessNEO(4, false);
-  //TODO: Rename to climber left and right
+  // TODO: Rename to climber left and right
   public static BrushlessNEO climber1 = new BrushlessNEO(5, false);
   public static BrushlessNEO climber2 = new BrushlessNEO(6, false);
   public static Spark loader = new Spark(0);
   public static Joystick cont = new Joystick(0);
   public static XboxController xbox = new XboxController(1);
-  //TODO: Tune PID values
+  // TODO: Tune PID values
   public static Double[] drivePID = { 0.0, 1.0, 2.0 };
   public static Double[] turnPID = { 0.0, 0.1, 0.2 };
   public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
   public static Shooter com = new Shooter(shooter);
-  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climber1, climber2, cont, xbox, com);
+  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climber1, climber2, cont, xbox,
+      com);
   public static Auto noCont = new Auto(auto);
 
   @Override
@@ -96,6 +98,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Left Tempratue", !(left.getTemp() > 150));
     SmartDashboard.putBoolean("Shooter Tempratue", !(shooter.getTemp() > 150));
     SmartDashboard.putBoolean("Intake Tempratue", !(intake.getTemp() > 150));
+
+    // Runs the command scheduler while the robot is on
+    CommandScheduler.getInstance().run();
   }
 
   @Override

@@ -18,15 +18,16 @@ public class Drivetrain {
     private BrushlessNEO climber1;
     private BrushlessNEO climber2;
     private Spark loader;
-    //Joystick Import
+    // Joystick Import
     private Joystick cont;
-    //Xbox Import
+    // Xbox Import
     private XboxController xbox;
     private int step;
     private Shooter com;
 
     public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO shooter_, BrushlessNEO intake_,
-            Spark loader_, BrushlessNEO climber1_, BrushlessNEO climber2_, Joystick cont_, XboxController xbox_, Shooter com_) {
+            Spark loader_, BrushlessNEO climber1_, BrushlessNEO climber2_, Joystick cont_, XboxController xbox_,
+            Shooter com_) {
         right = right_;
         left = left_;
         shooter = shooter_;
@@ -68,47 +69,43 @@ public class Drivetrain {
             driveSpeed = 0.5;
         }
         /*
+         * 
+         * // Shooter
+         * if (this.cont.getRawButton(3))
+         * this.shooter.set(1);
+         * else
+         * this.shooter.stop();
+         */
 
-        // Shooter
-        if (this.cont.getRawButton(3))
-            this.shooter.set(1);
-        else
-            this.shooter.stop();
-        */
-
-        //Shooter Pottential Fire Function
-        if(this.cont.getRawButtonPressed(1)){
-        switch (this.step) {
-            case 0:
-                this.shooter.set(1);
-                this.step += this.com.returnValue();
-                break;
-            case 1:
-                this.loader.set(1);
-                this.step += this.com.returnValue();
-                break;
-            case 2:
-                this.loader.stopMotor();
-                this.shooter.stop();
-                this.step = 0;
-                break;
+        // Shooter Pottential Fire Function
+        if (this.cont.getRawButtonPressed(11)) {
+            switch (this.step) {
+                case 0:
+                    this.shooter.set(1);
+                    this.step += this.com.returnValue();
+                    break;
+                case 1:
+                    this.loader.set(1);
+                    this.step += this.com.returnValue();
+                    break;
+                case 2:
+                    this.loader.stopMotor();
+                    this.shooter.stop();
+                    this.step = 0;
+                    break;
             }
         }
-        
-        /*
-        // Loader
-        if (this.cont.getRawButton(4))
-            this.loader.set(1);
-        else
-            this.loader.stopMotor();
-        */
-        
+
+        // Shoot cargo
+        if (this.cont.getRawButton(12))
+            this.com.shoot();
+
         // Intake
         if (this.cont.getRawButton(5))
             this.intake.set(1);
         else
             this.intake.stop();
-        
+
         // Climbers
         if (this.cont.getRawButton(6)) {
             this.climber1.set(.25);
