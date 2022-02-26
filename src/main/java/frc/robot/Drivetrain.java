@@ -113,6 +113,20 @@ public class Drivetrain {
         else
             this.turret.stop();
 
+        // Climber Calibration
+        if (this.cont.getRawButton(7)) {
+            if (this.cont.getRawButton(9))
+                this.climberLeft.set(.1);
+            else if (this.cont.getRawButton(11))
+                this.climberLeft.set(-.1);
+
+            if (this.cont.getRawButton(10))
+                this.climberRight.set(.1);
+            else if (this.cont.getRawButton(12))
+                this.climberRight.set(-.1);
+                
+        }
+
         // Set the speed based on the trigger(1) of the joystick
         if (this.cont.getRawButtonPressed(1)) {
             driveSpeed = 1;
