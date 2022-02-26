@@ -64,31 +64,17 @@ public class Drivetrain {
 
     public void driveTeleop() {
 
-        // Shooter Potential Fire Function
-        if (this.xbox.getRawButtonPressed(9)) {
-            switch (this.step) {
-                case 0:
-                    this.shooter.set(1);
-                    this.step++;
-                    break;
-                case 1:
-                    this.loader.set(1);
-                    this.step++;
-                    break;
-                case 2:
-                    this.loader.stopMotor();
-                    this.shooter.stop();
-                    this.step = 0;
-                    break;
-            }
-        }
-
         // Shoot cargo
         if (this.xbox.getRawButton(8))
-            this.autoShooter.shoot();
+            this.autoShooter.shootSingle.schedule();
+
+        if (this.xbox.getRawButton(7))
+            this.autoShooter.shooterSlow.schedule();
 
         // Intake
         if (this.cont.getRawButton(5))
+            this.intake.set(-1);
+        else if (this.cont.getRawButton(3))
             this.intake.set(1);
         else
             this.intake.stop();
@@ -107,9 +93,9 @@ public class Drivetrain {
 
         // Turret
         if (this.xbox.getRawButton(5))
-            this.turret.set(1);
+            this.turret.set(0.8);
         else if (this.xbox.getRawButton(6))
-            this.turret.set(-1);
+            this.turret.set(-0.8);
         else
             this.turret.stop();
 
@@ -128,11 +114,18 @@ public class Drivetrain {
                 this.climberRight.set(-.1);
             else
                 this.climberRight.stop();
-
         }
+        
+        // Load a single cargo
+        if (this.xbox.getRawButtonPressed(2))
+            this.autoShooter.loadSingle.schedule();
+
+        // Unload a single cargo
+        if (this.xbox.getRawButtonPressed(4))
+            this.autoShooter.unloadSingle.schedule();
 
         // Set the speed based on the trigger(1) of the joystick
-        if (this.cont.getRawButtonPressed(1)) {
+        if (this.cont.getRawButton(1)) {
             driveSpeed = 1;
         } else {
             driveSpeed = 0.5;
@@ -149,14 +142,14 @@ public class Drivetrain {
 
         if (this.cont.getRawButton(2)) {
             this.left.set(
-                    (-this.cont.getRawAxis(1) * 0.5 - this.cont.getRawAxis(0) * 0.5) * driveSpeed);
+                    (-this.cont.getRawAxis(1) - this.cont.getRawAxis(0)) * driveSpeed);
             this.right.set(
-                    (-this.cont.getRawAxis(1) * 0.5 + this.cont.getRawAxis(0) * 0.5) * driveSpeed);
+                    (-this.cont.getRawAxis(1) + this.cont.getRawAxis(0)) * driveSpeed);
         } else {
             this.left.set(
-                    (this.cont.getRawAxis(1) * 0.5 - this.cont.getRawAxis(0) * 0.5) * driveSpeed);
+                    (this.cont.getRawAxis(1) - this.cont.getRawAxis(0)) * driveSpeed);
             this.right.set(
-                    (this.cont.getRawAxis(1) * 0.5 + this.cont.getRawAxis(0) * 0.5) * driveSpeed);
+                    (this.cont.getRawAxis(1)  + this.cont.getRawAxis(0)) * driveSpeed);
         }
     }
 }

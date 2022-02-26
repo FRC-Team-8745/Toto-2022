@@ -114,6 +114,9 @@ public class Robot extends TimedRobot {
 
     // Runs the command scheduler while the robot is on
     CommandScheduler.getInstance().run();
+
+    shooter.setRamp(1);
+    turret.setRamp(0.5);
   }
 
   @Override

@@ -14,7 +14,7 @@ public class Auto {
             new WaitCommand(1),
             new InstantCommand(() -> Robot.left.stop()),
             new InstantCommand(() -> Robot.right.stop()),
-            new InstantCommand(() -> Robot.autoShooter.shoot()),
+            new InstantCommand(() -> Robot.autoShooter.shootSingle.schedule()),
             new WaitCommand(3),
             new InstantCommand(() -> Robot.left.set(-1)),
             new InstantCommand(() -> Robot.right.set(1)),
@@ -23,7 +23,7 @@ public class Auto {
             new InstantCommand(() -> Robot.right.stop()),
             new InstantCommand(() -> Robot.right.set(1)),
             new InstantCommand(() -> Robot.left.set(1)),
-            new InstantCommand(() -> Robot.intake.set(1)));
+            new InstantCommand(() -> Robot.intake.set(1))); 
             
 
         shooter.schedule();
