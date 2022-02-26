@@ -4,11 +4,6 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class Shooter {
-    private BrushlessNEO shooter;
-    public Shooter(BrushlessNEO shooter_) {
-        shooter = shooter_;
-    }
-
     public void shoot() {
         SequentialCommandGroup shooter = new SequentialCommandGroup(
             new InstantCommand(() -> Robot.shooter.set(1)),

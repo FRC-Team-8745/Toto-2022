@@ -15,29 +15,31 @@ public class Drivetrain {
     private BrushlessNEO left;
     private BrushlessNEO shooter;
     private BrushlessNEO intake;
-    private BrushlessNEO climber1;
-    private BrushlessNEO climber2;
+    private BrushlessNEO climberRight;
+    private BrushlessNEO climberLeft;
+    private BrushlessNEO turret;
     private Spark loader;
     // Joystick Import
     private Joystick cont;
     // Xbox Import
     private XboxController xbox;
     private int step;
-    private Shooter com;
+    private Shooter autoShooter;
 
     public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO shooter_, BrushlessNEO intake_,
-            Spark loader_, BrushlessNEO climber1_, BrushlessNEO climber2_, Joystick cont_, XboxController xbox_,
-            Shooter com_) {
+            Spark loader_, BrushlessNEO climberRight_, BrushlessNEO climberLeft_, BrushlessNEO turret_, Joystick cont_,
+            XboxController xbox_, Shooter autoShooter_) {
         right = right_;
         left = left_;
         shooter = shooter_;
         intake = intake_;
         loader = loader_;
-        climber1 = climber1_;
-        climber2 = climber2_;
+        climberRight = climberRight_;
+        climberLeft = climberLeft_;
         cont = cont_;
         xbox = xbox_;
-        com = com_;
+        turret = turret_;
+        autoShooter = autoShooter_;
     }
 
     public void setDrive(double speed) {
@@ -62,31 +64,16 @@ public class Drivetrain {
 
     public void driveTeleop() {
 
-        // Set the speed based on the trigger(1) of the joystick
-        if (this.cont.getRawButtonPressed(1)) {
-            driveSpeed = 1;
-        } else {
-            driveSpeed = 0.5;
-        }
-        /*
-         * 
-         * // Shooter
-         * if (this.cont.getRawButton(3))
-         * this.shooter.set(1);
-         * else
-         * this.shooter.stop();
-         */
-
-        // Shooter Pottential Fire Function
-        if (this.cont.getRawButtonPressed(11)) {
+        // Shooter Potential Fire Function
+        if (this.xbox.getRawButtonPressed(9)) {
             switch (this.step) {
                 case 0:
                     this.shooter.set(1);
-                    this.step += this.com.returnValue();
+                    this.step++;
                     break;
                 case 1:
                     this.loader.set(1);
-                    this.step += this.com.returnValue();
+                    this.step++;
                     break;
                 case 2:
                     this.loader.stopMotor();
@@ -97,8 +84,8 @@ public class Drivetrain {
         }
 
         // Shoot cargo
-        if (this.cont.getRawButton(12))
-            this.com.shoot();
+        if (this.xbox.getRawButton(8))
+            this.autoShooter.shoot();
 
         // Intake
         if (this.cont.getRawButton(5))
@@ -107,15 +94,30 @@ public class Drivetrain {
             this.intake.stop();
 
         // Climbers
-        if (this.cont.getRawButton(6)) {
-            this.climber1.set(.25);
-            this.climber2.set(.25);
-        } else if (this.cont.getRawButton(4)) {
-            this.climber1.set(-.25);
-            this.climber2.set(-.25);
+        if (this.xbox.getPOV() == 0) {
+            this.climberRight.set(.25);
+            this.climberLeft.set(.25);
+        } else if (this.xbox.getPOV() == 180) {
+            this.climberRight.set(-.25);
+            this.climberLeft.set(-.25);
         } else {
-            this.climber1.set(0);
-            this.climber2.set(0);
+            this.climberRight.set(0);
+            this.climberLeft.set(0);
+        }
+
+        // Turret
+        if (this.xbox.getRawButton(5))
+            this.turret.set(1);
+        else if (this.xbox.getRawButton(6))
+            this.turret.set(-1);
+        else
+            this.turret.stop();
+
+        // Set the speed based on the trigger(1) of the joystick
+        if (this.cont.getRawButtonPressed(1)) {
+            driveSpeed = 1;
+        } else {
+            driveSpeed = 0.5;
         }
 
         /*
