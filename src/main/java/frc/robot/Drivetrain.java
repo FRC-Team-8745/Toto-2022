@@ -119,12 +119,16 @@ public class Drivetrain {
                 this.climberLeft.set(.1);
             else if (this.cont.getRawButton(11))
                 this.climberLeft.set(-.1);
+            else
+                this.climberLeft.stop();
 
             if (this.cont.getRawButton(10))
                 this.climberRight.set(.1);
             else if (this.cont.getRawButton(12))
                 this.climberRight.set(-.1);
-                
+            else
+                this.climberRight.stop();
+
         }
 
         // Set the speed based on the trigger(1) of the joystick

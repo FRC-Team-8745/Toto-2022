@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
   public static Shooter autoShooter = new Shooter();
   public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climberRight, climberLeft, turret, cont,
       xbox, autoShooter);
-  public static Auto noCont = new Auto(auto);
+  public static Auto noCont = new Auto();
 
   @Override
   public void robotInit() {

@@ -1,20 +1,34 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.*;
+
 //FIXME: THIS CODE DOES NOT WORK FIX THIS FIRST
 public class Auto {
-
-    private AutoCommands auto;
-    private int step;
-
-    public Auto(AutoCommands aauto) {
-        auto = aauto;
-    }
 
     public void AutoDrive() {
         // make the robot drive backward to the tarmac
         // TODO: fix guesstimate
+        SequentialCommandGroup shooter = new SequentialCommandGroup(
+            new InstantCommand(() -> Robot.right.set(-1)),
+            new InstantCommand(() -> Robot.left.set(-1)),
+            new WaitCommand(1),
+            new InstantCommand(() -> Robot.left.stop()),
+            new InstantCommand(() -> Robot.right.stop()),
+            new InstantCommand(() -> Robot.autoShooter.shoot()),
+            new WaitCommand(3),
+            new InstantCommand(() -> Robot.left.set(-1)),
+            new InstantCommand(() -> Robot.right.set(1)),
+            new WaitCommand(0.5),
+            new InstantCommand(() -> Robot.left.stop()),
+            new InstantCommand(() -> Robot.right.stop()),
+            new InstantCommand(() -> Robot.right.set(1)),
+            new InstantCommand(() -> Robot.left.set(1)),
+            new InstantCommand(() -> Robot.intake.set(1)));
+            
 
-        switch (step) {
+        shooter.schedule();
+    }
+        /*switch (step) {
             case 0:
                 step += this.auto.driveFeet(-4, 0.5, true);
                 break;
@@ -32,6 +46,6 @@ public class Auto {
                 break;
             case 4:
 
-        }
+        }*/
     }
-}
+
