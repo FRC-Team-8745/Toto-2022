@@ -62,6 +62,8 @@ public class Robot extends TimedRobot {
       xbox, autoShooter);
   public static Auto noCont = new Auto();
 
+  public static double sliderSpeed;
+
   @Override
   public void robotInit() {
     // Reset encoders
@@ -78,7 +80,8 @@ public class Robot extends TimedRobot {
     climberRight.idleMode(IdleMode.kBrake);
     climberLeft.idleMode(IdleMode.kBrake);
     turret.idleMode(IdleMode.kBrake);
-  }
+
+ }
 
   @Override
   public void robotPeriodic() {
@@ -117,6 +120,9 @@ public class Robot extends TimedRobot {
 
     shooter.setRamp(1);
     turret.setRamp(0.5);
+
+
+    sliderSpeed = SmartDashboard.getNumber("RPM", 1);
   }
 
   @Override
@@ -131,6 +137,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    SmartDashboard.putNumber("RPM", 1);
   }
 
   @Override
