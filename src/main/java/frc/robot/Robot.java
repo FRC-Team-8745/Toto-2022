@@ -56,11 +56,10 @@ public class Robot extends TimedRobot {
 	public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
 	public static Shooter shooter = new Shooter();
 	public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft,
-			turret, cont,
-			xbox, shooter);
+			turret, cont, xbox, shooter);
 	public static Auto noCont = new Auto();
 
-	public static double sliderSpeed;
+	public static double dashboardSpeed;
 
 	@Override
 	public void robotInit() {
@@ -109,7 +108,7 @@ public class Robot extends TimedRobot {
 		// Runs the command scheduler while the robot is on
 		CommandScheduler.getInstance().run();
 
-		sliderSpeed = SmartDashboard.getNumber("RPM", 1);
+		dashboardSpeed = SmartDashboard.getNumber("Shooter Speed", 0.8);
 	}
 
 	@Override
