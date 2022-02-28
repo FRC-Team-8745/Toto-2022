@@ -37,10 +37,8 @@ public class Drivetrain {
 	}
 
 	public void setDrive(double speed) {
-		if (speed <= 1 && speed >= -1) {
 			this.right.set(speed);
 			this.left.set(speed);
-		}
 	}
 
 	public void stopDrive() {
