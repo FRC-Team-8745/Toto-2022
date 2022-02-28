@@ -37,8 +37,8 @@ public class Drivetrain {
 	}
 
 	public void setDrive(double speed) {
-			this.right.set(speed);
-			this.left.set(speed);
+		this.right.set(speed);
+		this.left.set(speed);
 	}
 
 	public void stopDrive() {
@@ -116,11 +116,10 @@ public class Drivetrain {
 			this.autoShooter.unloadCargo();
 
 		// Set the speed based on the trigger(1) of the joystick
-		if (this.cont.getRawButton(1)) {
+		if (this.cont.getRawButton(1))
 			driveSpeed = 1;
-		} else {
+		else
 			driveSpeed = 0.5;
-		}
 
 		/*
 		 * Set variables for the left and right motors to the controllers axis, using
