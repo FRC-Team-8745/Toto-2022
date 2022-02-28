@@ -114,7 +114,7 @@ public class Shooter extends SubsystemBase {
 		new SequentialCommandGroup(
 				// Start the shooter
 				new InstantCommand(() -> isStopped = false),
-				// Set the RPM to the target
+				// Set the RPM of the shooter
 				new InstantCommand(() -> this.setRPM(Constants.kShooterTargetRPM)),
 				// Wait until the shooter is ready
 				new WaitUntilCommand(this::isReady),
@@ -128,8 +128,10 @@ public class Shooter extends SubsystemBase {
 				new InstantCommand(() -> isStopped = true));
 	}
 
+	/*
+	Shoot two balls using minimal timing logic and RPM
+	*/
 	public void shootDouble() {
-		// Shoot two balls
 		new SequentialCommandGroup(
 				new InstantCommand(() -> isStopped = false),
 				new InstantCommand(() -> this.setRPM(Constants.kShooterTargetRPM)),
