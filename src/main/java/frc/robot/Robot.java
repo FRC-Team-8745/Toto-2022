@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.Constants;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,8 +49,8 @@ public class Robot extends TimedRobot {
 	public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
 	public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
 	public static BrushlessNEO turret = new BrushlessNEO(7, false);
-	public static Joystick cont = new Joystick(0);
-	public static XboxController xbox = new XboxController(1);
+	public static Joystick cont = new Joystick(Constants.kJoystickPort);
+	public static XboxController xbox = new XboxController(Constants.kXboxPort);
 	// TODO: Tune PID values
 	public static Double[] drivePID = { 0.0, 1.0, 2.0 };
 	public static Double[] turnPID = { 0.0, 0.1, 0.2 };
