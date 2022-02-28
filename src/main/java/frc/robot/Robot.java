@@ -78,7 +78,6 @@ public class Robot extends TimedRobot {
 		turret.idleMode(IdleMode.kBrake);
 
 		turret.setRamp(0.5);
-
 	}
 
 	@Override
