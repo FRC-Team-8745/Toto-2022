@@ -56,7 +56,6 @@ public class BrushlessNEO {
         this.motor.setIdleMode(mode);
     }
 
-
     // Get motor CAN id
     public int getCAN() {
         return this.motor.getDeviceId();

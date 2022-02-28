@@ -20,7 +20,6 @@ public class Drivetrain {
     private Joystick cont;
     // Xbox Import
     private XboxController xbox;
-    private int step;
     private Shooter autoShooter;
 
     public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO intake_, BrushlessNEO climberRight_,
