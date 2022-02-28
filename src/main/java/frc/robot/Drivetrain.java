@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 /*
  * Button numbers: [1: trigger] [2: sidebutton] [3:labeled] [4: labeled] [5:
@@ -13,12 +12,10 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 public class Drivetrain {
     private BrushlessNEO right;
     private BrushlessNEO left;
-    private BrushlessNEO shooter;
     private BrushlessNEO intake;
     private BrushlessNEO climberRight;
     private BrushlessNEO climberLeft;
     private BrushlessNEO turret;
-    private Spark loader;
     // Joystick Import
     private Joystick cont;
     // Xbox Import
@@ -26,14 +23,12 @@ public class Drivetrain {
     private int step;
     private Shooter autoShooter;
 
-    public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO shooter_, BrushlessNEO intake_,
-            Spark loader_, BrushlessNEO climberRight_, BrushlessNEO climberLeft_, BrushlessNEO turret_, Joystick cont_,
-            XboxController xbox_, Shooter autoShooter_) {
+    public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO intake_, BrushlessNEO climberRight_,
+            BrushlessNEO climberLeft_, BrushlessNEO turret_, Joystick cont_, XboxController xbox_,
+            Shooter autoShooter_) {
         right = right_;
         left = left_;
-        shooter = shooter_;
         intake = intake_;
-        loader = loader_;
         climberRight = climberRight_;
         climberLeft = climberLeft_;
         cont = cont_;
@@ -115,7 +110,7 @@ public class Drivetrain {
             else
                 this.climberRight.stop();
         }
-        
+
         // Load a single cargo
         if (this.xbox.getRawButtonPressed(2))
             this.autoShooter.loadSingle.schedule();
@@ -149,7 +144,7 @@ public class Drivetrain {
             this.left.set(
                     (this.cont.getRawAxis(1) - this.cont.getRawAxis(0)) * driveSpeed);
             this.right.set(
-                    (this.cont.getRawAxis(1)  + this.cont.getRawAxis(0)) * driveSpeed);
+                    (this.cont.getRawAxis(1) + this.cont.getRawAxis(0)) * driveSpeed);
         }
     }
 }

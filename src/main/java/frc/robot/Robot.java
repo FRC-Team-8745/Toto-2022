@@ -45,12 +45,10 @@ public class Robot extends TimedRobot {
 
   public static BrushlessNEO right = new BrushlessNEO(1, false);
   public static BrushlessNEO left = new BrushlessNEO(2, true);
-  public static BrushlessNEO shooter = new BrushlessNEO(3, true);
   public static BrushlessNEO intake = new BrushlessNEO(4, false);
   public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
   public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
   public static BrushlessNEO turret = new BrushlessNEO(7, false);
-  public static Spark loader = new Spark(0);
   public static Joystick cont = new Joystick(0);
   public static XboxController xbox = new XboxController(1);
   // TODO: Tune PID values
@@ -58,7 +56,8 @@ public class Robot extends TimedRobot {
   public static Double[] turnPID = { 0.0, 0.1, 0.2 };
   public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
   public static Shooter autoShooter = new Shooter();
-  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climberRight, climberLeft, turret, cont,
+  public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft,
+      turret, cont,
       xbox, autoShooter);
   public static Auto noCont = new Auto();
 
@@ -69,19 +68,23 @@ public class Robot extends TimedRobot {
     // Reset encoders
     right.resetPosition();
     left.resetPosition();
-    shooter.resetPosition();
     intake.resetPosition();
     climberRight.resetPosition();
     climberLeft.resetPosition();
     turret.resetPosition();
-    // Set the Spark controller to inverted
-    loader.setInverted(true);
+
     // Lock climber arms
     climberRight.idleMode(IdleMode.kBrake);
     climberLeft.idleMode(IdleMode.kBrake);
     turret.idleMode(IdleMode.kBrake);
 
- }
+    // Set the Spark controller to inverted
+    autoShooter.loader.setInverted(true);
+
+    autoShooter.shooter.setRamp(1);
+    turret.setRamp(0.5);
+
+  }
 
   @Override
   public void robotPeriodic() {
@@ -96,20 +99,20 @@ public class Robot extends TimedRobot {
     // Encoder positions
     SmartDashboard.putNumber("Right Motor Position, ID " + right.getCAN(), right.getPosition());
     SmartDashboard.putNumber("Left Motor Position, ID " + left.getCAN(), left.getPosition());
-    SmartDashboard.putNumber("Shooter Position, ID " + shooter.getCAN(), shooter.getPosition());
+    SmartDashboard.putNumber("Shooter Position, ID " + autoShooter.shooter.getCAN(), autoShooter.shooter.getPosition());
     SmartDashboard.putNumber("Intake Position, ID " + intake.getCAN(), intake.getPosition());
     SmartDashboard.putNumber("Right Climber Position, ID " + climberRight.getCAN(), climberRight.getPosition());
     SmartDashboard.putNumber("Left Climber Position, ID " + climberLeft.getCAN(), climberLeft.getPosition());
     SmartDashboard.putNumber("Turret Position, ID " + turret.getCAN(), turret.getPosition());
 
     // Shooter status
-    SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
-    SmartDashboard.putBoolean("Shooter Ready", (shooter.getRPM() > 3000));
+    SmartDashboard.putNumber("Shooter RPM", autoShooter.shooter.getRPM());
+    SmartDashboard.putBoolean("Shooter Ready", (autoShooter.shooter.getRPM() > 3000));
 
     // Temprature warnings
     SmartDashboard.putBoolean("Right Tempratue", (right.getTemp() < 150));
     SmartDashboard.putBoolean("Left Tempratue", (left.getTemp() < 150));
-    SmartDashboard.putBoolean("Shooter Tempratue", (shooter.getTemp() < 150));
+    SmartDashboard.putBoolean("Shooter Tempratue", (autoShooter.shooter.getTemp() < 150));
     SmartDashboard.putBoolean("Intake Tempratue", (intake.getTemp() < 150));
     SmartDashboard.putBoolean("Right Climber Temprature", (climberRight.getTemp() < 150));
     SmartDashboard.putBoolean("Left Climber Temprature", (climberLeft.getTemp() < 150));
@@ -117,10 +120,6 @@ public class Robot extends TimedRobot {
 
     // Runs the command scheduler while the robot is on
     CommandScheduler.getInstance().run();
-
-    shooter.setRamp(1);
-    turret.setRamp(0.5);
-
 
     sliderSpeed = SmartDashboard.getNumber("RPM", 1);
   }
