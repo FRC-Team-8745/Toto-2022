@@ -17,8 +17,6 @@ public class Shooter extends SubsystemBase {
 
 	// Declare variables for target RPM, needed power, and status of the motor
 	private double targetRPM;
-	private double calculatedPower;
-	private boolean isStopped;
 
 	/*
 	 * The periodic method runs constantly and is in control of putting data to
@@ -31,14 +29,11 @@ public class Shooter extends SubsystemBase {
 		SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
 		SmartDashboard.putBoolean("Shooter Ready", this.isReady());
 
-		// Calculates the speed needed to reach the target RPM of the shooter
-		calculatedPower = (targetRPM - this.shooter.getRPM()) * 0.2;
-
 		// Set the shooter to the calculated speed, unless it is stopped
-		if ((targetRPM != 0) && (!isStopped))
-			shooter.set(calculatedPower);
-		else if ((targetRPM == 0) || (isStopped))
-			shooter.stop();
+		if (this.targetRPM != 0)
+			this.shooter.set(0.2 * (this.targetRPM - this.shooter.getRPM()));
+		else
+			this.shooter.stop();
 	}
 
 	/*
@@ -63,9 +58,7 @@ public class Shooter extends SubsystemBase {
 	 * error of the target RPM.
 	 */
 	private boolean isReady() {
-		if (Math.abs(shooter.getRPM() - Constants.kShooterTargetRPM) < Constants.kShooterAllowedError)
-			return true;
-		return false;
+		return Math.abs(targetRPM - shooter.getRPM()) < Constants.kShooterAllowedError;
 	}
 
 	/*
@@ -74,9 +67,24 @@ public class Shooter extends SubsystemBase {
 	 * the RPM dips, and false otherwise.
 	 */
 	private boolean detectShot() {
-		if ((shooter.getRPM() < (Constants.kShooterTargetRPM - 500)))
-			return true;
-		return false;
+		return ((shooter.getRPM() < (Constants.kShooterTargetRPM - 500)));
+	}
+
+	/*
+	 * Shoot a single ball using minimal timing logic and RPM
+	 */
+	public void shootSingle() {
+		new SequentialCommandGroup(
+				// Set the RPM of the shooter
+				new InstantCommand(() -> this.setRPM(Constants.kShooterTargetRPM)),
+				// Wait until the shooter is ready
+				new WaitUntilCommand(this::isReady),
+				// Start the loader
+				new InstantCommand(() -> this.loader.set(1)),
+				// Wait until the cargo has been shot
+				new WaitUntilCommand(this::detectShot),
+				// Stop the loader
+				new InstantCommand(() -> this.loader.stopMotor())).schedule();
 	}
 
 	/*
@@ -91,7 +99,7 @@ public class Shooter extends SubsystemBase {
 				new WaitCommand(2),
 				// Stop motors
 				new InstantCommand(() -> this.loader.stopMotor()),
-				new InstantCommand(() -> this.shooter.stop()));
+				new InstantCommand(() -> this.shooter.stop())).schedule();
 	}
 
 	/*
@@ -104,36 +112,14 @@ public class Shooter extends SubsystemBase {
 				// Wait until the ball is loaded
 				new WaitCommand(1.7),
 				// Stop motor
-				new InstantCommand(() -> this.loader.stopMotor()));
+				new InstantCommand(() -> this.loader.stopMotor())).schedule();
 	}
 
 	/*
-	 * Shoot a single ball using minimal timing logic and RPM
+	 * Shoot two balls using minimal timing logic and RPM
 	 */
-	public void shootSingle() {
-		new SequentialCommandGroup(
-				// Start the shooter
-				new InstantCommand(() -> isStopped = false),
-				// Set the RPM of the shooter
-				new InstantCommand(() -> this.setRPM(Constants.kShooterTargetRPM)),
-				// Wait until the shooter is ready
-				new WaitUntilCommand(this::isReady),
-				// Start the loader
-				new InstantCommand(() -> this.loader.set(1)),
-				// Wait until the cargo has been shot
-				new WaitUntilCommand(this::detectShot),
-				// Stop the loader
-				new InstantCommand(() -> this.loader.stopMotor()),
-				// Stop the shooter
-				new InstantCommand(() -> isStopped = true));
-	}
-
-	/*
-	Shoot two balls using minimal timing logic and RPM
-	*/
 	public void shootDouble() {
 		new SequentialCommandGroup(
-				new InstantCommand(() -> isStopped = false),
 				new InstantCommand(() -> this.setRPM(Constants.kShooterTargetRPM)),
 				new WaitUntilCommand(this::isReady),
 				new InstantCommand(() -> this.loader.set(1)),
@@ -143,7 +129,6 @@ public class Shooter extends SubsystemBase {
 				new WaitUntilCommand(this::isReady),
 				new InstantCommand(() -> this.loader.set(1)),
 				new WaitUntilCommand(this::detectShot),
-				new InstantCommand(() -> this.loader.stopMotor()),
-				new InstantCommand(() -> isStopped = true));
+				new InstantCommand(() -> this.loader.stopMotor())).schedule();
 	}
 }

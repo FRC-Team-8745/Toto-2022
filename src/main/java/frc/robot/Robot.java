@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.Constants;
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -49,12 +50,13 @@ public class Robot extends TimedRobot {
 	public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
 	public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
 	public static BrushlessNEO turret = new BrushlessNEO(7, false);
+	public static AHRS IMU = new AHRS();
 	public static Joystick cont = new Joystick(Constants.kJoystickPort);
 	public static XboxController xbox = new XboxController(Constants.kXboxPort);
 	// TODO: Tune PID values
 	public static Double[] drivePID = { 0.0, 1.0, 2.0 };
 	public static Double[] turnPID = { 0.0, 0.1, 0.2 };
-	public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
+	public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0, IMU);
 	public static Shooter shooter = new Shooter();
 	public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft,
 			turret, cont, xbox, shooter);
@@ -76,8 +78,10 @@ public class Robot extends TimedRobot {
 		climberRight.idleMode(IdleMode.kBrake);
 		climberLeft.idleMode(IdleMode.kBrake);
 		turret.idleMode(IdleMode.kBrake);
-
+		
+		// Set ramp
 		turret.setRamp(0.5);
+		IMU.calibrate();
 	}
 
 	@Override
@@ -107,6 +111,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Turret Temprature", (turret.getTemp() < 150));
 
 		// Runs the command scheduler while the robot is on
+		CommandScheduler.getInstance().enable();
 		CommandScheduler.getInstance().run();
 
 		dashboardSpeed = SmartDashboard.getNumber("Shooter Speed", 0.8);
@@ -124,6 +129,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		shooter.shooterInit();
 		SmartDashboard.putNumber("RPM", 1);
 	}
 
