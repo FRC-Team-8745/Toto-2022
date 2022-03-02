@@ -40,12 +40,22 @@ public class AutoCommands {
         Robot.right.set(-speed - turnPID.calculate(imu - degrees, 0));
         return 0;
     }
-    public int intakeForThreeSeconds(double seconds, double speed, boolean resetonEnd) {
+    public int intakeForThreeSeconds(double seconds, double speed, boolean resetOnEnd) {
         if(seconds <= 5){
         Robot.intake.set(speed);
         return 1;
     }
     Robot.intake.set(speed);
     return 0;
+    }
+    public int aimTurret(double degrees, double speed){
+        if (Math.abs(degrees) < 5) {
+            Robot.turret.stop();
+            return 1;
+        }
+
+        Robot.left.set(speed);
+        Robot.right.set(-speed - turnPID.calculate(degrees, 0));
+        return 0;
     }
 }

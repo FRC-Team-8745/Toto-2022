@@ -16,6 +16,7 @@ public Autonomous(AutoCommands auto_){
         new InstantCommand(() -> Robot.autoShooter.shootSingle.schedule()),
         new WaitCommand(1),
         new InstantCommand(() -> autoCom.turnDegrees(120, 1, true)),
+        new InstantCommand (() -> autoCom.aimTurret(-120, 1)),
         new WaitCommand(0.5),
         new InstantCommand(() -> autoCom.driveFeet(7, 1, true)),
         new InstantCommand(() -> Robot.intake.set(1)),
