@@ -148,9 +148,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
+		SmartDashboard.putNumber("shooter volts", 0);
 	}
 
 	@Override
 	public void testPeriodic() {
+		shooter.tempSet(SmartDashboard.getNumber("shooter volts", 0));
 	}
 }

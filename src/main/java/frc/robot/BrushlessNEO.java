@@ -17,8 +17,7 @@ public class BrushlessNEO {
 
 	// Set the motor speed
 	public void set(double speed) {
-		if (speed <= 1 && speed >= -1)
-			this.motor.set(speed);
+		this.motor.set(speed);
 	}
 
 	// Reset the encoder position to zero
@@ -64,5 +63,9 @@ public class BrushlessNEO {
 	// Set ramp rate
 	public void setRamp(double ramp) {
 		this.motor.setOpenLoopRampRate(ramp);
+	}
+
+	public void setVoltage(double volts) {
+		this.motor.setVoltage(volts);
 	}
 }
