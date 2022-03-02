@@ -40,4 +40,12 @@ public class AutoCommands {
         Robot.right.set(-speed - turnPID.calculate(imu - degrees, 0));
         return 0;
     }
+    public int intakeForThreeSeconds(double seconds, double speed, boolean resetonEnd) {
+        if(seconds <= 5){
+        Robot.intake.set(speed);
+        return 1;
+    }
+    Robot.intake.set(speed);
+    return 0;
+    }
 }

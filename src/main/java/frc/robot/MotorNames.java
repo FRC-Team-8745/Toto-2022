@@ -5,11 +5,11 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class BrushlessNEO {
+public class MotorNames {
     private CANSparkMax motor;
     private RelativeEncoder encoder;
 
-    public BrushlessNEO(int CANid, boolean inverted) {
+    public MotorNames(int CANid, boolean inverted) {
         motor = new CANSparkMax(CANid, MotorType.kBrushless);
         encoder = motor.getEncoder();
         motor.setInverted(inverted);

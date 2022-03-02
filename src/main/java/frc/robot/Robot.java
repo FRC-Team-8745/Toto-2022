@@ -43,24 +43,24 @@ public class Robot extends TimedRobot {
    * Loader: 0
    */
 
-  public static BrushlessNEO right = new BrushlessNEO(1, false);
-  public static BrushlessNEO left = new BrushlessNEO(2, true);
-  public static BrushlessNEO shooter = new BrushlessNEO(3, true);
-  public static BrushlessNEO intake = new BrushlessNEO(4, false);
-  public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
-  public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
-  public static BrushlessNEO turret = new BrushlessNEO(7, false);
+  public static MotorNames right = new MotorNames(1, false);
+  public static MotorNames left = new MotorNames(2, true);
+  public static MotorNames shooter = new MotorNames(3, true);
+  public static MotorNames intake = new MotorNames(4, false);
+  public static MotorNames climberRight = new MotorNames(5, false);
+  public static MotorNames climberLeft = new MotorNames(6, false);
+  public static MotorNames turret = new MotorNames(7, false);
   public static Spark loader = new Spark(0);
   public static Joystick cont = new Joystick(0);
   public static XboxController xbox = new XboxController(1);
   // TODO: Tune PID values
   public static Double[] drivePID = { 0.0, 1.0, 2.0 };
   public static Double[] turnPID = { 0.0, 0.1, 0.2 };
-  public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
-  public static Shooter autoShooter = new Shooter();
-  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climberRight, climberLeft, turret, cont,
+  public static AutoCommands autoCom = new AutoCommands(drivePID, turnPID, 6.0);
+  public static ShootFunction autoShooter = new ShootFunction();
+  public static TeleOperated drive = new TeleOperated(right, left, shooter, intake, loader, climberRight, climberLeft, turret, cont,
       xbox, autoShooter);
-  public static Auto noCont = new Auto();
+  public static Autonomous auto = new Autonomous(autoCom);
 
   public static double sliderSpeed;
 
@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     // Autonomous code in Auto.java
-    noCont.AutoDrive();
+    auto.AutoDrive();
   }
 
   @Override

@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.*;
 
-public class Shooter {
+public class ShootFunction {
 
         // Unload a single ball from the loader & shooter
         SequentialCommandGroup unloadSingle = new SequentialCommandGroup(
