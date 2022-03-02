@@ -57,9 +57,9 @@ public class Drivetrain {
 	public void driveTeleop() {
 
 		// Shoot cargo
-		if (this.xbox.getRawButton(7))
+		if (this.xbox.getRawButtonPressed(8))
 			this.autoShooter.shootSingle();
-		if (this.xbox.getRawButton(8))
+		if (this.xbox.getRawButtonPressed(7))
 			this.autoShooter.shootDouble();
 
 		// Intake
