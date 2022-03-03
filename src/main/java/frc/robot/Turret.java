@@ -47,19 +47,19 @@ public class Turret extends SubsystemBase {
 			turret.stop();
 		*/
 		// stop when aligned
-		if ((targetDegrees - Math.abs(getTurretDegrees())) < kTurretError)
+		if ((targetDegrees - Math.abs(getTurretDegrees())) < kTurretError) {
 			turret.stop();
 			return true;
-		else {
-			// formula used below: (((((targetDegrees / 360) * kTurretRatio) - (turret.getPosition() / kTurretRatio)) / ((targetDegrees / 360) * kTurretRatio)) * speed) * kTurretProportional)
-			
-			// get number of turret turns left
-			double turnsLeft = convertDegrees(targetDegrees) - getTurretPos();
-			// calculate speed.  It will be slower when it gets closer to the set degrees
-			speed = (turnsLeft / convertDegrees(targetDegrees)) * speed;
-			// set speed
-			turret.set(speed * kTurretProportional);
-			return false;
 		}
+		
+		// formula used below: (((((targetDegrees / 360) * kTurretRatio) - (turret.getPosition() / kTurretRatio)) / ((targetDegrees / 360) * kTurretRatio)) * speed) * kTurretProportional)
+		
+		// get number of turret turns left
+		double turnsLeft = convertDegrees(targetDegrees) - getTurretPos();
+		// calculate speed.  It will be slower when it gets closer to the set degrees
+		speed = (turnsLeft / convertDegrees(targetDegrees)) * speed;
+		// set speed
+		turret.set(speed * kTurretProportional);
+		return false;
 	}
 }
