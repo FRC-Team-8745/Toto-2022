@@ -36,7 +36,7 @@ public class Turret extends SubsystemBase {
 		return turret.getPosition() / kTurretRatio;
 	}
 	// sets the rotate speed of the turret.  must be used on a loop.  It returns false when not aligned and true when aligned.
-	public Boolean rotateToDegrees(double targetDegrees, double speed) {
+	public Boolean rotateDegrees(double targetDegrees, double speed) {
 		/*
 		double turretErrorRotations = kTurretError / 360;
 		double targetRotations = targetDegrees / 360;
@@ -51,9 +51,11 @@ public class Turret extends SubsystemBase {
 			turret.stop();
 			return true;
 		}
+		/*
 		if (targetDegrees == 0) {
 			targetDegrees = 1;
 		}
+		*/
 		// formula used below: (((((targetDegrees / 360) * kTurretRatio) - (turret.getPosition() / kTurretRatio)) / ((targetDegrees / 360) * kTurretRatio)) * speed) * kTurretProportional)
 		
 		// get number of turret turns left

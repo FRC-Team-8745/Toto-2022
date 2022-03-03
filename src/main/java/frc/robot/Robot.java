@@ -151,12 +151,27 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
   }
 
+  boolean turning = false;
+  int turnnumber = 0;
   @Override
   public void testInit() {
+    turning = false;
+    turnnumber = 0;
   }
 
   @Override
   public void testPeriodic() {
-	  turret.rotateToDegrees(SmartDashboard.getNumber("turret degrees", 0), 0.5);
+    if (!turning){
+      turret.turret.resetPosition();
+      turning = true;
+    }
+    switch (turnnumber){
+      case 0:
+        turning = !turret.rotateDegrees(SmartDashboard.getNumber("turret degrees", 0), 0.5);
+        if (!turning) turnnumber++;
+        break;
+      case 1:
+      break;
+    }
   }
 }
