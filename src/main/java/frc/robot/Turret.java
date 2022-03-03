@@ -23,7 +23,7 @@ public class Turret extends SubsystemBase {
 		turret.idleMode(IdleMode.kBrake);
 		turret.resetPosition();
 	}
-	//converts degrees to motor turns
+	// converts degrees of turret to motor turns
 	public double convertDegrees(double degrees) {
 		return (degrees / 360) * kTurretRatio;
 	}
@@ -35,8 +35,8 @@ public class Turret extends SubsystemBase {
 	public double getTurretPos() {
 		return turret.getPosition() / kTurretRatio;
 	}
-
-	public void rotateToDegrees(double targetDegrees, double speed) {
+	// sets the rotate speed of the turret.  must be used on a loop.  It returns false when not aligned and true when aligned.
+	public Boolean rotateToDegrees(double targetDegrees, double speed) {
 		/*
 		double turretErrorRotations = kTurretError / 360;
 		double targetRotations = targetDegrees / 360;
@@ -46,13 +46,18 @@ public class Turret extends SubsystemBase {
 		if (Math.abs(turret.getPosition() * kTurretRatio) < turretErrorRotations)
 			turret.stop();
 		*/
-		
-		// formula used below: (((((targetDegrees / 360) * kTurretRatio) - (turret.getPosition() / kTurretRatio)) / ((targetDegrees / 360) * kTurretRatio)) * speed) * kTurretProportional)
-		double turnsLeft = convertDegrees(targetDegrees) - getTurretPos();
-		speed = (turnsLeft / convertDegrees(targetDegrees)) * speed;
-		turret.set(speed * kTurretProportional);
-		
+		// stop when aligned
 		if ((targetDegrees - Math.abs(getTurretDegrees())) < kTurretError)
 			turret.stop();
+			return true;
+		// formula used below: (((((targetDegrees / 360) * kTurretRatio) - (turret.getPosition() / kTurretRatio)) / ((targetDegrees / 360) * kTurretRatio)) * speed) * kTurretProportional)
+		
+		// get number of turret turns left
+		double turnsLeft = convertDegrees(targetDegrees) - getTurretPos();
+		// calculate speed.  It will be slower when it gets closer to the set degrees
+		speed = (turnsLeft / convertDegrees(targetDegrees)) * speed;
+		// set speed
+		turret.set(speed * kTurretProportional);
+		return false;
 	}
 }
