@@ -22,7 +22,10 @@ public class Shooter extends SubsystemBase {
 	double shooterSpeed;
 
 	private BangBangController bangBang = new BangBangController();
-	private SimpleMotorFeedforward shooterFeedforward = new SimpleMotorFeedforward(0.29, 0, 0)
+	private SimpleMotorFeedforward shooterFeedforward = new SimpleMotorFeedforward(0.038596, 0.13977, 0.014564);
+	// Ks 0.038596
+	// Kv 0.13977
+	// Ka 0.014564
 
 	/*
 	 * The periodic method runs constantly and is in control of putting data to
