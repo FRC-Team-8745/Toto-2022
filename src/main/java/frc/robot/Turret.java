@@ -11,7 +11,7 @@ public class Turret extends SubsystemBase {
 	private final int kTurretRatio = 120;
 	// Turret error in degrees
 	private final double kTurretError = 5;
-	private final double kTurretProportional = 0.2;
+	private final double kTurretProportional = 0.8;
 
 	@Override
 	public void periodic() {
@@ -47,11 +47,13 @@ public class Turret extends SubsystemBase {
 			turret.stop();
 		*/
 		// stop when aligned
-		if ((targetDegrees - Math.abs(getTurretDegrees())) < kTurretError) {
+		if (Math.abs(targetDegrees - getTurretDegrees()) < kTurretError) {
 			turret.stop();
 			return true;
 		}
-		
+		if (targetDegrees == 0) {
+			targetDegrees = 1;
+		}
 		// formula used below: (((((targetDegrees / 360) * kTurretRatio) - (turret.getPosition() / kTurretRatio)) / ((targetDegrees / 360) * kTurretRatio)) * speed) * kTurretProportional)
 		
 		// get number of turret turns left
@@ -60,6 +62,7 @@ public class Turret extends SubsystemBase {
 		speed = (turnsLeft / convertDegrees(targetDegrees)) * speed;
 		// set speed
 		turret.set(speed * kTurretProportional);
+		System.out.println(speed);
 		return false;
 	}
 }
