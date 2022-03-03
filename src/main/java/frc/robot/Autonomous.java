@@ -12,7 +12,6 @@ public Autonomous(AutoCommands auto_){
     //In theory, this code will drive backward out of the tarmac, shoot, and then drive to pick up a ball
         SequentialCommandGroup workAuto = new SequentialCommandGroup(
         new InstantCommand(() -> autoCom.driveFeet(-7, 1, true)),
-        new InstantCommand(() -> autoCom.driveFeet(-7, 1, true)),
         new InstantCommand(() -> Robot.autoShooter.shootSingle.schedule()),
         new WaitCommand(1),
         new InstantCommand(() -> autoCom.turnDegrees(120, 1, true)),
