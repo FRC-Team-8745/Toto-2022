@@ -48,8 +48,8 @@ public class Turret extends SubsystemBase {
 		*/
 		
 		// formula used below: (((((targetDegrees / 360) * kTurretRatio) - (turret.getPosition() / kTurretRatio)) / ((targetDegrees / 360) * kTurretRatio)) * speed) * kTurretProportional)
-		double turnsLeft = convetDegrees(targetDegrees) - getTurretPos();
-		double speed = (turnsLeft / convertDegrees(targetDegrees)) * speed;
+		double turnsLeft = convertDegrees(targetDegrees) - getTurretPos();
+		speed = (turnsLeft / convertDegrees(targetDegrees)) * speed;
 		turret.set(speed * kTurretProportional);
 		
 		if ((targetDegrees - Math.abs(getTurretDegrees())) < kTurretError)
