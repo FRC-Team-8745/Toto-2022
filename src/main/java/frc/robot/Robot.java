@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -50,19 +49,18 @@ public class Robot extends TimedRobot {
   public static BrushlessNEO intake = new BrushlessNEO(4, false);
   public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
   public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
+  public static BrushlessNEO turret = new BrushlessNEO(7, false);
   public static Spark loader = new Spark(0);
   public static Joystick cont = new Joystick(0);
   public static XboxController xbox = new XboxController(1);
-  public static AHRS IMU = new AHRS();
   // TODO: Tune PID values
   public static Double[] drivePID = { 0.0, 1.0, 2.0 };
   public static Double[] turnPID = { 0.0, 0.1, 0.2 };
   public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
   public static Shooter autoShooter = new Shooter();
-  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climberRight, climberLeft, cont,
+  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climberRight, climberLeft, turret, cont,
       xbox, autoShooter);
   public static Auto noCont = new Auto();
-  public static Turret turret = new Turret();
 
   public static double sliderSpeed;
 
@@ -75,13 +73,13 @@ public class Robot extends TimedRobot {
     intake.resetPosition();
     climberRight.resetPosition();
     climberLeft.resetPosition();
+    turret.resetPosition();
     // Set the Spark controller to inverted
     loader.setInverted(true);
     // Lock climber arms
     climberRight.idleMode(IdleMode.kBrake);
     climberLeft.idleMode(IdleMode.kBrake);
-
-	SmartDashboard.putNumber("turret degrees", 0.5);
+    turret.idleMode(IdleMode.kBrake);
 
  }
 
@@ -102,6 +100,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Intake Position, ID " + intake.getCAN(), intake.getPosition());
     SmartDashboard.putNumber("Right Climber Position, ID " + climberRight.getCAN(), climberRight.getPosition());
     SmartDashboard.putNumber("Left Climber Position, ID " + climberLeft.getCAN(), climberLeft.getPosition());
+    SmartDashboard.putNumber("Turret Position, ID " + turret.getCAN(), turret.getPosition());
 
     // Shooter status
     SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
@@ -114,11 +113,14 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Intake Tempratue", (intake.getTemp() < 150));
     SmartDashboard.putBoolean("Right Climber Temprature", (climberRight.getTemp() < 150));
     SmartDashboard.putBoolean("Left Climber Temprature", (climberLeft.getTemp() < 150));
+    SmartDashboard.putBoolean("Turret Temprature", (turret.getTemp() < 150));
 
     // Runs the command scheduler while the robot is on
     CommandScheduler.getInstance().run();
 
     shooter.setRamp(1);
+    turret.setRamp(0.5);
+
 
     sliderSpeed = SmartDashboard.getNumber("RPM", 1);
   }
@@ -157,6 +159,5 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {
-	  turret.rotateToDegrees(SmartDashboard.getNumber("turret degrees", 0), 0.5);
   }
 }
