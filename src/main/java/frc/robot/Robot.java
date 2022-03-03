@@ -61,6 +61,7 @@ public class Robot extends TimedRobot {
 	public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft,
 			turret, cont, xbox, shooter);
 	public static Auto noCont = new Auto();
+	public static Turret turretclass = new Turret();
 
 	public static double dashboardSpeed;
 
