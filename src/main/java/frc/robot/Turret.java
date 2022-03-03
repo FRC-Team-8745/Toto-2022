@@ -53,6 +53,6 @@ public class Turret extends SubsystemBase {
 		turret.set(speed * kTurretProportional);
 		
 		if ((targetDegrees - Math.abs(getTurretDegrees())) < kTurretError)
-			turret.stop()
+			turret.stop();
 	}
 }
