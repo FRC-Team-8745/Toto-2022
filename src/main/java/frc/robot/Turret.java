@@ -27,9 +27,11 @@ public class Turret extends SubsystemBase {
 	public double convertDegrees(double degrees) {
 		return (degrees / 360) * kTurretRatio;
 	}
+	// get the turrets degrees
 	public double getTurretDegrees() {
 		return getTurretPos() * 360;
 	}
+	// gets the current turret position in rotations
 	public double getTurretPos() {
 		return turret.getPosition() / kTurretRatio;
 	}
@@ -44,7 +46,9 @@ public class Turret extends SubsystemBase {
 		if (Math.abs(turret.getPosition() * kTurretRatio) < turretErrorRotations)
 			turret.stop();
 		*/
-		double turnsLeft = convetDegrees(targetDegrees) - getTurretPos;
+		
+		// formula used below: (((((targetDegrees / 360) * kTurretRatio) - (turret.getPosition() / kTurretRatio)) / ((targetDegrees / 360) * kTurretRatio)) * speed) * kTurretProportional)
+		double turnsLeft = convetDegrees(targetDegrees) - getTurretPos();
 		double speed = (turnsLeft / convertDegrees(targetDegrees)) * speed;
 		turret.set(speed * kTurretProportional);
 		
