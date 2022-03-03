@@ -23,8 +23,19 @@ public class Turret extends SubsystemBase {
 		turret.idleMode(IdleMode.kBrake);
 		turret.resetPosition();
 	}
+	//converts degrees to motor turns
+	public double convertDegrees(double degrees) {
+		return (degrees / 360) * kTurretRatio;
+	}
+	public double getTurretDegrees() {
+		return getTurretPos() * 360;
+	}
+	public double getTurretPos() {
+		return turret.getPosition() / kTurretRatio;
+	}
 
 	public void rotateToDegrees(double targetDegrees, double speed) {
+		/*
 		double turretErrorRotations = kTurretError / 360;
 		double targetRotations = targetDegrees / 360;
 
@@ -32,5 +43,12 @@ public class Turret extends SubsystemBase {
 
 		if (Math.abs(turret.getPosition() * kTurretRatio) < turretErrorRotations)
 			turret.stop();
+		*/
+		double turnsLeft = convetDegrees(targetDegrees) - getTurretPos;
+		double speed = (turnsLeft / convertDegrees(targetDegrees)) * speed;
+		turret.set(speed * kTurretProportional);
+		
+		if ((targetDegrees - Math.abs(getTurretDegrees())) < kTurretError)
+			turret.stop()
 	}
 }
