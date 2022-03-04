@@ -55,11 +55,11 @@ public class Robot extends TimedRobot {
   public static XboxController xbox = new XboxController(1);
   public static AHRS IMU = new AHRS();
   // TODO: Tune PID values
-  public static Double[] drivePID = { 0.0, 1.0, 2.0 };
-  public static Double[] turnPID = { 0.0, 0.1, 0.2 };
+  public static Double[] drivePID = { 1.0, 0.0, 0.0 };
+  public static Double[] turnPID = { 1.0, 0.0, 0.0 };
   public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
   public static Shooter autoShooter = new Shooter();
-  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climberRight, climberLeft, cont,
+  public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, cont,
       xbox, autoShooter);
   public static Turret turret = new Turret();
   public static Auto noCont = new Auto(auto, turret);

@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 //import java.util.concurrent.TimeUnit;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -12,11 +13,10 @@ public class AutoCommands extends SubsystemBase {
     PIDController drivePID;
     PIDController turnPID;
     double imu;
-    AHRS IMU = new AHRS();
-    // TODO: Replace 'imu' with the imu's getDegrees method
+    AHRS IMU = new AHRS(Port.kUSB);
     @Override
     public void periodic(){
-        imu = IMU.getAngle();
+        imu = IMU.getRawGyroZ();
     }
     double circumference;
 
