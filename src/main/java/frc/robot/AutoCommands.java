@@ -1,14 +1,23 @@
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 //import java.util.concurrent.TimeUnit;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class AutoCommands {
+
+public class AutoCommands extends SubsystemBase {
     PIDController drivePID;
     PIDController turnPID;
-    // TODO: Replace 'imu' with the imu's getDegrees method
     double imu;
+    AHRS IMU = new AHRS();
+    // TODO: Replace 'imu' with the imu's getDegrees method
+    @Override
+    public void periodic(){
+        imu = IMU.getAngle();
+    }
     double circumference;
 
     public AutoCommands(Double[] pidDrive_, Double[] pidTurn_,
