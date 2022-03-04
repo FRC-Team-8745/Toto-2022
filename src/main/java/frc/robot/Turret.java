@@ -3,7 +3,9 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import java.awt.Point;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -11,6 +13,8 @@ public class Turret extends SubsystemBase {
 
 	// Declare the IMU
 	private final AHRS IMU = new AHRS(Port.kUSB);
+	Field2d dashboardField = new Field2d();
+	Rotation2d rotation = new Rotation2d();
 
 	// Base distance from hub
 	public static final double kFeetToHubCenterX = 3;
@@ -25,7 +29,6 @@ public class Turret extends SubsystemBase {
 		IMU.calibrate();
 		IMU.resetDisplacement();
 		IMU.reset();
-		
 	}
 
 	// Periodic update method
@@ -34,17 +37,23 @@ public class Turret extends SubsystemBase {
 		updatePos();
 		SmartDashboard.putString("Robot Position", " X: " + pos.getX() + " Y: " + pos.getY());
 		SmartDashboard.putBoolean("IMU Connection", IMU.isConnected());
+		SmartDashboard.putData(dashboardField);
+		dashboardField.setRobotPose(getPosX(), getPosY(), rotation);
 		printPos();
 	}
 
-	// Return the X movement value of the IMU in feet
+	// Return the X movement value of the IMU in meters
 	public double getPosX() {
 		return IMU.getDisplacementX() * 3.2808;
 	}
 
-	// Return the Y movement value of the IMU in feet
+	// Return the Y movement value of the IMU in meters
 	public double getPosY() {
 		return IMU.getDisplacementY() * 3.2808;
+	}
+
+	public double getGyroAngle() {
+		return IMU.getYaw();
 	}
 
 	// Update the X and Y values for the robot position
@@ -56,5 +65,4 @@ public class Turret extends SubsystemBase {
 	public void printPos() {
 		System.out.println(" X: " + pos.getX() + " Y: " + pos.getY());
 	}
-
 }
