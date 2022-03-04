@@ -3,13 +3,14 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import java.awt.Point;
 
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
 
 	// Declare the IMU
-	private final AHRS IMU = new AHRS();
+	private final AHRS IMU = new AHRS(Port.kUSB);
 
 	// Base distance from hub
 	public static final double kFeetToHubCenterX = 3;
@@ -23,6 +24,8 @@ public class Turret extends SubsystemBase {
 		pos.setLocation(kFeetToHubCenterX, kFeetToHubCenterY);
 		IMU.calibrate();
 		IMU.resetDisplacement();
+		IMU.reset();
+		
 	}
 
 	// Periodic update method

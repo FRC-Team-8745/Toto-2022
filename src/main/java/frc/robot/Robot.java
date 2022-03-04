@@ -79,10 +79,11 @@ public class Robot extends TimedRobot {
 		climberRight.idleMode(IdleMode.kBrake);
 		climberLeft.idleMode(IdleMode.kBrake);
 		turret.idleMode(IdleMode.kBrake);
-		
+
 		// Set ramp
 		turret.setRamp(0.5);
-		IMU.calibrate();
+		
+		turretclass.init();
 	}
 
 	@Override
@@ -120,6 +121,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		turretclass.init();
 	}
 
 	@Override
@@ -132,6 +134,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		shooter.shooterInit();
 		SmartDashboard.putNumber("RPM", 1);
+		turretclass.init();
 	}
 
 	@Override
@@ -150,6 +153,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testInit() {
 		SmartDashboard.putNumber("shooter volts", 0);
+		turretclass.init();
 	}
 
 	@Override
