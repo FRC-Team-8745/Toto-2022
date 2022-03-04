@@ -125,12 +125,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    turret.turret.resetPosition();
+    noCont.AutoDrive();
   }
 
   @Override
   public void autonomousPeriodic() {
     // Autonomous code in Auto.java
-    noCont.AutoDrive();
+    //noCont.AutoDrive();
   }
 
   @Override

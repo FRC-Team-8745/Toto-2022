@@ -28,25 +28,25 @@ public class AutoCommands extends SubsystemBase {
         circumference = circumference_;
     }
 
-    public int driveFeet(double feet, double speed, boolean resetOnEnd) {
+    public Boolean driveFeet(double feet, double speed, boolean resetOnEnd) {
         if (Math.abs((Robot.right.getPosition() * circumference) - feet) < 0.25) {
             Robot.drive.stopDrive();
-            return 1;
+            return true;
         }
 
         Robot.left.set(speed);
         Robot.right.set(speed + drivePID.calculate(Robot.right.getPosition() - Robot.left.getPosition(), 0));
-        return 0;
+        return false;
     }
 
-    public int turnDegrees(double degrees, double speed, boolean resetOnEnd) {
+    public Boolean turnDegrees(double degrees, double speed, boolean resetOnEnd) {
         if (Math.abs(imu - degrees) < 5) {
             Robot.drive.stopDrive();
-            return 1;
+            return true;
         }
 
         Robot.left.set(speed);
         Robot.right.set(-speed - turnPID.calculate(imu - degrees, 0));
-        return 0;
+        return false;
     }
 }
