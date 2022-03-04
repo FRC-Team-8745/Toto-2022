@@ -61,7 +61,7 @@ public class Turret extends SubsystemBase {
 		// get number of turret turns left
 		double turnsLeft = convertDegrees(targetDegrees) - getTurretPos();
 		// calculate speed.  It will be slower when it gets closer to the set degrees
-		speed = (turnsLeft / convertDegrees(targetDegrees)) * speed;
+		speed = Math.signum(turnsLeft) * (turnsLeft / convertDegrees(targetDegrees)) * speed;
 		// set speed
 		turret.set(speed * kTurretProportional);
 		System.out.println(speed);
