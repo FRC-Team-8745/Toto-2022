@@ -56,8 +56,8 @@ public class Robot extends TimedRobot {
   public static AHRS IMU = new AHRS();
   // TODO: Tune PID values
 
-  public static Double[] drivePID = { 1.0, 0.0, 0.0 };
-  public static Double[] turnPID = { 1.0, 0.0, 0.0 };
+  public static Double[] drivePID = { 0.2, 0.0, 0.0 };
+  public static Double[] turnPID = { 0.2, 0.0, 0.0 };
   public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 18.85);
 
   public static Shooter autoShooter = new Shooter();
