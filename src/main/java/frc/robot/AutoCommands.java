@@ -29,7 +29,7 @@ public class AutoCommands extends SubsystemBase {
     }
 
     public Boolean driveFeet(double feet, double speed, boolean resetOnEnd) {
-        if (Math.abs((Robot.right.getPosition() * circumference) - feet) < 0.25) {
+        if (Math.abs(((Robot.right.getPosition() * circumference) / 12) - feet) < 0.25) {
             Robot.drive.stopDrive();
             return true;
         }
