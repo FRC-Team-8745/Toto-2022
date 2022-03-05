@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
   // TODO: Tune PID values
   public static Double[] drivePID = { 1.0, 0.0, 0.0 };
   public static Double[] turnPID = { 1.0, 0.0, 0.0 };
-  public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
+  public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 18.85);
   public static Shooter autoShooter = new Shooter();
   public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, cont,
       xbox, autoShooter);
