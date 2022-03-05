@@ -35,4 +35,10 @@ public Auto(AutoCommands auto_, Turret turret_){
         new InstantCommand(() -> Robot.climberLeft.stop()),
         )
     }*/
+
+	public void simpleAuto() {
+		new SequentialCommandGroup(
+			new WaitUntilCommand(() -> autoCom.driveFeet(7, 0.2, true))
+		).schedule();
+	}
 }
