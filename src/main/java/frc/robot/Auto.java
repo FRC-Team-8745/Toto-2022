@@ -29,11 +29,17 @@ public Auto(AutoCommands auto_, Turret turret_){
     workAuto.schedule();
     }
 /*    public void AutoDrive2(){
-        SequentialCommandGroup workAuto = new SequentialCommandGroup(
+        SequentialCommandGroup autoTwo = new SequentialCommandGroup(
         new InstantCommand(() -> Robot.climberLeft.set(0.2)),
         new WaitCommand(0.5),
         new InstantCommand(() -> Robot.climberLeft.stop()),
-        )
+        new InstantCommand(() -> Robot.intake.set(0.2)),
+        new WaitUntilCommand(() -> autoCom.drivefeet(7, 0.2, true)),
+        new InstantCommand(() -> Robot.intake.stop()),
+        //new WaitUntilCommand(() -> Robot.autoShooter.shootSingle.schedule()),
+        //new WaitUntilCommand(() -> Robot.autoShooter.shootSingle.schedule()),
+        );
+        autoTwo.schedule();
     }*/
 
 	public void simpleAuto() {
