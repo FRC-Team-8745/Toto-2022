@@ -57,6 +57,8 @@ public class Auto {
 				new InstantCommand(() -> Robot.autoShooter.shootSingle.schedule()),
 				new WaitCommand(4),
 				new InstantCommand(() -> Robot.right.resetPosition()),
-				new WaitUntilCommand(() -> autoCom.driveFeet(8, 0.5, true))).schedule();
+                new InstantCommand(() -> Robot.intake.set(1)),
+				new WaitUntilCommand(() -> autoCom.driveFeet(8, 0.5, true)),
+                new InstantCommand(() -> Robot.intake.stop())).schedule();
 	}
 }
