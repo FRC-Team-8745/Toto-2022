@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.*;
 
 public class Shooter {
+        Boolean yeTrue = true;
 
         // Unload a single ball from the loader & shooter
         SequentialCommandGroup unloadSingle = new SequentialCommandGroup(
@@ -35,4 +36,10 @@ public class Shooter {
                         new WaitCommand(2),
                         new InstantCommand(() -> Robot.loader.stopMotor()),
                         new InstantCommand(() -> Robot.shooter.stop()));
+                        //new InstantCommand(() -> yeTrue)));
+
+        public Boolean shoot() {
+                shootSingle.schedule();
+                return yeTrue;
+        }
 }
