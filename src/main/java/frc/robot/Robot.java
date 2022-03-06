@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
 
   public static Double[] drivePID = { 0.2, 0.0, 0.0 };
   public static Double[] turnPID = { 0.2, 0.0, 0.0 };
-  public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 18.85);
+  public static AutoCommands auto = new AutoCommands(drivePID, turnPID);
 
   public static Shooter autoShooter = new Shooter();
   public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, cont,
@@ -129,6 +129,9 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     //turret.turret.resetPosition();
     //noCont.AutoDrive1();
+	right.idleMode(IdleMode.kBrake);
+	left.idleMode(IdleMode.kBrake);
+	drive.resetEncoders();
 	noCont.simpleAuto();
   }
 
@@ -140,7 +143,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+	right.idleMode(IdleMode.kCoast);
+	left.idleMode(IdleMode.kCoast);
     SmartDashboard.putNumber("RPM", 1);
+	
   }
 
   @Override
