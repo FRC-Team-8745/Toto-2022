@@ -44,7 +44,7 @@ public class AutoCommands extends SubsystemBase {
 	 * }
 	 */
 	public Boolean driveFeet(double feet, double speed, boolean resetOnEnd) {
-		if (Math.abs(calculator(kDiameter, feet)) < -Robot.right.getPosition() / 10.71) {
+		if (Math.abs(feet / ((kDiameter / 12) * Math.PI)) < -Robot.right.getPosition() / 10.71) {
 			Robot.drive.stopDrive();
 			return true;
 		}
@@ -52,12 +52,6 @@ public class AutoCommands extends SubsystemBase {
 		Robot.left.set(-speed);
 		Robot.right.set(-speed + drivePID.calculate(Robot.right.getPosition() - Robot.left.getPosition(), 0));
 		return false;
-	}
-
-
-	public double calculator(double diameter, double targetFeet) {
-		double circumference = (diameter / 12) * Math.PI;
-		return targetFeet / circumference;
 	}
 
 	public Boolean turnDegrees(double degrees, double speed, boolean resetOnEnd) {
