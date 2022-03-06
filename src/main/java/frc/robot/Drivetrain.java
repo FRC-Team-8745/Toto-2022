@@ -20,10 +20,11 @@ public class Drivetrain {
 	// Xbox Import
 	private XboxController xbox;
 	private Shooter autoShooter;
+	private BrushlessNEO turret;
 
 	public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO intake_,
 			BrushlessNEO climberRight_, BrushlessNEO climberLeft_, Joystick cont_,
-			XboxController xbox_, Shooter autoShooter_) {
+			XboxController xbox_, Shooter autoShooter_, BrushlessNEO turret__) {
 		right = right_;
 		left = left_;
 		intake = intake_;
@@ -32,6 +33,7 @@ public class Drivetrain {
 		cont = cont_;
 		xbox = xbox_;
 		autoShooter = autoShooter_;
+		turret = turret__;
 	}
 
 	public void setDrive(double speed) {
@@ -86,7 +88,7 @@ public class Drivetrain {
 			this.climberLeft.set(0);
 		}
 
-		/*
+		
 
 		// Turret
 		if (this.xbox.getRawButton(5))
@@ -95,7 +97,7 @@ public class Drivetrain {
 			this.turret.set(-turretSpeed);
 		else
 			this.turret.stop();
-			*/
+			
 
 		// Climber Calibration
 		if (this.cont.getRawButton(7)) {

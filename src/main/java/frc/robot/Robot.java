@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
   public static BrushlessNEO intake = new BrushlessNEO(4, false);
   public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
   public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
+  public static BrushlessNEO turret = new BrushlessNEO(7, false);
   public static Spark loader = new Spark(0);
   public static Joystick cont = new Joystick(0);
   public static XboxController xbox = new XboxController(1);
@@ -62,9 +63,9 @@ public class Robot extends TimedRobot {
 
   public static Shooter autoShooter = new Shooter();
   public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, cont,
-      xbox, autoShooter);
-  public static Turret turret = new Turret();
-  public static Auto noCont = new Auto(auto, turret);
+      xbox, autoShooter, turret);
+  public static Turret autoTurret = new Turret();
+  public static Auto noCont = new Auto(auto, autoTurret);
 
   public static double sliderSpeed;
 
@@ -173,12 +174,12 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     if (!turning){
-      turret.turret.resetPosition();
+      autoTurret.turret.resetPosition();
       turning = true;
     }
     switch (turnnumber){
       case 0:
-        turning = !turret.rotateDegrees(SmartDashboard.getNumber("turret degrees", 0), 0.5);
+        turning = !autoTurret.rotateDegrees(SmartDashboard.getNumber("turret degrees", 0), 0.5);
         if (!turning) turnnumber++;
         break;
       case 1:
