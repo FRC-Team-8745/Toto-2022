@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
   public static Double[] turnPID = { 0.0, 0.1, 0.2 };
   public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
   public static Shooter autoShooter = new Shooter();
-  public static Drivetrain drive = new Drivetrain(right, left, shooter, intake, loader, climberRight, climberLeft, turret, cont,
+  public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, turret, cont,
       xbox, autoShooter);
   public static Auto noCont = new Auto();
 
