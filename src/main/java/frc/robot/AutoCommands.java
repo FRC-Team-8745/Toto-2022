@@ -27,25 +27,11 @@ public class AutoCommands extends SubsystemBase {
 		imu = 0;
 	}
 
-	/*
-	 * public Boolean driveFeet(double feet, double speed, boolean resetOnEnd) {
-	 * if (Math.abs((((-Robot.right.getPosition() * 8.45) * circumference) / 12) -
-	 * feet) < 0.25) {
-	 * Robot.drive.stopDrive();
-	 * if (resetOnEnd)
-	 * Robot.drive.resetEncoders();
-	 * return true;
-	 * }
-	 * 
-	 * Robot.left.set(-speed);
-	 * Robot.right.set(-speed + drivePID.calculate(Robot.right.getPosition() -
-	 * Robot.left.getPosition(), 0));
-	 * return false;
-	 * }
-	 */
 	public Boolean driveFeet(double feet, double speed, boolean resetOnEnd) {
 		if (Math.abs(feet / ((kDiameter / 12) * Math.PI)) < -Robot.right.getPosition() / 10.71) {
 			Robot.drive.stopDrive();
+			if (resetOnEnd)
+				Robot.drive.resetEncoders();
 			return true;
 		}
 

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
 
+
 	public BrushlessNEO turret = new BrushlessNEO(7, false);
 
 	private final int kTurretRatio = 120;

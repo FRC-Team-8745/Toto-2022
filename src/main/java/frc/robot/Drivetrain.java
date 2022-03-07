@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -53,6 +55,11 @@ public class Drivetrain {
 		this.left.resetPosition();
 	}
 
+	public void brakeMode(IdleMode mode) {
+		this.right.idleMode(mode);
+		this.left.idleMode(mode);
+	}
+
 	// Declare variable for drive speed
 	private double driveSpeed;
 	private double turretSpeed;
@@ -66,7 +73,7 @@ public class Drivetrain {
 			turretSpeed = 0.8;
 
 		if (this.xbox.getRawButton(8))
-			this.autoShooter.shooterSlow.schedule();
+			this.autoShooter.shootFull();
 
 		// Intake
 		if (this.cont.getRawButton(5))

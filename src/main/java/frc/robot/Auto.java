@@ -56,6 +56,7 @@ public class Auto {
         new InstantCommand(() -> Robot.right.resetPosition()),
         new WaitUntilCommand(() -> autoCom.driveFeet(8, 0.5, true))).schedule();
 	}
+	
     public void newAuto(){
     // This loads, brings the intake down, intakes a ball, drives up to the hub, and shoots.
     new SequentialCommandGroup(

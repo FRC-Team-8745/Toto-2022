@@ -66,4 +66,8 @@ public class BrushlessNEO {
     public void setRamp(double ramp) {
         this.motor.setOpenLoopRampRate(ramp);
     }
+
+	public void setVoltage(double volts) {
+		this.motor.setVoltage(volts);
+	}
 }

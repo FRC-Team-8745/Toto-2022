@@ -24,166 +24,151 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any
-   * initialization code.
-   */
+	/**
+	 * This function is run when the robot is first started up and should be used
+	 * for any
+	 * initialization code.
+	 */
 
-  /*
-   * Motor CAN ID's:
-   * Right drive: 1
-   * Left drive: 2
-   * Shooter: 3
-   * Intake: 4
-   * Right Climber: 5
-   * Left Climber: 6
-   * Turret: 7
-   * 
-   * Motor PWM ID's:
-   * Loader: 0
-   */
+	/*
+	 * Motor CAN ID's:
+	 * Right drive: 1
+	 * Left drive: 2
+	 * Shooter: 3
+	 * Intake: 4
+	 * Right Climber: 5
+	 * Left Climber: 6
+	 * Turret: 7
+	 * 
+	 * Motor PWM ID's:
+	 * Loader: 0
+	 */
 
-  public static BrushlessNEO right = new BrushlessNEO(1, false);
-  public static BrushlessNEO left = new BrushlessNEO(2, true);
-  public static BrushlessNEO shooter = new BrushlessNEO(3, true);
-  public static BrushlessNEO intake = new BrushlessNEO(4, false);
-  public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
-  public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
-  public static BrushlessNEO turret = new BrushlessNEO(7, false);
-  public static Spark loader = new Spark(0);
-  public static Joystick cont = new Joystick(0);
-  public static XboxController xbox = new XboxController(1);
-  public static AHRS IMU = new AHRS();
-  // TODO: Tune PID values
+	public static BrushlessNEO right = new BrushlessNEO(1, false);
+	public static BrushlessNEO left = new BrushlessNEO(2, true);
+	public static BrushlessNEO shooter = new BrushlessNEO(3, true);
+	public static BrushlessNEO intake = new BrushlessNEO(4, false);
+	public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
+	public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
+	public static Turret autoTurret = new Turret();
+	public static Spark loader = new Spark(0);
+	public static Joystick cont = new Joystick(0);
+	public static XboxController xbox = new XboxController(1);
+	public static AHRS IMU = new AHRS();
+	// TODO: Tune PID values
 
-  public static Double[] drivePID = { 0.2, 0.0, 0.0 };
-  public static Double[] turnPID = { 0.2, 0.0, 0.0 };
-  public static AutoCommands auto = new AutoCommands(drivePID, turnPID);
+	public static Double[] drivePID = { 0.2, 0.0, 0.0 };
+	public static Double[] turnPID = { 0.2, 0.0, 0.0 };
+	public static AutoCommands auto = new AutoCommands(drivePID, turnPID);
 
-  public static Shooter autoShooter = new Shooter();
-  public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, cont,
-      xbox, autoShooter, turret);
-  public static Turret autoTurret = new Turret();
-  public static Auto noCont = new Auto(auto, autoTurret);
+	public static Shooter autoShooter = new Shooter();
+	public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, cont,
+			xbox, autoShooter, autoTurret.turret);
+	public static Auto noCont = new Auto(auto, autoTurret);
 
-  public static double sliderSpeed;
+	public static double sliderSpeed;
 
-  @Override
-  public void robotInit() {
-    // Reset encoders
-    right.resetPosition();
-    left.resetPosition();
-    shooter.resetPosition();
-    intake.resetPosition();
-    climberRight.resetPosition();
-    climberLeft.resetPosition();
-    // Set the Spark controller to inverted
-    loader.setInverted(true);
-    // Lock climber arms
-    climberRight.idleMode(IdleMode.kBrake);
-    climberLeft.idleMode(IdleMode.kBrake);
+	@Override
+	public void robotInit() {
+		// Reset encoders
+		right.resetPosition();
+		left.resetPosition();
+		shooter.resetPosition();
+		intake.resetPosition();
+		climberRight.resetPosition();
+		climberLeft.resetPosition();
+		// Set the Spark controller to inverted
+		loader.setInverted(true);
+		// Lock climber arms
+		climberRight.idleMode(IdleMode.kBrake);
+		climberLeft.idleMode(IdleMode.kBrake);
 
-	SmartDashboard.putNumber("turret degrees", 0.5);
+		SmartDashboard.putNumber("turret degrees", 0.5);
 
- }
+	}
 
-  @Override
-  public void robotPeriodic() {
-    /*
-     * Put data about the robot on the dashboard.
-     * Includes:
-     * - All NEO encoder positions and CAN id's
-     * - Shooter RPM and status
-     * - Status lights for the temprature of each NEO motor
-     */
+	@Override
+	public void robotPeriodic() {
+		/*
+		 * Put data about the robot on the dashboard.
+		 * Includes:
+		 * - All NEO encoder positions and CAN id's
+		 * - Shooter RPM and status
+		 * - Status lights for the temprature of each NEO motor
+		 */
 
-    // Encoder positions
-    SmartDashboard.putNumber("Right Motor Position, ID " + right.getCAN(), right.getPosition());
-    SmartDashboard.putNumber("Left Motor Position, ID " + left.getCAN(), left.getPosition());
-    SmartDashboard.putNumber("Shooter Position, ID " + shooter.getCAN(), shooter.getPosition());
-    SmartDashboard.putNumber("Intake Position, ID " + intake.getCAN(), intake.getPosition());
-    SmartDashboard.putNumber("Right Climber Position, ID " + climberRight.getCAN(), climberRight.getPosition());
-    SmartDashboard.putNumber("Left Climber Position, ID " + climberLeft.getCAN(), climberLeft.getPosition());
+		// Encoder positions
+		SmartDashboard.putNumber("Right Motor Position, ID " + right.getCAN(), right.getPosition());
+		SmartDashboard.putNumber("Left Motor Position, ID " + left.getCAN(), left.getPosition());
+		SmartDashboard.putNumber("Shooter Position, ID " + shooter.getCAN(), shooter.getPosition());
+		SmartDashboard.putNumber("Intake Position, ID " + intake.getCAN(), intake.getPosition());
+		SmartDashboard.putNumber("Right Climber Position, ID " + climberRight.getCAN(), climberRight.getPosition());
+		SmartDashboard.putNumber("Left Climber Position, ID " + climberLeft.getCAN(), climberLeft.getPosition());
 
-    // Shooter status
-    SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
-    SmartDashboard.putBoolean("Shooter Ready", (shooter.getRPM() > 3000));
+		// Shooter status
+		SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
+		SmartDashboard.putBoolean("Shooter Ready", (shooter.getRPM() > 3000));
 
-    // Temprature warnings
-    SmartDashboard.putBoolean("Right Tempratue", (right.getTemp() < 150));
-    SmartDashboard.putBoolean("Left Tempratue", (left.getTemp() < 150));
-    SmartDashboard.putBoolean("Shooter Tempratue", (shooter.getTemp() < 150));
-    SmartDashboard.putBoolean("Intake Tempratue", (intake.getTemp() < 150));
-    SmartDashboard.putBoolean("Right Climber Temprature", (climberRight.getTemp() < 150));
-    SmartDashboard.putBoolean("Left Climber Temprature", (climberLeft.getTemp() < 150));
+		// Temprature warnings
+		SmartDashboard.putBoolean("Right Tempratue", (right.getTemp() < 150));
+		SmartDashboard.putBoolean("Left Tempratue", (left.getTemp() < 150));
+		SmartDashboard.putBoolean("Shooter Tempratue", (shooter.getTemp() < 150));
+		SmartDashboard.putBoolean("Intake Tempratue", (intake.getTemp() < 150));
+		SmartDashboard.putBoolean("Right Climber Temprature", (climberRight.getTemp() < 150));
+		SmartDashboard.putBoolean("Left Climber Temprature", (climberLeft.getTemp() < 150));
 
-    // Runs the command scheduler while the robot is on
-    CommandScheduler.getInstance().run();
+		// Runs the command scheduler while the robot is on
+		CommandScheduler.getInstance().run();
 
-    shooter.setRamp(1);
+		shooter.setRamp(1);
 
-    sliderSpeed = SmartDashboard.getNumber("RPM", 1);
-  }
+		sliderSpeed = SmartDashboard.getNumber("RPM", 1);
+	}
 
-  @Override
-  public void autonomousInit() {
-    //turret.turret.resetPosition();
-    //noCont.AutoDrive1();
-	right.idleMode(IdleMode.kBrake);
-	left.idleMode(IdleMode.kBrake);
-	drive.resetEncoders();
-	noCont.simpleAuto();
-  }
+	@Override
+	public void autonomousInit() {
+		// turret.turret.resetPosition();
+		// noCont.AutoDrive1();
+		right.idleMode(IdleMode.kBrake);
+		left.idleMode(IdleMode.kBrake);
+		drive.resetEncoders();
+		noCont.simpleAuto();
+	}
 
-  @Override
-  public void autonomousPeriodic() {
-    // Autonomous code in Auto.java
-    //noCont.AutoDrive();
-  }
+	@Override
+	public void autonomousPeriodic() {
+		// Autonomous code in Auto.java
+		// noCont.AutoDrive();
+	}
 
-  @Override
-  public void teleopInit() {
-	right.idleMode(IdleMode.kCoast);
-	left.idleMode(IdleMode.kCoast);
-    SmartDashboard.putNumber("RPM", 1);
-	
-  }
+	@Override
+	public void teleopInit() {
+		right.idleMode(IdleMode.kCoast);
+		left.idleMode(IdleMode.kCoast);
+		SmartDashboard.putNumber("RPM", 1);
 
-  @Override
-  public void teleopPeriodic() {
-    drive.driveTeleop();
-  }
+	}
 
-  @Override
-  public void disabledInit() {
-  }
+	@Override
+	public void teleopPeriodic() {
+		drive.driveTeleop();
+	}
 
-  @Override
-  public void disabledPeriodic() {
-  }
+	@Override
+	public void disabledInit() {
+	}
 
-  boolean turning = false;
-  int turnnumber = 0;
-  @Override
-  public void testInit() {
-    turning = false;
-    turnnumber = 0;
-  }
+	@Override
+	public void disabledPeriodic() {
+	}
 
-  @Override
-  public void testPeriodic() {
-    if (!turning){
-      autoTurret.turret.resetPosition();
-      turning = true;
-    }
-    switch (turnnumber){
-      case 0:
-        turning = !autoTurret.rotateDegrees(SmartDashboard.getNumber("turret degrees", 0), 0.5);
-        if (!turning) turnnumber++;
-        break;
-      case 1:
-      break;
-    }
-  }
+	@Override
+	public void testInit() {
+
+	}
+
+	@Override
+	public void testPeriodic() {
+		shooter.setVoltage(12);
+	}
 }
