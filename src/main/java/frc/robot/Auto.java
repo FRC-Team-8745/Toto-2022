@@ -44,21 +44,34 @@ public class Auto {
 
 
 	public void simpleAuto() {
+    // This Auto loads, 
+    new SequentialCommandGroup(
+        new InstantCommand(() -> Robot.autoShooter.loadSingle.schedule()),
+        new InstantCommand(() -> Robot.climberRight.set(0.5)),
+        new WaitCommand(0.2),
+        new InstantCommand(() -> Robot.climberRight.stop()),
+        new WaitCommand(1.5),
+        new InstantCommand(() -> Robot.autoShooter.shootSingle.schedule()),
+        new WaitCommand(4),
+        new InstantCommand(() -> Robot.right.resetPosition()),
+        new WaitUntilCommand(() -> autoCom.driveFeet(8, 0.5, true))).schedule();
+	}
+    public void newAuto(){
     // This loads, brings the intake down, intakes a ball, drives up to the hub, and shoots.
-	new SequentialCommandGroup(
-		new InstantCommand(() -> Robot.autoShooter.loadSingle.schedule()),
-		new InstantCommand(() -> Robot.climberRight.set(0.5)),
-		new WaitCommand(0.2),
-		new InstantCommand(() -> Robot.climberRight.stop()),
-		new WaitCommand(4),
-		new InstantCommand(() -> Robot.right.resetPosition()),
+    new SequentialCommandGroup(
+        new InstantCommand(() -> Robot.autoShooter.loadSingle.schedule()),
+        new InstantCommand(() -> Robot.climberRight.set(0.5)),
+        new WaitCommand(0.2),
+        new InstantCommand(() -> Robot.climberRight.stop()),
+        new WaitCommand(4),
+        new InstantCommand(() -> Robot.right.resetPosition()),
         new InstantCommand(() -> Robot.intake.set(1)),
-		new WaitUntilCommand(() -> autoCom.driveFeet(8, 0.5, true)),
+        new WaitUntilCommand(() -> autoCom.driveFeet(8, 0.5, true)),
         new InstantCommand(() -> Robot.intake.stop()),
         new InstantCommand(() -> Robot.right.resetPosition()),
         new InstantCommand(() -> Robot.left.resetPosition()),
         new WaitUntilCommand(() -> autoCom.driveFeet(-8, 0.5, true)),
         new WaitUntilCommand(() -> Robot.autoShooter.shoot()),
         new WaitUntilCommand(() -> Robot.autoShooter.shoot())).schedule();
-	}
+    }
 }
