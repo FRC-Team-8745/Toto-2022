@@ -169,6 +169,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testPeriodic() {
-		shooter.setVoltage(12);
+		autoShooter.setRPM(3000);
 	}
 }
