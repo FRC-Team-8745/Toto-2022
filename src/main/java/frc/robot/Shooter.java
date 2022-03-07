@@ -44,4 +44,12 @@ public class Shooter {
 		shootSingle.schedule();
 		return yeTrue;
 	}
+	private final double kbatteryMax = 16.5;
+	private final double kmaxRPM = 5500;
+	private final double kerrorrpm = 50;
+	
+	public Boolean setRPM(double rpm) {
+		Robot.shooter.setVoltage((rpm / kmaxRPM) * kbatteryMax);
+		if ((rpm - Robot.shooter.getRPM()) < kerrorrpm) {return true;} else {return false;}
+	}
 }
