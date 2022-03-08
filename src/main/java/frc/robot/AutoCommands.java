@@ -1,45 +1,18 @@
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class AutoCommands extends SubsystemBase {
-	PIDController drivePID;
-	PIDController turnPID;
-	double imu;
-	AHRS IMU = new AHRS(Port.kUSB);
-
-	@Override
-	public void periodic() {
-		imu = IMU.getRawGyroZ();
-	}
-
-	final double kDiameter = 6;
-
-	public AutoCommands(Double[] pidDrive_, Double[] pidTurn_) {
-		drivePID = new PIDController(pidDrive_[0], pidDrive_[1], pidDrive_[2]);
-		turnPID = new PIDController(pidTurn_[0], pidTurn_[1], pidTurn_[2]);
-		imu = 0;
-	}
+	
+	private final double kDiameter = 6;
+	private final double kP = 0.2;
+	private final double kI = 0.0;
+	private final double kD = 0.0;
+	private final PIDController drivePID = new PIDController(kP, kI, kD);
 
 	public Boolean driveFeet(double feet, double speed, boolean resetOnEnd) {
-		if (Math.abs(feet / ((kDiameter / 12) * Math.PI)) < Math.abs(-Robot.right.getPosition() / 10.71)) {
-			Robot.drive.stopDrive();
-			if (resetOnEnd)
-				Robot.drive.resetEncoders();
-			return true;
-		}
-
-		Robot.left.set(-speed);
-		Robot.right.set(-speed + drivePID.calculate(Robot.right.getPosition() - Robot.left.getPosition(), 0));
-		return false;
-	}
-
-	public Boolean turnDegrees(double degrees, double speed, boolean resetOnEnd) {
-		if (Math.abs(imu - degrees) < 5) {
+		if (Math.abs(feet / ((kDiameter / 12) * Math.PI)) < Math.abs(Robot.right.getPosition() / 10.71)) {
 			Robot.drive.stopDrive();
 			if (resetOnEnd)
 				Robot.drive.resetEncoders();
@@ -47,7 +20,7 @@ public class AutoCommands extends SubsystemBase {
 		}
 
 		Robot.left.set(speed);
-		Robot.right.set(-speed - turnPID.calculate(imu - degrees, 0));
+		Robot.right.set(speed + drivePID.calculate(Robot.right.getPosition() - Robot.left.getPosition(), 0));
 		return false;
 	}
 }

@@ -43,8 +43,8 @@ public class Robot extends TimedRobot {
    * Loader: 0
    */
 
-  public static BrushlessNEO right = new BrushlessNEO(1, false);
-  public static BrushlessNEO left = new BrushlessNEO(2, true);
+  public static BrushlessNEO right = new BrushlessNEO(1, true);
+  public static BrushlessNEO left = new BrushlessNEO(2, false);
   public static BrushlessNEO shooter = new BrushlessNEO(3, true);
   public static BrushlessNEO intake = new BrushlessNEO(4, false);
   public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
@@ -53,10 +53,6 @@ public class Robot extends TimedRobot {
   public static Spark loader = new Spark(0);
   public static Joystick cont = new Joystick(0);
   public static XboxController xbox = new XboxController(1);
-  // TODO: Tune PID values
-  public static Double[] drivePID = { 0.0, 1.0, 2.0 };
-  public static Double[] turnPID = { 0.0, 0.1, 0.2 };
-  public static AutoCommands auto = new AutoCommands(drivePID, turnPID, 6.0);
   public static Shooter autoShooter = new Shooter();
   public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, turret, cont,
       xbox, autoShooter);
@@ -74,13 +70,13 @@ public class Robot extends TimedRobot {
     climberRight.resetPosition();
     climberLeft.resetPosition();
     turret.resetPosition();
+	intake.setRamp(0.5);
     // Set the Spark controller to inverted
     loader.setInverted(true);
     // Lock climber arms
     climberRight.idleMode(IdleMode.kBrake);
     climberLeft.idleMode(IdleMode.kBrake);
     turret.idleMode(IdleMode.kBrake);
-
  }
 
   @Override
@@ -132,7 +128,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     // Autonomous code in Auto.java
-    noCont.AutoDrive();
+    noCont.fullAuto();
   }
 
   @Override

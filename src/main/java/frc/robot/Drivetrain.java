@@ -66,7 +66,7 @@ public class Drivetrain {
 			turretSpeed = 0.8;
 
 		if (this.xbox.getRawButton(8))
-			this.autoShooter.shooterSlow.schedule();
+			this.autoShooter.shootSingle.schedule();
 
 		// Intake
 		if (this.cont.getRawButton(5))
@@ -139,14 +139,14 @@ public class Drivetrain {
 
 		if (this.cont.getRawButton(2)) {
 			this.left.set(
-					(-this.cont.getRawAxis(1) - this.cont.getRawAxis(0)) * driveSpeed);
+					(this.cont.getRawAxis(1) + this.cont.getRawAxis(0)) * driveSpeed);
 			this.right.set(
-					(-this.cont.getRawAxis(1) + this.cont.getRawAxis(0)) * driveSpeed);
+					(this.cont.getRawAxis(1) - this.cont.getRawAxis(0)) * driveSpeed);
 		} else {
 			this.left.set(
-					(this.cont.getRawAxis(1) - this.cont.getRawAxis(0)) * driveSpeed);
+					(-this.cont.getRawAxis(1) + this.cont.getRawAxis(0)) * driveSpeed);
 			this.right.set(
-					(this.cont.getRawAxis(1) + this.cont.getRawAxis(0)) * driveSpeed);
+					(-this.cont.getRawAxis(1) - this.cont.getRawAxis(0)) * driveSpeed);
 		}
 	}
 }
