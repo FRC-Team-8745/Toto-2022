@@ -2,49 +2,94 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.*;
 
-//FIXME: THIS CODE DOES NOT WORK FIX THIS FIRST
 public class Auto {
+	private AutoCommands autoCom;
+	private Turret autoTurret;
 
-    public void AutoDrive() {
-        // make the robot drive backward to the tarmac
-        // TODO: fix guesstimate
-        SequentialCommandGroup shooter = new SequentialCommandGroup(
-            new InstantCommand(() -> Robot.right.set(-1)),
-            new InstantCommand(() -> Robot.left.set(-1)),
-            new WaitCommand(1),
-            new InstantCommand(() -> Robot.left.stop()),
-            new InstantCommand(() -> Robot.right.stop()),
-            new InstantCommand(() -> Robot.autoShooter.shootSingle.schedule()),
-            new WaitCommand(3),
-            new InstantCommand(() -> Robot.left.set(-1)),
-            new InstantCommand(() -> Robot.right.set(1)),
-            new WaitCommand(0.5),
-            new InstantCommand(() -> Robot.left.stop()),
-            new InstantCommand(() -> Robot.right.stop()),
-            new InstantCommand(() -> Robot.right.set(1)),
-            new InstantCommand(() -> Robot.left.set(1)),
-            new InstantCommand(() -> Robot.intake.set(1))); 
-            
+	public Auto(AutoCommands auto_, Turret turret_) {
+		autoCom = auto_;
+		autoTurret = turret_;
+	}
 
-        shooter.schedule();
-    }
-        /*switch (step) {
-            case 0:
-                step += this.auto.driveFeet(-4, 0.5, true);
-                break;
-            case 1:
-                // TODO: find where these come from and add them again
-                // step += this.auto.autoShoot(5, 1, true);
-                break;
-            case 2:
-                step += this.auto.turnDegrees(45, 1, true);
-                break;
-            case 3:
-                step += this.auto.driveFeet(4, 1, true);
-                // TODO: find where these come from and add them again
-                // this.auto.autoIntake(4, 0.5, true);
-                break;
-            case 4:
+	public void AutoDrive1() {
+		// This auto drops the intake, Drives out of the tarmac, turns, shoots, and
+		// intakes another ball.
+		new SequentialCommandGroup(
+				new InstantCommand(() -> Robot.climberLeft.set(0.2)),
+				new WaitCommand(0.5),
+				new InstantCommand(() -> Robot.climberLeft.stop()),
+				new WaitUntilCommand(() -> autoCom.driveFeet(7, -0.2, true)),
+				// new WaitCommand(1),
+				new WaitUntilCommand(() -> autoCom.turnDegrees(120, 0.2, true)),
+				new WaitUntilCommand(() -> autoTurret.rotateDegrees(-120, 0.5)),
+				// new WaitCommand(2),
+				new InstantCommand(() -> Robot.autoShooter.shootSingle.schedule()),
+				new WaitCommand(4),
+				new InstantCommand(() -> Robot.intake.set(0.2)),
+				new WaitUntilCommand(() -> autoCom.driveFeet(7, 0.2, true)),
+				new InstantCommand(() -> Robot.intake.stop())).schedule();
+	}
 
-        }*/
-    }
+	public void AutoDrive2() {
+		// This Auto drops the intake, drives, picks up a ball, and shoots where it is
+		// at.
+		new SequentialCommandGroup(
+				new InstantCommand(() -> Robot.climberLeft.set(0.2)),
+				new WaitCommand(0.5),
+				new InstantCommand(() -> Robot.climberLeft.stop()),
+				new InstantCommand(() -> Robot.intake.set(0.2)),
+				new WaitUntilCommand(() -> autoCom.driveFeet(7, 0.2, true)),
+				new InstantCommand(() -> Robot.intake.stop()),
+				new WaitUntilCommand(() -> Robot.autoShooter.shoot()),
+				new WaitUntilCommand(() -> Robot.autoShooter.shoot())).schedule();
+	}
+
+	public void simpleAuto() {
+		// This Auto loads,
+		new SequentialCommandGroup(
+				new InstantCommand(() -> Robot.autoShooter.loadSingle.schedule()),
+				new InstantCommand(() -> Robot.climberLeft.set(0.5)),
+				new WaitCommand(0.2),
+				new InstantCommand(() -> Robot.climberLeft.stop()),
+				new WaitCommand(1.5),
+				new InstantCommand(() -> Robot.autoShooter.shootSingle.schedule()),
+				new WaitCommand(4),
+				new InstantCommand(() -> Robot.right.resetPosition()),
+				new WaitUntilCommand(() -> autoCom.driveFeet(8, 0.5, true))).schedule();
+	}
+
+	public void newAuto() {
+		// This loads, brings the intake down, intakes a ball, drives up to the hub, and
+		// shoots.
+		new SequentialCommandGroup(
+				new InstantCommand(() -> Robot.autoShooter.loadSingle.schedule()),
+				new InstantCommand(() -> Robot.climberRight.set(0.5)),
+				new WaitCommand(0.2),
+				new InstantCommand(() -> Robot.climberRight.stop()),
+				new WaitCommand(4),
+				new InstantCommand(() -> Robot.right.resetPosition()),
+				new InstantCommand(() -> Robot.intake.set(1)),
+				new WaitUntilCommand(() -> autoCom.driveFeet(8, 0.5, true)),
+				new InstantCommand(() -> Robot.intake.stop()),
+				new InstantCommand(() -> Robot.right.resetPosition()),
+				new InstantCommand(() -> Robot.left.resetPosition()),
+				new WaitUntilCommand(() -> autoCom.driveFeet(-8, 0.5, true)),
+				new WaitUntilCommand(() -> Robot.autoShooter.shoot()),
+				new WaitUntilCommand(() -> Robot.autoShooter.shoot())).schedule();
+	}
+
+	public void fullAuto() {
+		new SequentialCommandGroup(
+				new InstantCommand(() -> Robot.climberLeft.set(0.5)),
+				new InstantCommand(() -> Robot.autoShooter.shootFull.schedule()),
+				new WaitCommand(0.5),
+				new InstantCommand(() -> Robot.climberLeft.stop()),
+				new WaitCommand(3.5),
+				new InstantCommand(() -> Robot.intake.set(1)),
+				new WaitUntilCommand(() -> autoCom.driveFeet(7.583, 0.25, true)),
+				new WaitUntilCommand(() -> autoCom.driveFeet(7.583, -0.25, true)),
+				new InstantCommand(() -> Robot.intake.stop()),
+				new InstantCommand(() -> Robot.autoShooter.shootFull.schedule())
+		).schedule();
+	}
+}
