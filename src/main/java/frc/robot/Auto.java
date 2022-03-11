@@ -9,7 +9,7 @@ public class Auto {
 
 	// The distances to drive in the two autos that collect cargo
 	private final double kNormalAutoDriveDistance = 7.583;
-	private final double kShortAutoDriveDistance = 0;
+	private final double kShortAutoDriveDistance = SmartDashboard.getNumber("Short Auto Distance", 6.61);
 
 	// The four auto programs
 	public enum AutoSelections {
@@ -18,12 +18,12 @@ public class Auto {
 
 	// Start AutoCommands
 	public static AutoCommands auto = new AutoCommands();
-
-	// Set the auto program based on the number from shuffleboard
-	public static int autoProgram = (int) SmartDashboard.getNumber("Auto", 0);
-	public static AutoSelections selection = AutoSelections.values()[autoProgram];
-
+	
 	public void auto() {
+		// Set the auto program based on the number from shuffleboard
+		int autoProgram = (int) SmartDashboard.getNumber("Auto", 0);
+		AutoSelections selection = AutoSelections.values()[autoProgram];
+		
 		switch (selection) {
 			case FullAuto: // Full auto program
 				fullAuto(kNormalAutoDriveDistance);
@@ -64,11 +64,24 @@ public class Auto {
 				new InstantCommand(() -> deployIntake()),
 				new InstantCommand(() -> Robot.autoShooter.shootFull.schedule()),
 				new WaitCommand(4),
-				new InstantCommand(() -> Robot.intake.set(1)),
-				new WaitUntilCommand(() -> auto.driveFeet(distance, 0.25, true)),
+				new InstantCommand(() -> Robot.intake.set(0.5)),
+				new WaitUntilCommand(() -> auto.driveFeet(distance, 0.2, true)),
 				new WaitCommand(1),
-				new WaitUntilCommand(() -> auto.driveFeet(distance, -0.25, true)),
+				new InstantCommand(() -> Robot.intake.set(1)),
+				new WaitCommand(1),
+				new WaitUntilCommand(() -> auto.driveFeet(distance - 0.25, -0.35, true)),
 				new InstantCommand(() -> Robot.intake.stop()),
 				new InstantCommand(() -> Robot.autoShooter.shootFull.schedule())).schedule();
+	}
+
+	public static void testAuto(double speed, double intake) {
+		new SequentialCommandGroup(
+				new InstantCommand(() -> Robot.intake.set(intake)),
+				new WaitUntilCommand(() -> auto.driveFeet(4, speed, true)),
+				new WaitCommand(1),
+				new InstantCommand(() -> Robot.intake.set(1)),
+				new WaitCommand(1),
+				new WaitUntilCommand(() -> auto.driveFeet(4, -speed, true)),
+				new InstantCommand(() -> Robot.intake.stop())).schedule();
 	}
 }

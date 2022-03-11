@@ -16,9 +16,7 @@ public class Drivetrain {
 	private BrushlessNEO climberRight;
 	private BrushlessNEO climberLeft;
 	private BrushlessNEO turret;
-	// Joystick Import
 	private Joystick cont;
-	// Xbox Import
 	private XboxController xbox;
 	private Shooter autoShooter;
 
@@ -55,17 +53,11 @@ public class Drivetrain {
 
 	// Declare variable for drive speed
 	private double driveSpeed;
-	private double turretSpeed;
 
 	public void driveTeleop() {
 
 		// Shoot cargo
-		if (this.xbox.getRawButton(7))
-			turretSpeed = 0.5;
-		else
-			turretSpeed = 0.8;
-
-		if (this.xbox.getRawButton(8))
+		if (this.xbox.getRawButtonPressed(8))
 			this.autoShooter.shootSingle.schedule();
 
 		// Intake
@@ -90,9 +82,9 @@ public class Drivetrain {
 
 		// Turret
 		if (this.xbox.getRawButton(5))
-			this.turret.set(turretSpeed);
+			this.turret.set(0.6);
 		else if (this.xbox.getRawButton(6))
-			this.turret.set(-turretSpeed);
+			this.turret.set(-0.6);
 		else
 			this.turret.stop();
 
@@ -109,6 +101,22 @@ public class Drivetrain {
 				this.climberRight.set(.1);
 			else if (this.cont.getRawButton(12))
 				this.climberRight.set(-.1);
+			else
+				this.climberRight.stop();
+		}
+
+		if (this.cont.getRawButton(8)) {
+			if (this.cont.getRawButton(9))
+				this.climberLeft.set(.5);
+			else if (this.cont.getRawButton(11))
+				this.climberLeft.set(-.5);
+			else
+				this.climberLeft.stop();
+
+			if (this.cont.getRawButton(10))
+				this.climberRight.set(.5);
+			else if (this.cont.getRawButton(12))
+				this.climberRight.set(-.5);
 			else
 				this.climberRight.stop();
 		}

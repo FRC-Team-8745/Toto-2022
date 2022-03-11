@@ -1,0 +1,11 @@
+To each match:
+- Ethernet cord
+- Tape measure
+- Drive station
+- No cargo
+
+
+After each match:
+- Bumper screws
+- Intake bumpers
+- Check for cargo in robot

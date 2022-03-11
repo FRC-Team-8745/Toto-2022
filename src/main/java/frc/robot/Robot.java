@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
 		climberLeft.idleMode(IdleMode.kBrake);
 		turret.idleMode(IdleMode.kBrake);
 		SmartDashboard.putNumber("Auto", Auto.kDefaultAuto);
+		SmartDashboard.putNumber("Short Auto Distance", 6.61);
 	}
 
 	@Override
@@ -101,6 +102,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		noCont.auto();
+		right.resetPosition();
+		left.resetPosition();
+		//Auto.testAuto(0.2, 0.5);
 	}
 
 	@Override
