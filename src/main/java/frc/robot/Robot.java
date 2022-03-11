@@ -75,13 +75,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		/*
-		 * Put data about the robot on the dashboard.
-		 * Includes:
-		 * - All NEO encoder positions and CAN id's
-		 * - Shooter RPM and status
-		 * - Status lights for the temprature of each NEO motor
-		 */
 
 		// Shooter status
 		SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
