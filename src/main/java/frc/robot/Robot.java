@@ -13,15 +13,6 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the
- * name of this class or
- * the package after creating this project, you must also update the
- * build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -41,6 +32,9 @@ public class Robot extends TimedRobot {
 	 * 
 	 * Motor PWM ID's:
 	 * Loader: 0
+	 * 
+	 * Robot perimiter with bumpers is 33" x 39"
+	 * Robot weight is 107 pounds
 	 */
 
 	public static BrushlessNEO right = new BrushlessNEO(1, true);
