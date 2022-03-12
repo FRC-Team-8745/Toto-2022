@@ -16,6 +16,7 @@ public class Odometry {
 			new Rotation2d(degreesToRadians(IMU.getYaw())),
 			new Pose2d(kRobotStartPosX, kRobotStartPosY, new Rotation2d()));
 
+	// Converts degrees to radians
 	public double degreesToRadians(double degrees) {
 		return degrees * (Math.PI / 180);
 	}
