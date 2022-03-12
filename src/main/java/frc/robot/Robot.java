@@ -73,8 +73,7 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
-	public void robotPeriodic() {
-
+	public void robotPeriodic() {	
 		// Shooter status
 		SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
 		SmartDashboard.putBoolean("Shooter Ready", (shooter.getRPM() > 3000));
@@ -97,7 +96,6 @@ public class Robot extends TimedRobot {
 		noCont.auto();
 		right.resetPosition();
 		left.resetPosition();
-		//Auto.testAuto(0.2, 0.5);
 	}
 
 	@Override

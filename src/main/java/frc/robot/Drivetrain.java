@@ -73,8 +73,8 @@ public class Drivetrain {
 			this.climberRight.set(.75);
 			this.climberLeft.set(.75);
 		} else if (this.xbox.getPOV() == 180) {
-			this.climberRight.set(-.25);
-			this.climberLeft.set(-.25);
+			this.climberRight.set(-.75);
+			this.climberLeft.set(-.75);
 		} else {
 			this.climberRight.set(0);
 			this.climberLeft.set(0);
