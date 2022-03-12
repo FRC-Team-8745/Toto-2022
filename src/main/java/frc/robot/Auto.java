@@ -74,6 +74,7 @@ public class Auto {
 				new InstantCommand(() -> Robot.autoShooter.shootFull.schedule())).schedule();
 	}
 
+	// Auto for testing the intake, never used in actual code
 	public static void testAuto(double speed, double intake) {
 		new SequentialCommandGroup(
 				new InstantCommand(() -> Robot.intake.set(intake)),
