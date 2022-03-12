@@ -14,12 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
-	/**
-	 * This function is run when the robot is first started up and should be used
-	 * for any
-	 * initialization code.
-	 */
-
 	/*
 	 * Motor CAN ID's:
 	 * Right drive: 1
@@ -67,13 +61,13 @@ public class Robot extends TimedRobot {
 		// Lock climber arms
 		climberRight.idleMode(IdleMode.kBrake);
 		climberLeft.idleMode(IdleMode.kBrake);
-		turret.idleMode(IdleMode.kBrake);  
+		turret.idleMode(IdleMode.kBrake);
 		SmartDashboard.putNumber("Auto", Auto.kDefaultAuto);
 		SmartDashboard.putNumber("Short Auto Distance", 6.61);
 	}
 
 	@Override
-	public void robotPeriodic() {	
+	public void robotPeriodic() {
 		// Shooter status
 		SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
 		SmartDashboard.putBoolean("Shooter Ready", (shooter.getRPM() > 3000));
