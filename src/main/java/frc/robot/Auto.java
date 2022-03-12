@@ -18,12 +18,12 @@ public class Auto {
 
 	// Start AutoCommands
 	public static AutoCommands auto = new AutoCommands();
-	
+
 	public void auto() {
 		// Set the auto program based on the number from shuffleboard
 		int autoProgram = (int) SmartDashboard.getNumber("Auto", 0);
 		AutoSelections selection = AutoSelections.values()[autoProgram];
-		
+
 		switch (selection) {
 			case FullAuto: // Full auto program
 				fullAuto(kNormalAutoDriveDistance);

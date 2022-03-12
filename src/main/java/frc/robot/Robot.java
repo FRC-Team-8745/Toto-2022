@@ -62,13 +62,12 @@ public class Robot extends TimedRobot {
 		climberRight.resetPosition();
 		climberLeft.resetPosition();
 		turret.resetPosition();
-		intake.setRamp(0.5);
 		// Set the Spark controller to inverted
 		loader.setInverted(true);
 		// Lock climber arms
 		climberRight.idleMode(IdleMode.kBrake);
 		climberLeft.idleMode(IdleMode.kBrake);
-		turret.idleMode(IdleMode.kBrake);
+		turret.idleMode(IdleMode.kBrake);  
 		SmartDashboard.putNumber("Auto", Auto.kDefaultAuto);
 		SmartDashboard.putNumber("Short Auto Distance", 6.61);
 	}
@@ -90,6 +89,7 @@ public class Robot extends TimedRobot {
 		// Set motor ramp speeds
 		shooter.setRamp(1);
 		turret.setRamp(0.5);
+		intake.setRamp(0.5);
 	}
 
 	@Override
@@ -106,6 +106,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		shooter.stop();
+		loader.stopMotor();
 	}
 
 	@Override
@@ -123,7 +125,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-		SmartDashboard.putNumber("Auto", 0);
 	}
 
 	@Override
