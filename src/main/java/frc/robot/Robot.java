@@ -77,12 +77,13 @@ public class Robot extends TimedRobot {
 		// Temprature warnings
 		SmartDashboard.putBoolean("Right Tempratue", (right.getTemp() < 150));
 		SmartDashboard.putBoolean("Left Tempratue", (left.getTemp() < 150));
+		SmartDashboard.putBoolean("Trigger Pressed", xbox.getRawButtonPressed(8));
 
 		// Runs the command scheduler while the robot is on
 		CommandScheduler.getInstance().run();
 
 		// Set motor ramp speeds
-		shooter.setRamp(1);
+		shooter.setRamp(0.5);
 		turret.setRamp(0.5);
 		intake.setRamp(0.5);
 	}

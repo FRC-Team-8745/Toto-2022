@@ -58,6 +58,10 @@ public class Drivetrain {
 
 		// Shoot cargo
 		if (this.xbox.getRawButtonPressed(8))
+			this.autoShooter.shootDouble.schedule();
+
+		// Shoot two cargo
+		if (this.xbox.getRawButtonPressed(3))
 			this.autoShooter.shootSingle.schedule();
 
 		// Intake

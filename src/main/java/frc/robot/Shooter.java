@@ -30,9 +30,18 @@ public class Shooter {
 	// Shoot the ball at full speed
 	SequentialCommandGroup shootSingle = new SequentialCommandGroup(
 			new InstantCommand(() -> setRPM(kFenderSpeed)),
-			new WaitCommand(2),
+			new WaitCommand(1.5),
 			new InstantCommand(() -> Robot.loader.set(1)),
 			new WaitCommand(1),
+			new InstantCommand(() -> Robot.loader.stopMotor()),
+			new InstantCommand(() -> Robot.shooter.stop()));
+
+	// Shoot two balls at full speed
+	SequentialCommandGroup shootDouble = new SequentialCommandGroup(
+			new InstantCommand(() -> setRPM(kFenderSpeed)),
+			new WaitCommand(1),
+			new InstantCommand(() -> Robot.loader.set(1)),
+			new WaitCommand(2),
 			new InstantCommand(() -> Robot.loader.stopMotor()),
 			new InstantCommand(() -> Robot.shooter.stop()));
 
