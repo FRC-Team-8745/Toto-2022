@@ -68,7 +68,7 @@ public class Drivetrain {
 		if (this.cont.getRawButton(5))
 			this.intake.set(-1);
 		else if (this.cont.getRawButton(3))
-			this.intake.set(1);
+			this.intake.set(0.5);
 		else
 			this.intake.stop();
 
