@@ -6,11 +6,13 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.cameraserver.CameraServer;
 
 public class Robot extends TimedRobot {
 	/*
@@ -46,12 +48,12 @@ public class Robot extends TimedRobot {
 	public static Auto noCont = new Auto();
 	public static Odometry odometry = new Odometry();
 
-
 	public static final double kDriveGearbox = 10.71;
+	public PowerDistribution PDP = new PowerDistribution();
 
 	@Override
 	public void robotInit() {
-		// Reset encoders
+		// Reset encoders$
 		right.resetPosition();
 		left.resetPosition();
 		shooter.resetPosition();
@@ -67,6 +69,9 @@ public class Robot extends TimedRobot {
 		turret.idleMode(IdleMode.kBrake);
 		SmartDashboard.putNumber("Auto", Auto.kDefaultAuto);
 		SmartDashboard.putNumber("Short Auto Distance", 6.61);
+
+		// Setup and put the camera on the dashboard
+		CameraServer.startAutomaticCapture();
 	}
 
 	@Override
@@ -79,6 +84,9 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Right Tempratue", (right.getTemp() < 150));
 		SmartDashboard.putBoolean("Left Tempratue", (left.getTemp() < 150));
 		SmartDashboard.putBoolean("Trigger Pressed", xbox.getRawButtonPressed(8));
+
+		SmartDashboard.putData(PDP);
+
 
 		// Runs the command scheduler while the robot is on
 		CommandScheduler.getInstance().run();
