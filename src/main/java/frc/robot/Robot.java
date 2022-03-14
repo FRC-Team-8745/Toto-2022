@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 	public static Odometry odometry = new Odometry();
 
 	public static final double kDriveGearbox = 10.71;
-	public PowerDistribution PDP = new PowerDistribution();
+	public static PowerDistribution PDP = new PowerDistribution();
 
 	@Override
 	public void robotInit() {
@@ -83,10 +83,9 @@ public class Robot extends TimedRobot {
 		// Temprature warnings
 		SmartDashboard.putBoolean("Right Tempratue", (right.getTemp() < 150));
 		SmartDashboard.putBoolean("Left Tempratue", (left.getTemp() < 150));
-		SmartDashboard.putBoolean("Trigger Pressed", xbox.getRawButtonPressed(8));
 
+		// PDP status
 		SmartDashboard.putData(PDP);
-
 
 		// Runs the command scheduler while the robot is on
 		CommandScheduler.getInstance().run();
