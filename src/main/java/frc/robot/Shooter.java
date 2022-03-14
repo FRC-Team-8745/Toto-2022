@@ -41,7 +41,7 @@ public class Shooter {
 			new InstantCommand(() -> setRPM(kFenderSpeed)),
 			new WaitCommand(1),
 			new InstantCommand(() -> Robot.loader.set(1)),
-			new WaitCommand(2),
+			new WaitCommand(2.5),
 			new InstantCommand(() -> Robot.loader.stopMotor()),
 			new InstantCommand(() -> Robot.shooter.stop()));
 
