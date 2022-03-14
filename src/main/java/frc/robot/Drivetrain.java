@@ -67,9 +67,10 @@ public class Drivetrain {
 		// Intake
 		if (this.cont.getRawButton(5))
 			this.intake.set(-1);
-		else if (this.cont.getRawButton(3))
-			this.intake.set(0.5);
-		else
+		else if (this.cont.getRawButton(3)) {
+			this.intake.set(0.75);
+			driveSpeed = 0.3;
+		} else
 			this.intake.stop();
 
 		// Climbers
@@ -134,9 +135,9 @@ public class Drivetrain {
 			this.autoShooter.unloadSingle.schedule();
 
 		// Set the speed based on the trigger(1) of the joystick
-		if (this.cont.getRawButton(1)) {
+		if (this.cont.getRawButton(1) && !this.cont.getRawButton(5) && !this.cont.getRawButton(3)) {
 			driveSpeed = 1;
-		} else {
+		} else if (!this.cont.getRawButton(5) && !this.cont.getRawButton(3)) {
 			driveSpeed = 0.5;
 		}
 
