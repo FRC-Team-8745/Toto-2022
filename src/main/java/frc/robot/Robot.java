@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
 	public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, turret, cont,
 			xbox, autoShooter);
 	public static Auto noCont = new Auto();
+	public static Odometry odometry = new Odometry();
 
 
 	public static final double kDriveGearbox = 10.71;

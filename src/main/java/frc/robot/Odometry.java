@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Odometry extends SubsystemBase {
-	public static final double kRobotStartPosX = 0;
-	public static final double kRobotStartPosY = 0;
+	public static final double kRobotStartPosX = 7.5;
+	public static final double kRobotStartPosY = 2.5;
 	public static AHRS IMU = new AHRS(Port.kUSB1);
 
-	private final Pose2d startPosition;
+	private final Pose2d kStartPosition;
 
 	private Rotation2d rotation;
 	private Pose2d position;
@@ -23,17 +23,22 @@ public class Odometry extends SubsystemBase {
 	private Field2d field;
 
 	public Odometry() {
-		rotation = new Rotation2d(degreesToRadians(IMU.getYaw()));
-		startPosition = new Pose2d(kRobotStartPosX, kRobotStartPosY, new Rotation2d());
-		odometry = new DifferentialDriveOdometry(rotation, startPosition);
+		IMU.calibrate();
+		IMU.zeroYaw();
+		position = new Pose2d();
+		field = new Field2d();
+		rotation = new Rotation2d(90);
+		kStartPosition = new Pose2d(kRobotStartPosX, kRobotStartPosY, rotation);
+		odometry = new DifferentialDriveOdometry(rotation, kStartPosition);
 	}
 
 	@Override
 	public void periodic() {
-		position = odometry.update(rotation, (Robot.left.getPosition() * Robot.kDriveGearbox), (Robot.right.getPosition() * Robot.kDriveGearbox));
+		rotation = new Rotation2d(-degreesToRadians(IMU.getYaw()));
+		position = odometry.update(rotation, (Robot.left.getPosition() / Robot.kDriveGearbox), (Robot.right.getPosition() / Robot.kDriveGearbox));
 		field.setRobotPose(position);
+		SmartDashboard.putData(field);
 	}
-
 
 	// Converts degrees to radians
 	public double degreesToRadians(double degrees) {
