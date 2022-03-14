@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 
 public class Robot extends TimedRobot {
 	/*
@@ -71,7 +72,9 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Short Auto Distance", 6.61);
 
 		// Setup and put the camera on the dashboard
-		CameraServer.startAutomaticCapture();
+		UsbCamera frontCamera = CameraServer.startAutomaticCapture();
+		frontCamera.setFPS(30);
+		frontCamera.setResolution(350, 350);
 	}
 
 	@Override
