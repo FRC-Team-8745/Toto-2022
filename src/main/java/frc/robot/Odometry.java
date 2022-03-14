@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Odometry extends SubsystemBase {
 	public static final double kRobotStartPosX = 7.5;
 	public static final double kRobotStartPosY = 2.5;
+	public static final double kRobotStartRotY = 0;
+
 	public static AHRS IMU = new AHRS(Port.kUSB1);
 
 	private final Pose2d kStartPosition;
@@ -27,7 +29,7 @@ public class Odometry extends SubsystemBase {
 		IMU.zeroYaw();
 		position = new Pose2d();
 		field = new Field2d();
-		rotation = new Rotation2d(90);
+		rotation = new Rotation2d(kRobotStartRotY);
 		kStartPosition = new Pose2d(kRobotStartPosX, kRobotStartPosY, rotation);
 		odometry = new DifferentialDriveOdometry(rotation, kStartPosition);
 	}
