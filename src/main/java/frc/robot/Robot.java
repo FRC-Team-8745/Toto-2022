@@ -6,7 +6,6 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -39,7 +38,7 @@ public class Robot extends TimedRobot {
 	public static BrushlessNEO intake = new BrushlessNEO(4, false);
 	public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
 	public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
-	public static BrushlessNEO turret = new BrushlessNEO(7, false);
+	public static Turret turret = new Turret();
 	public static Spark loader = new Spark(0);
 	public static Joystick cont = new Joystick(0);
 	public static XboxController xbox = new XboxController(1);
@@ -50,7 +49,8 @@ public class Robot extends TimedRobot {
 	public static Odometry odometry = new Odometry();
 
 	public static final double kDriveGearbox = 10.71;
-	public static PowerDistribution PDP = new PowerDistribution();
+
+	public static boolean autoTurretEnabled;
 
 	@Override
 	public void robotInit() {
@@ -67,14 +67,16 @@ public class Robot extends TimedRobot {
 		// Lock climber arms
 		climberRight.idleMode(IdleMode.kBrake);
 		climberLeft.idleMode(IdleMode.kBrake);
-		turret.idleMode(IdleMode.kBrake);
 		SmartDashboard.putNumber("Auto", Auto.kDefaultAuto);
 		SmartDashboard.putNumber("Short Auto Distance", 6.61);
 
-		// Setup and put the camera on the dashboard
+		// Setup and put the front camera on the dashboard
 		UsbCamera frontCamera = CameraServer.startAutomaticCapture();
 		frontCamera.setFPS(30);
 		frontCamera.setResolution(350, 350);
+
+		// Disable the turret to start
+		autoTurretEnabled = false;
 	}
 
 	@Override
@@ -87,15 +89,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Right Tempratue", (right.getTemp() < 150));
 		SmartDashboard.putBoolean("Left Tempratue", (left.getTemp() < 150));
 
-		// PDP status
-		SmartDashboard.putData(PDP);
-
 		// Runs the command scheduler while the robot is on
 		CommandScheduler.getInstance().run();
 
 		// Set motor ramp speeds
 		shooter.setRamp(0.5);
-		turret.setRamp(0.5);
 		intake.setRamp(0.5);
 	}
 
@@ -104,6 +102,7 @@ public class Robot extends TimedRobot {
 		noCont.auto();
 		right.resetPosition();
 		left.resetPosition();
+		autoTurretEnabled = false;
 	}
 
 	@Override
@@ -114,11 +113,15 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		shooter.stop();
 		loader.stopMotor();
+		Odometry.IMU.zeroYaw();
+		turret.resetPosition();
+		autoTurretEnabled = true;
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		drive.driveTeleop();
+		odometry.adjustTurret();
 	}
 
 	@Override

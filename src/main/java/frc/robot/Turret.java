@@ -1,24 +1,56 @@
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
-
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
-
-	public BrushlessNEO turret = new BrushlessNEO(7, false);
+	public CANSparkMax turret = new CANSparkMax(7, MotorType.kBrushless);
 
 	private final int kTurretRatio = 120;
-	private final double kTurretError = 5;
-	private final double kTurretProportional = 0.8;
+
+	public SparkMaxPIDController pid = turret.getPIDController();
+	public RelativeEncoder encoder = turret.getEncoder();
+
+	public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
 	public Turret() {
-		turret.setRamp(0.5);
-		turret.idleMode(IdleMode.kBrake);
-		turret.resetPosition();
+		turret.restoreFactoryDefaults();
+		turret.setIdleMode(IdleMode.kBrake);
+		resetPosition();
+
+		kP = 0.2;
+		kI = 0;
+		kD = 0; 
+		kIz = 3; 
+		kFF = 0; 
+		kMaxOutput = 1; 
+		kMinOutput = -1;
+
+		pid.setP(kP);
+		pid.setI(kI);
+		pid.setD(kD);
+		pid.setIZone(kIz);
+		pid.setFF(kFF);
+		pid.setOutputRange(kMinOutput, kMaxOutput);
 	}
 
-	// Converts degrees of turret to motor turns
+	public void set(double speed) {
+		turret.set(speed);
+	}
+
+	public void resetPosition() {
+		encoder.setPosition(0);
+	}
+
+	public void stop() {
+		turret.stopMotor();
+	}
+
+	// Converts degrees of turret to 
 	public double convertDegrees(double degrees) {
 		return (degrees / 360) * kTurretRatio;
 	}
@@ -30,26 +62,12 @@ public class Turret extends SubsystemBase {
 
 	// Gets the current turret position in rotations
 	public double getTurretRotations() {
-		return turret.getPosition() / kTurretRatio;
+		return encoder.getPosition() / kTurretRatio;
 	}
 
-	// Rotate the turret to a specified number of degrees
-	public Boolean rotateDegrees(double targetDegrees, double speed) {
-		// Stop when aligned within the error
-		if (Math.abs(targetDegrees - getTurretDegrees()) < kTurretError) {
-			turret.stop();
-			return true;
-		}
-		
-		// Formula used below: (((((targetDegrees / 360) * kTurretRatio) - (turret.getPosition() / kTurretRatio)) / ((targetDegrees / 360) * kTurretRatio)) * speed) * kTurretProportional)
-		
-		// Get number of turret turns left
-		double turnsLeft = convertDegrees(targetDegrees) - getTurretRotations();
-		// Calculate speed. It will be slower when it gets closer to the set degrees.
-		speed = Math.signum(turnsLeft) * (turnsLeft / convertDegrees(targetDegrees)) * speed;
-		// Set speed
-		turret.set(speed * kTurretProportional);
-		System.out.println(speed);
-		return false;
+
+	// Rotate the turret to a set number of degrees
+	public void rotateDegrees(double targetDegrees) {
+		pid.setReference(convertDegrees(targetDegrees), CANSparkMax.ControlType.kPosition);
 	}
 }

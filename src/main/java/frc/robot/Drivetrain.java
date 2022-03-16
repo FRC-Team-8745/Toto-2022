@@ -15,13 +15,13 @@ public class Drivetrain {
 	private BrushlessNEO intake;
 	private BrushlessNEO climberRight;
 	private BrushlessNEO climberLeft;
-	private BrushlessNEO turret;
+	private Turret turret;
 	private Joystick cont;
 	private XboxController xbox;
 	private Shooter autoShooter;
 
 	public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO intake_,
-			BrushlessNEO climberRight_, BrushlessNEO climberLeft_, BrushlessNEO turret_, Joystick cont_,
+			BrushlessNEO climberRight_, BrushlessNEO climberLeft_, Turret turret_, Joystick cont_,
 			XboxController xbox_, Shooter autoShooter_) {
 		right = right_;
 		left = left_;
@@ -35,10 +35,8 @@ public class Drivetrain {
 	}
 
 	public void setDrive(double speed) {
-		if (speed <= 1 && speed >= -1) {
-			this.right.set(speed);
-			this.left.set(speed);
-		}
+		this.right.set(speed);
+		this.left.set(speed);
 	}
 
 	public void stopDrive() {
@@ -56,6 +54,10 @@ public class Drivetrain {
 
 	public void driveTeleop() {
 
+		// Stop auto turret if manually overrided
+		if (this.xbox.getRawButton(5) || this.xbox.getRawButton(6))
+			Robot.autoTurretEnabled = false;
+
 		// Shoot cargo
 		if (this.xbox.getRawButtonPressed(8))
 			this.autoShooter.shootDouble.schedule();
@@ -68,7 +70,7 @@ public class Drivetrain {
 		if (this.cont.getRawButton(5))
 			this.intake.set(-1);
 		else if (this.cont.getRawButton(3)) {
-			this.intake.set(0.75);
+			this.intake.set(0.5);
 			driveSpeed = 0.3;
 		} else
 			this.intake.stop();

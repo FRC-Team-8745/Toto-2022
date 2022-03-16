@@ -11,39 +11,71 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Odometry extends SubsystemBase {
-	public static final double kRobotStartPosX = 7.5;
-	public static final double kRobotStartPosY = 2.5;
+	public static final double kRobotStartPosX = 8;
+	public static final double kRobotStartPosY = 4;
 	public static final double kRobotStartRotY = 0;
 
 	public static AHRS IMU = new AHRS(Port.kUSB1);
 
 	private final Pose2d kStartPosition;
 
-	private Rotation2d rotation;
-	private Pose2d position;
-	private DifferentialDriveOdometry odometry;
-	private Field2d field;
+	private static Rotation2d rotation;
+	private static Pose2d position;
+	private static DifferentialDriveOdometry odometry;
+	private static Field2d field;
+
+	private boolean calibrated = false;
 
 	public Odometry() {
-		IMU.calibrate();
-		IMU.zeroYaw();
+		Robot.drive.resetEncoders();
 		position = new Pose2d();
 		field = new Field2d();
-		rotation = new Rotation2d(kRobotStartRotY);
+		rotation = new Rotation2d();
 		kStartPosition = new Pose2d(kRobotStartPosX, kRobotStartPosY, rotation);
 		odometry = new DifferentialDriveOdometry(rotation, kStartPosition);
 	}
 
 	@Override
 	public void periodic() {
-		rotation = new Rotation2d(-degreesToRadians(IMU.getYaw()));
-		position = odometry.update(rotation, (Robot.left.getPosition() / Robot.kDriveGearbox), (Robot.right.getPosition() / Robot.kDriveGearbox));
+		rotation = new Rotation2d(degreesToRadians(-IMU.getYaw()));
+		position = odometry.update(rotation, ((Robot.left.getPosition() / Robot.kDriveGearbox) * 6) / 39.37, ((Robot.right.getPosition() / Robot.kDriveGearbox) * 6) / 39.37);
 		field.setRobotPose(position);
 		SmartDashboard.putData(field);
+
+		System.out.println(calculateTurret(position));
+
+		if (!IMU.isCalibrating() && !calibrated) {
+			IMU.zeroYaw();
+			calibrated = false;
+		}
 	}
 
 	// Converts degrees to radians
 	public double degreesToRadians(double degrees) {
 		return degrees * (Math.PI / 180);
+	}
+
+	// Converts radians to degrees
+	public static double radiansToDegrees(double radians) {
+		return radians * (180 / Math.PI);
+	}
+
+	public static final double kHubCenterX = 8;
+	public static final double kHubCenterY = 4;
+
+	public double calculateTurret(Pose2d position) {
+		double x = position.getX();
+		double y = position.getY();
+
+		return radiansToDegrees(Math.atan((y - kHubCenterY) / (x - kHubCenterX)));
+	}
+
+	public double angle(Pose2d pos) {
+		return 180.0 / Math.PI * Math.atan2(kHubCenterX - Math.abs(pos.getX()), kHubCenterY - Math.abs(pos.getY()));
+	}
+
+	public void adjustTurret() {
+		if (Robot.autoTurretEnabled)
+			Robot.turret.rotateDegrees(-rotation.getDegrees() + -angle(position));
 	}
 }
