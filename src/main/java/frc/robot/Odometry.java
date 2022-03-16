@@ -38,11 +38,10 @@ public class Odometry extends SubsystemBase {
 	@Override
 	public void periodic() {
 		rotation = new Rotation2d(degreesToRadians(-IMU.getYaw()));
-		position = odometry.update(rotation, ((Robot.left.getPosition() / Robot.kDriveGearbox) * 6) / 39.37, ((Robot.right.getPosition() / Robot.kDriveGearbox) * 6) / 39.37);
+		position = odometry.update(rotation, ((Robot.left.getPosition() / Robot.kDriveGearbox) * 6) / 39.37,
+				((Robot.right.getPosition() / Robot.kDriveGearbox) * 6) / 39.37);
 		field.setRobotPose(position);
 		SmartDashboard.putData(field);
-
-		System.out.println(calculateTurret(position));
 
 		if (!IMU.isCalibrating() && !calibrated) {
 			IMU.zeroYaw();
@@ -53,29 +52,5 @@ public class Odometry extends SubsystemBase {
 	// Converts degrees to radians
 	public double degreesToRadians(double degrees) {
 		return degrees * (Math.PI / 180);
-	}
-
-	// Converts radians to degrees
-	public static double radiansToDegrees(double radians) {
-		return radians * (180 / Math.PI);
-	}
-
-	public static final double kHubCenterX = 8;
-	public static final double kHubCenterY = 4;
-
-	public double calculateTurret(Pose2d position) {
-		double x = position.getX();
-		double y = position.getY();
-
-		return radiansToDegrees(Math.atan((y - kHubCenterY) / (x - kHubCenterX)));
-	}
-
-	public double angle(Pose2d pos) {
-		return 180.0 / Math.PI * Math.atan2(kHubCenterX - Math.abs(pos.getX()), kHubCenterY - Math.abs(pos.getY()));
-	}
-
-	public void adjustTurret() {
-		if (Robot.autoTurretEnabled)
-			Robot.turret.rotateDegrees(-rotation.getDegrees() + -angle(position));
 	}
 }

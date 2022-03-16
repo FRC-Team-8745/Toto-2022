@@ -34,8 +34,7 @@ public class Shooter {
 			new InstantCommand(() -> Robot.loader.set(1)),
 			new WaitCommand(1),
 			new InstantCommand(() -> Robot.loader.stopMotor()),
-			new InstantCommand(() -> Robot.shooter.stop()),
-			new InstantCommand(() -> Robot.autoTurretEnabled = true));
+			new InstantCommand(() -> Robot.shooter.stop()));
 
 	// Shoot two balls at full speed
 	SequentialCommandGroup shootDouble = new SequentialCommandGroup(
@@ -44,8 +43,7 @@ public class Shooter {
 			new InstantCommand(() -> Robot.loader.set(1)),
 			new WaitCommand(3),
 			new InstantCommand(() -> Robot.loader.stopMotor()),
-			new InstantCommand(() -> Robot.shooter.stop()),
-			new InstantCommand(() -> Robot.autoTurretEnabled = true));
+			new InstantCommand(() -> Robot.shooter.stop()));
 
 	// Shoot and load a single ball
 	SequentialCommandGroup shootFull = new SequentialCommandGroup(
