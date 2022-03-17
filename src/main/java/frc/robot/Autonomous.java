@@ -1,5 +1,7 @@
 package frc.robot;
 
+import javax.management.InstanceAlreadyExistsException;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 
@@ -55,7 +57,8 @@ public class Autonomous {
 						new InstantCommand(() -> Robot.intake.set(0.5)),
 						new WaitUntilCommand(() -> commands.driveFeet(4.25, 1, true)),
 						new WaitUntilCommand(() -> commands.driveFeet(6.25, -1, true)),
-						new InstantCommand(() -> Robot.shootCommands.shootDouble())
+						new InstantCommand(() -> Robot.shootCommands.shootDouble()),
+						new WaitCommand(4)
 
 				).schedule();
 				break;
