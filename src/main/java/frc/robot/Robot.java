@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -16,7 +12,7 @@ import edu.wpi.first.cscore.UsbCamera;
 
 public class Robot extends TimedRobot {
 	/*
-	 * Motor CAN ID's:
+	 * Motor CAN IDs:
 	 * Right drive: 1
 	 * Left drive: 2
 	 * Shooter: 3
@@ -25,11 +21,18 @@ public class Robot extends TimedRobot {
 	 * Left Climber: 6
 	 * Turret: 7
 	 * 
-	 * Motor PWM ID's:
+	 * Motor PWM IDs:
 	 * Loader: 0
 	 * 
 	 * Robot perimiter with bumpers is 33" x 39"
 	 * Robot weight is 107 pounds
+	 */
+
+	/*
+	 * Button numbers:
+	 * [1: Trigger] [2: Side Button] [3: Labeled] [4: Labeled] [5: Labeled]
+	 * [6: Labeled] [7: Labeled] [8: Labeled] [9: Labeled] [10:Labeled]
+	 * [11: Labeled] [12: Labeled]
 	 */
 
 	public static BrushlessNEO right = new BrushlessNEO(1, true);
@@ -42,10 +45,9 @@ public class Robot extends TimedRobot {
 	public static Spark loader = new Spark(0);
 	public static Joystick cont = new Joystick(0);
 	public static XboxController xbox = new XboxController(1);
-	public static Shooter autoShooter = new Shooter();
-	public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, turret, cont,
-			xbox, autoShooter);
-	public static Auto noCont = new Auto();
+	public static ShootCommands shootCommands = new ShootCommands();
+	public static Drivetrain driveTrain = new Drivetrain();
+	public static Autonomous autonomous = new Autonomous();
 
 	public static final double kDriveGearbox = 10.71;
 
@@ -64,8 +66,11 @@ public class Robot extends TimedRobot {
 		// Lock climber arms
 		climberRight.idleMode(IdleMode.kBrake);
 		climberLeft.idleMode(IdleMode.kBrake);
-		SmartDashboard.putNumber("Auto", Auto.kDefaultAuto);
+		SmartDashboard.putNumber("Auto", Autonomous.kDefaultAuto);
 		SmartDashboard.putNumber("Short Auto Distance", 6.61);
+
+		turret.setRamp(0.5);
+		turret.idleMode(IdleMode.kBrake);
 
 		// Setup and put the front camera on the dashboard
 		UsbCamera frontCamera = CameraServer.startAutomaticCapture();
@@ -95,7 +100,12 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		right.resetPosition();
 		left.resetPosition();
-		noCont.auto();
+		autonomous.auto();
+		left.idleMode(IdleMode.kBrake);
+		right.idleMode(IdleMode.kBrake);
+		turret.idleMode(IdleMode.kBrake);
+		climberLeft.idleMode(IdleMode.kBrake);
+		climberRight.idleMode(IdleMode.kBrake);
 	}
 
 	@Override
@@ -106,15 +116,25 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		shooter.stop();
 		loader.stopMotor();
+		left.idleMode(IdleMode.kCoast);
+		right.idleMode(IdleMode.kCoast);
+		turret.idleMode(IdleMode.kBrake);
+		climberLeft.idleMode(IdleMode.kBrake);
+		climberRight.idleMode(IdleMode.kBrake);
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		drive.driveTeleop();
+		Teleop.runTeleop();
 	}
 
 	@Override
 	public void disabledInit() {
+		left.idleMode(IdleMode.kCoast);
+		right.idleMode(IdleMode.kCoast);
+		turret.idleMode(IdleMode.kCoast);
+		climberLeft.idleMode(IdleMode.kCoast);
+		climberRight.idleMode(IdleMode.kCoast);
 	}
 
 	@Override
