@@ -9,7 +9,7 @@ public class Autonomous {
 
 	// The distances to drive in the two autos that collect cargo
 	private final double kNormalAutoDriveDistance = 7.583;
-	private final double kShortAutoDriveDistance = SmartDashboard.getNumber("Short Auto Distance", 6.61);
+	private final double kShortAutoDriveDistance = 6.083;
 
 	// The four auto programs
 	public enum AutoSelections {
