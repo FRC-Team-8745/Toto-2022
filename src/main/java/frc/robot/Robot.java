@@ -133,8 +133,6 @@ public class Robot extends TimedRobot {
 		left.idleMode(IdleMode.kCoast);
 		right.idleMode(IdleMode.kCoast);
 		turret.idleMode(IdleMode.kCoast);
-		climberLeft.idleMode(IdleMode.kCoast);
-		climberRight.idleMode(IdleMode.kCoast);
 	}
 
 	@Override

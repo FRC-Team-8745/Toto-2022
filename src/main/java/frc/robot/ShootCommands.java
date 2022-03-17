@@ -29,7 +29,7 @@ public class ShootCommands {
 	public void load() {
 		new SequentialCommandGroup(
 				new InstantCommand(() -> Robot.loader.set(1)),
-				new WaitCommand(1.7),
+				new WaitCommand(1.4),
 				new InstantCommand(() -> Robot.loader.stopMotor())).schedule();
 	}
 
