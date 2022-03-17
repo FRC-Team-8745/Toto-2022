@@ -26,6 +26,7 @@ public class Robot extends TimedRobot {
 	 * 
 	 * Robot perimiter with bumpers is 33" x 39"
 	 * Robot weight is 107 pounds
+	 * Bumper weight is 12.6 pounds
 	 */
 
 	/*
