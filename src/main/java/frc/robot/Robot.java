@@ -127,6 +127,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Teleop.runTeleop();
+		System.out.println(cont.getRawAxis(1));
 	}
 
 	@Override
