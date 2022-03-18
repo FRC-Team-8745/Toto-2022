@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class BrushlessNEO {
+	// Declare motor and encoder
 	private CANSparkMax motor;
 	private RelativeEncoder encoder;
 
