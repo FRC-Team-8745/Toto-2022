@@ -113,6 +113,7 @@ public class Teleop {
 		}
 	}
 
+	// Reduce joystick sensitivity by not returning a value if the value is between 0.05 and -0.05
 	public static double getJoystick1() {
 		if (Robot.cont.getRawAxis(1) >= -0.05 && Robot.cont.getRawAxis(1) <= 0.05)
 			return 0;
