@@ -44,8 +44,8 @@ public class Robot extends TimedRobot {
 	public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
 	public static BrushlessNEO turret = new BrushlessNEO(7, false);
 	public static Spark loader = new Spark(0);
-	public static Joystick cont = new Joystick(0);
-	public static XboxController xbox = new XboxController(1);
+	public static Joystick cont = new Joystick(1);
+	public static XboxController xbox = new XboxController(0);
 	public static ShootCommands shootCommands = new ShootCommands();
 	public static Drivetrain driveTrain = new Drivetrain();
 	public static Autonomous autonomous = new Autonomous();
