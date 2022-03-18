@@ -13,7 +13,7 @@ public class Autonomous {
 
 	// The four auto programs
 	public enum AutoSelections {
-		FullAuto, ShortAuto, ShootnTarmac, Shoot;
+		FullAuto, ShortAuto, ShootnTarmac, Shoot, fourBall;
 	}
 
 	// Start AutoCommands
@@ -45,6 +45,20 @@ public class Autonomous {
 				new SequentialCommandGroup(
 						new InstantCommand(() -> deployIntake()),
 						new InstantCommand(() -> Robot.shootCommands.shootFull())).schedule();
+				break;
+
+			case fourBall: // Four ball auto program
+				new SequentialCommandGroup(
+						new InstantCommand(() -> deployIntake()),
+						new InstantCommand(() -> Robot.shootCommands.load()),
+						new WaitUntilCommand(() -> commands.driveFeet(2, 1, true)),
+						new InstantCommand(() -> Robot.intake.set(0.5)),
+						new WaitUntilCommand(() -> commands.driveFeet(4.25, 1, true)),
+						new WaitUntilCommand(() -> commands.driveFeet(6.25, -1, true)),
+						new InstantCommand(() -> Robot.shootCommands.shootDouble()),
+						new WaitCommand(4)
+
+				).schedule();
 				break;
 
 		}

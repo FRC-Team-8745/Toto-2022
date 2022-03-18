@@ -75,14 +75,14 @@ public class Teleop {
 
 		if (Robot.cont.getRawButton(2)) {
 			Robot.left.set(
-					(Robot.cont.getRawAxis(1) + Robot.cont.getRawAxis(0)) * driveSpeed);
+					(getJoystick1() + getJoystick0()) * driveSpeed);
 			Robot.right.set(
-					(Robot.cont.getRawAxis(1) - Robot.cont.getRawAxis(0)) * driveSpeed);
+					(getJoystick1() - getJoystick0()) * driveSpeed);
 		} else {
 			Robot.left.set(
-					(-Robot.cont.getRawAxis(1) + Robot.cont.getRawAxis(0)) * driveSpeed);
+					(-getJoystick1() + getJoystick0()) * driveSpeed);
 			Robot.right.set(
-					(-Robot.cont.getRawAxis(1) - Robot.cont.getRawAxis(0)) * driveSpeed);
+					(-getJoystick1() - getJoystick0()) * driveSpeed);
 		}
 
 		/*
@@ -111,5 +111,19 @@ public class Teleop {
 			else
 				Robot.climberRight.stop();
 		}
+	}
+
+	// Reduce joystick sensitivity by not returning a value if the value is between 0.05 and -0.05
+	public static double getJoystick1() {
+		if (Robot.cont.getRawAxis(1) >= -0.05 && Robot.cont.getRawAxis(1) <= 0.05)
+			return 0;
+		return Robot.cont.getRawAxis(1);
+	}
+	
+	
+	public static double getJoystick0() {
+		if (Robot.cont.getRawAxis(0) >= -0.05 && Robot.cont.getRawAxis(0) <= 0.05)
+			return 0;
+		return Robot.cont.getRawAxis(0);
 	}
 }
