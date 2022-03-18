@@ -135,7 +135,7 @@ public class Robot extends TimedRobot {
 		turret.idleMode(IdleMode.kCoast);
 		climberLeft.idleMode(IdleMode.kCoast);
 		climberRight.idleMode(IdleMode.kCoast);
-	}
+`	}
 
 	@Override
 	public void disabledPeriodic() {
