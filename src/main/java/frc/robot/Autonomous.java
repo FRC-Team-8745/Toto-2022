@@ -68,7 +68,9 @@ public class Autonomous {
 	public void deployIntake() {
 		new SequentialCommandGroup(
 				new InstantCommand(() -> Robot.climberLeft.set(-0.5)),
+				new InstantCommand(() -> Robot.intake.set(0.5)),
 				new WaitCommand(0.3),
+				new InstantCommand(() -> Robot.intake.stop()),
 				new InstantCommand(() -> Robot.climberLeft.stop())).schedule();
 	}
 
