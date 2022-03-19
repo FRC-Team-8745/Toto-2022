@@ -24,10 +24,10 @@ public class Turret extends SubsystemBase {
 
 		kP = 0.2;
 		kI = 0;
-		kD = 0; 
-		kIz = 3; 
-		kFF = 0; 
-		kMaxOutput = 1; 
+		kD = 0;
+		kIz = 3;
+		kFF = 0;
+		kMaxOutput = 1;
 		kMinOutput = -1;
 
 		pid.setP(kP);
@@ -50,7 +50,7 @@ public class Turret extends SubsystemBase {
 		turret.stopMotor();
 	}
 
-	// Converts degrees of turret to 
+	// Converts degrees of turret to
 	public double convertDegrees(double degrees) {
 		return (degrees / 360) * kTurretRatio;
 	}
@@ -65,9 +65,27 @@ public class Turret extends SubsystemBase {
 		return encoder.getPosition() / kTurretRatio;
 	}
 
-
 	// Rotate the turret to a set number of degrees
 	public void rotateDegrees(double targetDegrees) {
-		pid.setReference(convertDegrees(targetDegrees), CANSparkMax.ControlType.kPosition);
+		if (atLimit())
+			pid.setReference(-convertDegrees(targetDegrees), CANSparkMax.ControlType.kPosition);
+		else
+			pid.setReference(convertDegrees(targetDegrees), CANSparkMax.ControlType.kPosition);
 	}
+
+	// Working
+	/*
+	 * // Rotate the turret to a set number of degrees
+	 * public void rotateDegrees(double targetDegrees) {
+	 * pid.setReference(convertDegrees(targetDegrees),
+	 * CANSparkMax.ControlType.kPosition);
+	 * }
+	 */
+
+	public boolean atLimit() {
+		if (getTurretDegrees() > 180 || getTurretDegrees() < -180)
+			return true;
+		return false;
+	}
+
 }

@@ -42,8 +42,6 @@ public class Odometry extends SubsystemBase {
 		field.setRobotPose(position);
 		SmartDashboard.putData(field);
 
-		System.out.println(calculateTurret(position));
-
 		if (!IMU.isCalibrating() && !calibrated) {
 			IMU.zeroYaw();
 			calibrated = false;

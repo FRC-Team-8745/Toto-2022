@@ -134,9 +134,12 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
+		turret.turret.setIdleMode(IdleMode.kCoast);
 	}
 
 	@Override
 	public void testPeriodic() {
+		System.out.println(turret.getTurretDegrees());
+		SmartDashboard.putBoolean("limited", turret.atLimit());
 	}
 }
