@@ -86,8 +86,14 @@ public class Limelight extends SubsystemBase {
 		PortForwarder.add(5805, "limelight.local", 5805);
 	}
 
+	// LED modes of the limelight
 	private enum LEDMode {
 		kOn, kOff, kBlink, kDefault;
+	}
+
+	// Different pipelines
+	private enum pipelines {
+		kTesting, kDefault, kWorlds;
 	}
 
 	@Override
