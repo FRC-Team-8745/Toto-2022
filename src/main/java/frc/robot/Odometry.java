@@ -20,7 +20,7 @@ public class Odometry extends SubsystemBase {
 	private final Pose2d kStartPosition;
 
 	private static Rotation2d rotation;
-	private static Pose2d position;
+	public static Pose2d position;
 	private static DifferentialDriveOdometry odometry;
 	private static Field2d field;
 
@@ -38,7 +38,8 @@ public class Odometry extends SubsystemBase {
 	@Override
 	public void periodic() {
 		rotation = new Rotation2d(degreesToRadians(-IMU.getYaw()));
-		position = odometry.update(rotation, ((Robot.left.getPosition() / Robot.kDriveGearbox) * 6) / 39.37, ((Robot.right.getPosition() / Robot.kDriveGearbox) * 6) / 39.37);
+		position = odometry.update(rotation, ((Robot.left.getPosition() / Robot.kDriveGearbox) * 6) / 39.37,
+				((Robot.right.getPosition() / Robot.kDriveGearbox) * 6) / 39.37);
 		field.setRobotPose(position);
 		SmartDashboard.putData(field);
 
@@ -70,5 +71,12 @@ public class Odometry extends SubsystemBase {
 
 	public double angle(Pose2d pos) {
 		return 180.0 / Math.PI * Math.atan2(kHubCenterX - Math.abs(pos.getX()), kHubCenterY - Math.abs(pos.getY()));
+	}
+
+	// Adjust the turret via odometry to give a loose position if the limelight
+	// can't see the hub
+	public void odometryAdjustTurret() {
+		if (Robot.autoTurretEnabled)
+			Robot.turret.rotateDegrees(-rotation.getDegrees() + -angle(position));
 	}
 }
