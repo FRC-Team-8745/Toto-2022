@@ -107,4 +107,14 @@ public class Limelight extends SubsystemBase {
 		return false;
 	}
 
+	// Disable the vision processing on the limelight
+	public void disableProcessing() {
+		camMode.setNumber(1);
+	}
+
+	// Enable the vision processing on the limelight
+	public void enableProcessing() {
+		camMode.setNumber(0);
+	}
+
 }
