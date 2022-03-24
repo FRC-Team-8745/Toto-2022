@@ -71,9 +71,4 @@ public class Odometry extends SubsystemBase {
 	public double angle(Pose2d pos) {
 		return 180.0 / Math.PI * Math.atan2(kHubCenterX - Math.abs(pos.getX()), kHubCenterY - Math.abs(pos.getY()));
 	}
-
-	public void adjustTurret() {
-		if (Robot.autoTurretEnabled)
-			Robot.turret.rotateDegrees(-rotation.getDegrees() + -angle(position));
-	}
 }

@@ -103,7 +103,6 @@ public class Robot extends TimedRobot {
 		noCont.auto();
 		right.resetPosition();
 		left.resetPosition();
-		autoTurretEnabled = false;
 	}
 
 	@Override
@@ -116,13 +115,11 @@ public class Robot extends TimedRobot {
 		loader.stopMotor();
 		Odometry.IMU.zeroYaw();
 		turret.resetPosition();
-		autoTurretEnabled = true;
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		drive.driveTeleop();
-		odometry.adjustTurret();
 	}
 
 	@Override
