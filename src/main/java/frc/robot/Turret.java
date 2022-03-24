@@ -73,6 +73,7 @@ public class Turret extends SubsystemBase {
 			pid.setReference(convertDegrees(targetDegrees), CANSparkMax.ControlType.kPosition);
 	}
 
+	// Returnes true if the turret is rotated to it's limit
 	public boolean atLimit() {
 		if (getTurretDegrees() > 180 || getTurretDegrees() < -180)
 			return true;
