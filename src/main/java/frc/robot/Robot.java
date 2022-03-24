@@ -47,6 +47,7 @@ public class Robot extends TimedRobot {
 			xbox, autoShooter);
 	public static Auto noCont = new Auto();
 	public static Odometry odometry = new Odometry();
+	public static Limelight limelight = new Limelight();
 
 	public static final double kDriveGearbox = 10.71;
 
