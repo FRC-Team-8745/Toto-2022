@@ -75,6 +75,7 @@ public class Limelight extends SubsystemBase {
 	NetworkTableEntry ty = limelightTable.getEntry("ty");
 	NetworkTableEntry ta = limelightTable.getEntry("ta");
 	NetworkTableEntry tv = limelightTable.getEntry("tv");
+	NetworkTableEntry camMode = limelightTable.getEntry("camMode");
 
 	public Limelight() {
 		PortForwarder.add(5800, "limelight.local", 5800);
@@ -83,7 +84,6 @@ public class Limelight extends SubsystemBase {
 		PortForwarder.add(5803, "limelight.local", 5803);
 		PortForwarder.add(5804, "limelight.local", 5804);
 		PortForwarder.add(5805, "limelight.local", 5805);
-		NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getDouble(0);
 	}
 
 	@Override
@@ -100,9 +100,11 @@ public class Limelight extends SubsystemBase {
 
 	}
 
+	// Return true if the limemlight has a vision target
 	public boolean hasTarget() {
 		if (tv.getDouble(0) == 1)
 			return true;
 		return false;
 	}
+
 }
