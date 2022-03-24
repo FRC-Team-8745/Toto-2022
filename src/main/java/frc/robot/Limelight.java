@@ -88,12 +88,12 @@ public class Limelight extends SubsystemBase {
 	}
 
 	// LED modes of the limelight
-	private enum LEDMode {
+	public static enum LEDMode {
 		kOn, kOff, kBlink, kDefault;
 	}
 
 	// Different pipelines
-	private enum visionPipeline {
+	public static enum visionPipeline {
 		kTesting, kDefault, kWorlds;
 	}
 
@@ -108,7 +108,26 @@ public class Limelight extends SubsystemBase {
 		SmartDashboard.putNumber("LimelightX", x);
 		SmartDashboard.putNumber("LimelightY", y);
 		SmartDashboard.putNumber("LimelightArea", area);
+	}
 
+	public double getTx() {
+		return tx.getDouble(0);
+	}
+
+	public double getTy() {
+		return ty.getDouble(0);
+	}
+
+	public double getTa() {
+		return ta.getDouble(0);
+	}
+
+	public double getTv() {
+		return tv.getDouble(0);
+	}
+
+	public double getPipeline(){
+		return pipeline.getDouble(0);
 	}
 
 	// Return true if the limelight has a vision target
