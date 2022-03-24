@@ -86,6 +86,10 @@ public class Limelight extends SubsystemBase {
 		PortForwarder.add(5805, "limelight.local", 5805);
 	}
 
+	private enum LEDMode {
+		kOn, kOff, kBlink, kDefault;
+	}
+
 	@Override
 	public void periodic() {
 		// read values periodically
@@ -100,7 +104,7 @@ public class Limelight extends SubsystemBase {
 
 	}
 
-	// Return true if the limemlight has a vision target
+	// Return true if the limelight has a vision target
 	public boolean hasTarget() {
 		if (tv.getDouble(0) == 1)
 			return true;
@@ -116,5 +120,27 @@ public class Limelight extends SubsystemBase {
 	public void enableProcessing() {
 		camMode.setNumber(0);
 	}
+
+	// Sets the LED mode of the limelight
+	public void setLEDMode(LEDMode mode) {
+		switch (mode) {
+			case kOn:
+			camMode.setNumber(3);
+			break;
+
+			case kOff:
+			camMode.setNumber(1);
+			break;
+
+			case kBlink:
+			camMode.setNumber(2);
+			break;
+
+			case kDefault:
+			camMode.setNumber(0);
+			break;
+		}
+	}
+	
 
 }
