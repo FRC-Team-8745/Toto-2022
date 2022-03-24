@@ -76,6 +76,7 @@ public class Limelight extends SubsystemBase {
 	NetworkTableEntry ta = limelightTable.getEntry("ta");
 	NetworkTableEntry tv = limelightTable.getEntry("tv");
 	NetworkTableEntry camMode = limelightTable.getEntry("camMode");
+	NetworkTableEntry pipeline = limelightTable.getEntry("pipeline");
 
 	public Limelight() {
 		PortForwarder.add(5800, "limelight.local", 5800);
@@ -92,7 +93,7 @@ public class Limelight extends SubsystemBase {
 	}
 
 	// Different pipelines
-	private enum pipelines {
+	private enum visionPipeline {
 		kTesting, kDefault, kWorlds;
 	}
 
@@ -131,22 +132,38 @@ public class Limelight extends SubsystemBase {
 	public void setLEDMode(LEDMode mode) {
 		switch (mode) {
 			case kOn:
-			camMode.setNumber(3);
-			break;
+				camMode.setNumber(3);
+				break;
 
 			case kOff:
-			camMode.setNumber(1);
-			break;
+				camMode.setNumber(1);
+				break;
 
 			case kBlink:
-			camMode.setNumber(2);
-			break;
+				camMode.setNumber(2);
+				break;
 
 			case kDefault:
-			camMode.setNumber(0);
-			break;
+				camMode.setNumber(0);
+				break;
 		}
 	}
-	
+
+	// Sets the vision pipeline to usw on the limelight
+	public void setPipeline(visionPipeline pipeline) {
+		switch (pipeline) {
+			case kDefault:
+			this.pipeline.setNumber(0);
+				break;
+
+			case kTesting:
+				this.pipeline.setNumber(1);
+				break;
+
+			case kWorlds:
+				this.pipeline.setNumber(2);
+				break;
+		}
+	}
 
 }
