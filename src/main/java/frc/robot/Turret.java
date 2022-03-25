@@ -84,7 +84,7 @@ public class Turret extends SubsystemBase {
 		Robot.odometry.odometryAdjustTurret();
 	}
 
-	public void limelightAlign() {
+	public boolean limelightAlign() {
 		// Proportional constant
 		double kP = 27 / 1;
 		// Minimum power needed to make the robot move
@@ -96,13 +96,23 @@ public class Turret extends SubsystemBase {
 		// Speed to set the turret to, defaults to 0
 		double turretSpeed = 0;
 
-		// Checks if the turret is at it's limit of rotation
-		//TODO: check if the turret rotation is set so left rotation is positive
+		// Checks if the turret is at its limit of rotation
+		// TODO: check if the turret rotation is set so left rotation is positive
 		if (!atLimit()) {
 			if (Math.abs(tx) > allowedError)
 				turretSpeed = kP * tx + minimumPower;
-
 			turret.set(turretSpeed);
 		}
+		if (Math.abs(tx) < allowedError)
+			return true;
+		return false;
+	
+	}
+
+	public void fullAlign() {
+		if (Robot.limelight.hasTarget())
+			limelightAlign();
+		else
+			odometryAlign();
 	}
 }
