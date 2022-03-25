@@ -45,7 +45,7 @@ public class Odometry extends SubsystemBase {
 
 		if (!IMU.isCalibrating() && !calibrated) {
 			IMU.zeroYaw();
-			calibrated = false;
+			calibrated = true;
 		}
 	}
 
@@ -76,7 +76,6 @@ public class Odometry extends SubsystemBase {
 	// Adjust the turret via odometry to give a loose position if the limelight
 	// can't see the hub
 	public void odometryAdjustTurret() {
-		if (Robot.autoTurretEnabled)
-			Robot.turret.rotateDegrees(-rotation.getDegrees() + -angle(position));
+		Robot.turret.rotateDegrees(-rotation.getDegrees() + -angle(position));
 	}
 }

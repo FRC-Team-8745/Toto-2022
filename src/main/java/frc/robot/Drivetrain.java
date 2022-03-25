@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Limelight.LEDMode;
 
 /*
  * Button numbers: [1: trigger] [2: sidebutton] [3:labeled] [4: labeled] [5:
@@ -53,11 +55,6 @@ public class Drivetrain {
 	private double driveSpeed;
 
 	public void driveTeleop() {
-
-		// Stop auto turret if manually overrided
-		if (this.xbox.getRawButton(5) || this.xbox.getRawButton(6))
-			Robot.autoTurretEnabled = false;
-
 		// Shoot cargo
 		if (this.xbox.getRawButtonPressed(8))
 			this.autoShooter.shootDouble.schedule();
@@ -163,5 +160,14 @@ public class Drivetrain {
 			this.right.set(
 					(-this.cont.getRawAxis(1) - this.cont.getRawAxis(0)) * driveSpeed);
 		}
+
+		if (this.xbox.getRawButton(7)) {
+			SmartDashboard.putBoolean("target aquired", turret.limelightAlign());
+		}
+
+		if (this.xbox.getRawButton(9))
+			Robot.limelight.setLEDMode(LEDMode.kOff);
+		else if (this.xbox.getRawButton(10))
+			Robot.limelight.setLEDMode(LEDMode.kOn);
 	}
 }

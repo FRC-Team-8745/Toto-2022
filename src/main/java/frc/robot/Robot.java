@@ -40,8 +40,8 @@ public class Robot extends TimedRobot {
 	public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
 	public static Turret turret = new Turret();
 	public static Spark loader = new Spark(0);
-	public static Joystick cont = new Joystick(0);
-	public static XboxController xbox = new XboxController(1);
+	public static Joystick cont = new Joystick(1);
+	public static XboxController xbox = new XboxController(0);
 	public static Shooter autoShooter = new Shooter();
 	public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, turret, cont,
 			xbox, autoShooter);
@@ -51,11 +51,9 @@ public class Robot extends TimedRobot {
 
 	public static final double kDriveGearbox = 10.71;
 
-	public static boolean autoTurretEnabled;
-
 	@Override
 	public void robotInit() {
-		// Reset encoders$
+		// Reset encoders
 		right.resetPosition();
 		left.resetPosition();
 		shooter.resetPosition();
@@ -76,8 +74,8 @@ public class Robot extends TimedRobot {
 		frontCamera.setFPS(30);
 		frontCamera.setResolution(350, 350);
 
-		// Disable the turret to start
-		autoTurretEnabled = false;
+		// Enable the limelight
+		limelight.enableProcessing();
 	}
 
 	@Override
@@ -120,6 +118,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.driveTeleop();
+		turret.limelightAlign();
 	}
 
 	@Override
@@ -131,13 +130,10 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
-	public void testInit() {
-		turret.turret.setIdleMode(IdleMode.kCoast);
+	public void testInit() {	
 	}
 
 	@Override
 	public void testPeriodic() {
-		System.out.println(turret.getTurretDegrees());
-		SmartDashboard.putBoolean("limited", turret.atLimit());
 	}
 }

@@ -76,6 +76,7 @@ public class Limelight extends SubsystemBase {
 	NetworkTableEntry ta = limelightTable.getEntry("ta");
 	NetworkTableEntry tv = limelightTable.getEntry("tv");
 	NetworkTableEntry camMode = limelightTable.getEntry("camMode");
+	NetworkTableEntry ledMode = limelightTable.getEntry("ledMode");
 	NetworkTableEntry pipeline = limelightTable.getEntry("pipeline");
 
 	public Limelight() {
@@ -90,11 +91,6 @@ public class Limelight extends SubsystemBase {
 	// LED modes of the limelight
 	public static enum LEDMode {
 		kOn, kOff, kBlink, kDefault;
-	}
-
-	// Different pipelines
-	public static enum visionPipeline {
-		kTesting, kDefault, kWorlds;
 	}
 
 	@Override
@@ -126,10 +122,6 @@ public class Limelight extends SubsystemBase {
 		return tv.getDouble(0);
 	}
 
-	public double getPipeline(){
-		return pipeline.getDouble(0);
-	}
-
 	// Return true if the limelight has a vision target
 	public boolean hasTarget() {
 		if (tv.getDouble(0) == 1)
@@ -151,36 +143,19 @@ public class Limelight extends SubsystemBase {
 	public void setLEDMode(LEDMode mode) {
 		switch (mode) {
 			case kOn:
-				camMode.setNumber(3);
+				ledMode.setNumber(3);
 				break;
 
 			case kOff:
-				camMode.setNumber(1);
+				ledMode.setNumber(1);
 				break;
 
 			case kBlink:
-				camMode.setNumber(2);
+				ledMode.setNumber(2);
 				break;
 
 			case kDefault:
-				camMode.setNumber(0);
-				break;
-		}
-	}
-
-	// Sets the vision pipeline to usw on the limelight
-	public void setPipeline(visionPipeline pipeline) {
-		switch (pipeline) {
-			case kDefault:
-			this.pipeline.setNumber(0);
-				break;
-
-			case kTesting:
-				this.pipeline.setNumber(1);
-				break;
-
-			case kWorlds:
-				this.pipeline.setNumber(2);
+				ledMode.setNumber(0);
 				break;
 		}
 	}
