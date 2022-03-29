@@ -35,7 +35,6 @@ public class Robot extends TimedRobot {
 
 	public static BrushlessNEO right = new BrushlessNEO(1, true);
 	public static BrushlessNEO left = new BrushlessNEO(2, false);
-	public static BrushlessNEO shooter = new BrushlessNEO(3, true);
 	public static BrushlessNEO intake = new BrushlessNEO(4, false);
 	public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
 	public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
@@ -48,6 +47,7 @@ public class Robot extends TimedRobot {
 			xbox, autoShooter);
 	public static Auto noCont = new Auto();
 	public static Odometry odometry = new Odometry();
+	public static Shooter shooter = new Shooter();
 	public static Limelight limelight = new Limelight();
 
 	public static final double kDriveGearbox = 10.71;
@@ -57,7 +57,6 @@ public class Robot extends TimedRobot {
 		// Reset encoders
 		right.resetPosition();
 		left.resetPosition();
-		shooter.resetPosition();
 		intake.resetPosition();
 		climberRight.resetPosition();
 		climberLeft.resetPosition();
@@ -81,10 +80,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		// Shooter status
-		SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
-		SmartDashboard.putBoolean("Shooter Ready", (shooter.getRPM() > 3000));
-
 		// Temprature warnings
 		SmartDashboard.putBoolean("Right Tempratue", (right.getTemp() < 150));
 		SmartDashboard.putBoolean("Left Tempratue", (left.getTemp() < 150));
@@ -92,8 +87,7 @@ public class Robot extends TimedRobot {
 		// Runs the command scheduler while the robot is on
 		CommandScheduler.getInstance().run();
 
-		// Set motor ramp speeds
-		shooter.setRamp(0.5);
+		// Set motor ramp speed
 		intake.setRamp(0.5);
 
 		SmartDashboard.putNumber("turret pos", turret.getTurretDegrees());
