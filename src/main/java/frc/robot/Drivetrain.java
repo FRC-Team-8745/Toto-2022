@@ -34,6 +34,9 @@ public class Drivetrain {
 		xbox = xbox_;
 		turret = turret_;
 		autoShooter = autoShooter_;
+
+		right.setRamp(0.5);
+		left.setRamp(0.5);
 	}
 
 	public void setDrive(double speed) {
@@ -151,14 +154,14 @@ public class Drivetrain {
 
 		if (this.cont.getRawButton(2)) {
 			this.left.set(
-					(this.cont.getRawAxis(1) + this.cont.getRawAxis(0)) * driveSpeed);
+					(this.cont.getRawAxis(1) + this.cont.getRawAxis(0) * 0.25)  * driveSpeed);
 			this.right.set(
-					(this.cont.getRawAxis(1) - this.cont.getRawAxis(0)) * driveSpeed);
+					(this.cont.getRawAxis(1) - this.cont.getRawAxis(0) * 0.25) * driveSpeed);
 		} else {
 			this.left.set(
-					(-this.cont.getRawAxis(1) + this.cont.getRawAxis(0)) * driveSpeed);
+					(-this.cont.getRawAxis(1) + this.cont.getRawAxis(0) * 0.25) * driveSpeed);
 			this.right.set(
-					(-this.cont.getRawAxis(1) - this.cont.getRawAxis(0)) * driveSpeed);
+					(-this.cont.getRawAxis(1) - this.cont.getRawAxis(0) * 0.25) * driveSpeed);
 		}
 
 		if (this.xbox.getRawButton(7)) {

@@ -36,12 +36,17 @@ public class Turret extends SubsystemBase {
 		pid.setIZone(kIz);
 		pid.setFF(kFF);
 		pid.setOutputRange(kMinOutput, kMaxOutput);
+	}
 
-		turret.setOpenLoopRampRate(0.5);
+	@Override
+	public void periodic() {
 	}
 
 	public void set(double speed) {
-		turret.set(speed);
+		if (!(Math.signum(speed) == 1 && !atLimitLeft()) ^ !(Math.signum(speed) == -1 && !atLimitRight()))
+			turret.set(speed);
+		else
+			turret.set(0);
 	}
 
 	public void resetPosition() {
@@ -67,6 +72,10 @@ public class Turret extends SubsystemBase {
 		return encoder.getPosition() / kTurretRatio;
 	}
 
+	public boolean atLimit() {
+		return true;
+	}
+
 	// Rotate the turret to a set number of degrees
 	public void rotateDegrees(double targetDegrees) {
 		if (atLimit())
@@ -76,8 +85,14 @@ public class Turret extends SubsystemBase {
 	}
 
 	// Returnes true if the turret is rotated to it's limit
-	public boolean atLimit() {
-		if (getTurretDegrees() > 180 || getTurretDegrees() < -180)
+	public boolean atLimitLeft() {
+		if (getTurretDegrees() > 180)
+			return true;
+		return false;
+	}
+
+	public boolean atLimitRight() {
+		if (getTurretDegrees() < -180)
 			return true;
 		return false;
 	}
@@ -92,23 +107,20 @@ public class Turret extends SubsystemBase {
 		// Minimum power needed to make the robot move
 		double minimumPower = 0.03;
 		// The allowed error from the center
-		double allowedError = 1;
+		double allowedError = 0.25;
 		// Distance from the center of the hub
 		double tx = Robot.limelight.getTx();
 		// Speed to set the turret to, defaults to 0
 		double turretSpeed = 0;
 
-		// Checks if the turret is at its limit of rotation
-		if (!atLimit()) {
-			if (Math.abs(tx) > allowedError)
-				turretSpeed = (kP * tx + ((minimumPower) * Math.signum(tx)));
+		if (Math.abs(tx) > allowedError)
+			turretSpeed = (kP * tx + ((minimumPower) * Math.signum(tx)));
 
-			turret.set(-turretSpeed);
-		}
+		set(-turretSpeed);
+
 		if (Math.abs(tx) < allowedError)
 			return true;
 		return false;
-
 	}
 
 	public void fullAlign() {

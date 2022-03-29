@@ -5,14 +5,15 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
 
 public class Robot extends TimedRobot {
 	/*
@@ -94,6 +95,10 @@ public class Robot extends TimedRobot {
 		// Set motor ramp speeds
 		shooter.setRamp(0.5);
 		intake.setRamp(0.5);
+
+		SmartDashboard.putNumber("turret pos", turret.getTurretDegrees());
+		SmartDashboard.putBoolean("Limit right", turret.atLimitRight());
+		SmartDashboard.putBoolean("Limit left", turret.atLimitLeft());
 	}
 
 	@Override
@@ -112,13 +117,12 @@ public class Robot extends TimedRobot {
 		shooter.stop();
 		loader.stopMotor();
 		Odometry.IMU.zeroYaw();
-		turret.resetPosition();
+		turret.turret.setIdleMode(IdleMode.kBrake);
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		drive.driveTeleop();
-		turret.limelightAlign();
 	}
 
 	@Override
@@ -130,10 +134,14 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
-	public void testInit() {	
+	public void testInit() {
+		turret.turret.setIdleMode(IdleMode.kCoast);
+		turret.resetPosition();
 	}
 
 	@Override
 	public void testPeriodic() {
+		turret.limelightAlign();
+		SmartDashboard.putNumber("turret pos", turret.getTurretDegrees());
 	}
 }
