@@ -1,5 +1,9 @@
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 
@@ -9,23 +13,24 @@ public class Shooter extends SubsystemBase {
 	private final double kbatteryMax = 13;
 	private final double kmaxRPM = 5500;
 
-	public static BrushlessNEO shooter = new BrushlessNEO(3, true);
+	public static CANSparkMax shooter = new CANSparkMax(3, MotorType.kBrushless);
+	public static RelativeEncoder encoder = shooter.getEncoder();
 
 	@Override
 	public void periodic() {
 		// Shooter status
-		SmartDashboard.putNumber("Shooter RPM", shooter.getRPM());
-		SmartDashboard.putBoolean("Shooter Ready", (shooter.getRPM() > 3000));
+		SmartDashboard.putNumber("Shooter RPM", encoder.getVelocity());
+		SmartDashboard.putBoolean("Shooter Ready", (encoder.getVelocity() > 3000));
 	}
 
 	public Shooter() {
 		// Set shooter ramp rate
-		shooter.setRamp(0.5);
+		shooter.setOpenLoopRampRate(0.5);
 	}
 
 	// Stop the shooter
 	public void stop() {
-		shooter.stop();
+		shooter.set(0);
 	}
 
 	// Sets the RPM of the shooter motor
@@ -39,7 +44,7 @@ public class Shooter extends SubsystemBase {
 			new InstantCommand(() -> shooter.set(-0.2)),
 			new WaitCommand(2),
 			new InstantCommand(() -> Robot.loader.stopMotor()),
-			new InstantCommand(() -> shooter.stop()));
+			new InstantCommand(() -> shooter.set(0)));
 
 	// Load a single ball to a point directly before the shooter
 	SequentialCommandGroup loadSingle = new SequentialCommandGroup(
@@ -54,7 +59,7 @@ public class Shooter extends SubsystemBase {
 			new InstantCommand(() -> Robot.loader.set(1)),
 			new WaitCommand(1),
 			new InstantCommand(() -> Robot.loader.stopMotor()),
-			new InstantCommand(() -> shooter.stop()));
+			new InstantCommand(() -> shooter.set(0)));
 
 	// Shoot two balls at full speed
 	SequentialCommandGroup shootDouble = new SequentialCommandGroup(
@@ -63,13 +68,13 @@ public class Shooter extends SubsystemBase {
 			new InstantCommand(() -> Robot.loader.set(1)),
 			new WaitCommand(3),
 			new InstantCommand(() -> Robot.loader.stopMotor()),
-			new InstantCommand(() -> shooter.stop()));
+			new InstantCommand(() -> shooter.set(0)));
 
 	// Shoot and load a single ball
 	SequentialCommandGroup shootFull = new SequentialCommandGroup(
 			new InstantCommand(() -> setRPM(kFenderSpeed)),
 			new InstantCommand(() -> Robot.loader.set(1)),
 			new WaitCommand(4),
-			new InstantCommand(() -> shooter.stop()),
+			new InstantCommand(() -> shooter.set(0)),
 			new InstantCommand(() -> Robot.loader.stopMotor()));
 }
