@@ -135,7 +135,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testPeriodic() {
-		turret.limelightAlign();
 		SmartDashboard.putNumber("turret pos", turret.getTurretDegrees());
 	}
 }

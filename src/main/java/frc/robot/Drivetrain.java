@@ -89,9 +89,9 @@ public class Drivetrain {
 
 		// Turret
 		if (this.xbox.getRawButton(5))
-			this.turret.set(0.6);
+			this.turret.set(0.3);
 		else if (this.xbox.getRawButton(6))
-			this.turret.set(-0.6);
+			this.turret.set(-0.3);
 		else
 			this.turret.stop();
 
