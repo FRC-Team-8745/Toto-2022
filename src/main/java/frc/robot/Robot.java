@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -52,6 +53,8 @@ public class Robot extends TimedRobot {
 
 	public static final double kDriveGearbox = 10.71;
 
+	public static Servo linearActuator = new Servo(1);
+
 	@Override
 	public void robotInit() {
 		// Reset encoders
@@ -76,6 +79,8 @@ public class Robot extends TimedRobot {
 
 		// Enable the limelight
 		limelight.enableProcessing();
+
+		linearActuator.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 	}
 
 	@Override
@@ -112,11 +117,14 @@ public class Robot extends TimedRobot {
 		loader.stopMotor();
 		Odometry.IMU.zeroYaw();
 		turret.turret.setIdleMode(IdleMode.kBrake);
+		SmartDashboard.putNumber("testRPM", 0);
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		drive.driveTeleop();
+		// shooter.setRPM(SmartDashboard.getNumber("testRPM", 0));
+		// Shooter.shooter.setVoltage(SmartDashboard.getNumber("testRPM", 0));
 	}
 
 	@Override

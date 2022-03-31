@@ -154,7 +154,7 @@ public class Drivetrain {
 
 		if (this.cont.getRawButton(2)) {
 			this.left.set(
-					(this.cont.getRawAxis(1) + this.cont.getRawAxis(0) * 0.25)  * driveSpeed);
+					(this.cont.getRawAxis(1) + this.cont.getRawAxis(0) * 0.25) * driveSpeed);
 			this.right.set(
 					(this.cont.getRawAxis(1) - this.cont.getRawAxis(0) * 0.25) * driveSpeed);
 		} else {
@@ -167,6 +167,12 @@ public class Drivetrain {
 		if (this.xbox.getRawButton(7)) {
 			SmartDashboard.putBoolean("target aquired", turret.limelightAlign());
 		}
+
+		// Linear actuator testing
+		if (cont.getRawButton(4))
+			Robot.linearActuator.set(1);
+		else if (cont.getRawButton(6))
+			Robot.linearActuator.set(-1);
 
 		if (this.xbox.getRawButton(9))
 			Robot.limelight.setLEDMode(LEDMode.kOff);
