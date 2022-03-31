@@ -53,11 +53,15 @@ public class Autonomous {
 						new InstantCommand(() -> Robot.shootCommands.load()),
 						new WaitUntilCommand(() -> commands.driveFeet(2, 1, true)),
 						new InstantCommand(() -> Robot.intake.set(0.5)),
-						new WaitUntilCommand(() -> commands.driveFeet(4.25, 1, true)),
-						new WaitUntilCommand(() -> commands.driveFeet(6.25, -1, true)),
+						new WaitUntilCommand(() -> commands.driveFeet(2, -1, true)),
 						new InstantCommand(() -> Robot.shootCommands.shootDouble()),
-						new WaitCommand(4)
-
+						new WaitCommand(4),
+						// Measurement was 6.25, but i changed to 6 to compensate for motor drift
+						new WaitUntilCommand(() -> commands.driveFeet(6, 1, true)),
+						new InstantCommand(() -> Robot.intake.set(0.5)),
+						new WaitCommand(1),
+						new WaitUntilCommand(() -> commands.driveFeet(6, -1, true)),
+						new InstantCommand(() -> Robot.shootCommands.shootDouble())
 				).schedule();
 				break;
 
