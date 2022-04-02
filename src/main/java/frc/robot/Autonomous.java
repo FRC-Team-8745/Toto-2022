@@ -48,19 +48,22 @@ public class Autonomous {
 				break;
 
 			case fourBall: // Four ball auto program
+			// Start in Favorite Position
 				new SequentialCommandGroup(
 						new InstantCommand(() -> deployIntake()),
 						new InstantCommand(() -> Robot.shootCommands.load()),
-						new WaitUntilCommand(() -> commands.driveFeet(2, 1, true)),
 						new InstantCommand(() -> Robot.intake.set(0.5)),
-						new WaitUntilCommand(() -> commands.driveFeet(2, -1, true)),
+						new WaitUntilCommand(() -> commands.driveFeet(2, 1, true)),
+						//TODO: Get Limelight & linear actuator calibration in here
 						new InstantCommand(() -> Robot.shootCommands.shootDouble()),
 						new WaitCommand(4),
+						//TODO: calculate motor turning Degrees from ball 1, to ball 2
+						new WaitUntilCommand(() -> commands.turnRotations(5, 0.5, true)),
 						// Measurement was 6.25, but i changed to 6 to compensate for motor drift
-						new WaitUntilCommand(() -> commands.driveFeet(6, 1, true)),
-						new InstantCommand(() -> Robot.intake.set(0.5)),
-						new WaitCommand(1),
-						new WaitUntilCommand(() -> commands.driveFeet(6, -1, true)),
+						new WaitUntilCommand(() -> commands.driveFeet(8, 1, true)),
+						new WaitCommand(2),
+						new WaitUntilCommand(() -> commands.driveFeet(4, -1, true)),
+						//TODO: Get Limelight & linear actuator calibration in here						
 						new InstantCommand(() -> Robot.shootCommands.shootDouble())
 				).schedule();
 				break;
