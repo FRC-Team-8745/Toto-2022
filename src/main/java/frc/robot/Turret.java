@@ -15,6 +15,8 @@ public class Turret extends SubsystemBase {
 	public SparkMaxPIDController pid = turret.getPIDController();
 	public RelativeEncoder encoder = turret.getEncoder();
 
+	public static Odometry odometry = new Odometry();
+
 	public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
 	public Turret() {
@@ -90,14 +92,15 @@ public class Turret extends SubsystemBase {
 		return false;
 	}
 
+	// Adjust the turret via odometry to give a loose position if the limelight can't see the hub
 	public void odometryAlign() {
-		Robot.odometry.odometryAdjustTurret();
+		rotateDegrees(-odometry.getPose().getRotation().getDegrees() + -odometry.calculateTurretDegreesFromPoint(odometry.getPose()));
 	}
 
 	public boolean limelightAlign() {
 		// Proportional constant
 		double kP = (0.02);
-		// Minimum power needed to make the robot move
+		// Minimum power needed to make the turret move
 		double minimumPower = 0.03;
 		// The allowed error from the center
 		double allowedError = 0.25;

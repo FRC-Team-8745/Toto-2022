@@ -19,10 +19,10 @@ public class Odometry extends SubsystemBase {
 
 	private final Pose2d kStartPosition;
 
-	private static Rotation2d rotation;
-	public static Pose2d position;
-	private static DifferentialDriveOdometry odometry;
-	private static Field2d field;
+	private Rotation2d rotation;
+	public Pose2d position;
+	private DifferentialDriveOdometry odometry;
+	private Field2d field;
 
 	private boolean calibrated = false;
 
@@ -38,11 +38,24 @@ public class Odometry extends SubsystemBase {
 	@Override
 	public void periodic() {
 		rotation = new Rotation2d(degreesToRadians(-IMU.getYaw()));
-		position = odometry.update(rotation, ((Robot.left.getPosition() / Robot.kDriveGearbox) * 6) / 39.37,
+		position = odometry.update(
+				/* Rotation of the robot */
+				rotation,
+				/*
+				 * Left encoder divided by the gearbox ratio, multiplied by the diameter, and
+				 * converted to meters
+				 */
+				((Robot.left.getPosition() / Robot.kDriveGearbox) * 6) / 39.37,
+				/* Same for the right wheel */
 				((Robot.right.getPosition() / Robot.kDriveGearbox) * 6) / 39.37);
+
+		// Update the robot position on the field
 		field.setRobotPose(position);
+
+		// Update the field on the dashboard
 		SmartDashboard.putData(field);
 
+		// Zero the gyro sensor yaw angle once, but only after it is calibrated
 		if (!IMU.isCalibrating() && !calibrated) {
 			IMU.zeroYaw();
 			calibrated = true;
@@ -62,20 +75,32 @@ public class Odometry extends SubsystemBase {
 	public static final double kHubCenterX = 8;
 	public static final double kHubCenterY = 4;
 
-	public double calculateTurret(Pose2d position) {
-		double x = position.getX();
-		double y = position.getY();
-
-		return radiansToDegrees(Math.atan((y - kHubCenterY) / (x - kHubCenterX)));
+	public Pose2d getPose() {
+		return position;
 	}
 
-	public double angle(Pose2d pos) {
-		return 180.0 / Math.PI * Math.atan2(kHubCenterX - Math.abs(pos.getX()), kHubCenterY - Math.abs(pos.getY()));
-	}
+	// Adjust the turret 
+	public double calculateTurretDegreesFromPoint(Pose2d pose) {
 
-	// Adjust the turret via odometry to give a loose position if the limelight
-	// can't see the hub
-	public void odometryAdjustTurret() {
-		Robot.turret.rotateDegrees(-rotation.getDegrees() + -angle(position));
+		// Calculate the angle between the center of the hub and the current robot
+		// position. This returns a value in radians.
+		double angleInRadians = Math.atan2(pose.getY() - kHubCenterY, pose.getX() - kHubCenterX);
+
+		// Changes the direction of the angle so 0 is north, not east. We can use this
+		// to adjust the angle if it's working, but in the wrong direction.
+		angleInRadians += Math.PI / 2.0;
+
+		// Convert from radians to degrees
+		double angleInDegrees = Math.toDegrees(angleInRadians);
+
+		// Normalize the angle to a number between 0 and 360.
+		angleInDegrees %= 360.0;
+
+		// Convert the number of degrees to a positive value.
+		if (angleInDegrees < 0)
+			angleInDegrees += 360;
+
+		// Return the angle to which the turret needs to be adjusted.
+		return angleInDegrees;
 	}
 }
