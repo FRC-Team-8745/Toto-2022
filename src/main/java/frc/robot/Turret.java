@@ -97,6 +97,7 @@ public class Turret extends SubsystemBase {
 		rotateDegrees(-odometry.getPose().getRotation().getDegrees() + -odometry.calculateTurretDegreesFromPoint(odometry.getPose()));
 	}
 
+	// Align the turret precisely with the limelight
 	public boolean limelightAlign() {
 		// Proportional constant
 		double kP = (0.02);
