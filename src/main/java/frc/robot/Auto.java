@@ -1,16 +1,13 @@
 package frc.robot;
 
+import static frc.robot.constants.Constants.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class Auto {
-	// The default auto program to run
-	public static final int kDefaultAuto = 0;
-
-	// The distances to drive in the two autos that collect cargo
-	private final double kNormalAutoDriveDistance = 7.583;
-	private final double kShortAutoDriveDistance = SmartDashboard.getNumber("Short Auto Distance", 6.61);
-
 	// The four auto programs
 	public enum AutoSelections {
 		FullAuto, ShortAuto, ShootnTarmac, Shoot;

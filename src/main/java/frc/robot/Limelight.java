@@ -1,5 +1,6 @@
 package frc.robot;
 
+import static frc.robot.constants.Constants.*;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -122,6 +123,12 @@ public class Limelight extends SubsystemBase {
 		return tv.getDouble(0);
 	}
 
+	double angleToGoalDegrees = kLimelightMountAngleDegrees + getTy();
+	double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+	// calculate distance
+	double distanceFromLimelightToGoalInches = (kVisionTapeHeight - kLimelightLensHeight) / Math.tan(angleToGoalRadians);
+
 	// Return true if the limelight has a vision target
 	public boolean hasTarget() {
 		if (tv.getDouble(0) == 1)
@@ -129,7 +136,7 @@ public class Limelight extends SubsystemBase {
 		return false;
 	}
 
-	// Disable the vision processing on the limelight
+	// Disable the vision processing on the limelight	
 	public void disableProcessing() {
 		camMode.setNumber(1);
 	}

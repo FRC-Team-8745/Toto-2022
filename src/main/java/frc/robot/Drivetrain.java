@@ -169,14 +169,18 @@ public class Drivetrain {
 		}
 
 		// Linear actuator testing
-		if (cont.getRawButton(4))
-			Robot.linearActuator.set(1);
-		else if (cont.getRawButton(6))
-			Robot.linearActuator.set(-1);
+		if (cont.getRawButtonPressed(6))
+			Robot.linearActuator.set(0.4);
+		else if (cont.getRawButtonPressed(4))
+			Robot.linearActuator.set(0.125);
 
 		if (this.xbox.getRawButton(9))
 			Robot.limelight.setLEDMode(LEDMode.kOff);
 		else if (this.xbox.getRawButton(10))
 			Robot.limelight.setLEDMode(LEDMode.kOn);
+
+		if(cont.getRawButton(12))
+			turret.odometryAlign();
+		
 	}
 }

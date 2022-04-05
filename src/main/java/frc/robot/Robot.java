@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static frc.robot.constants.Constants.*;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -49,8 +51,7 @@ public class Robot extends TimedRobot {
 	public static Auto noCont = new Auto();
 	public static Shooter shooter = new Shooter();
 	public static Limelight limelight = new Limelight();
-
-	public static final double kDriveGearbox = 10.71;
+	public static Odometry odometry = new Odometry();
 
 	public static Servo linearActuator = new Servo(1);
 
@@ -68,7 +69,7 @@ public class Robot extends TimedRobot {
 		// Lock climber arms
 		climberRight.idleMode(IdleMode.kBrake);
 		climberLeft.idleMode(IdleMode.kBrake);
-		SmartDashboard.putNumber("Auto", Auto.kDefaultAuto);
+		SmartDashboard.putNumber("Auto", kDefaultAuto);
 		SmartDashboard.putNumber("Short Auto Distance", 6.61);
 
 		// Setup and put the front camera on the dashboard
@@ -78,6 +79,8 @@ public class Robot extends TimedRobot {
 
 		// Enable the limelight
 		limelight.enableProcessing();
+
+		Shooter.shooter.setInverted(true);
 
 		linearActuator.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 	}
@@ -116,14 +119,11 @@ public class Robot extends TimedRobot {
 		loader.stopMotor();
 		Odometry.IMU.zeroYaw();
 		turret.turret.setIdleMode(IdleMode.kBrake);
-		SmartDashboard.putNumber("testRPM", 0);
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		drive.driveTeleop();
-		// shooter.setRPM(SmartDashboard.getNumber("testRPM", 0));
-		// Shooter.shooter.setVoltage(SmartDashboard.getNumber("testRPM", 0));
 	}
 
 	@Override
@@ -138,10 +138,28 @@ public class Robot extends TimedRobot {
 	public void testInit() {
 		turret.turret.setIdleMode(IdleMode.kCoast);
 		turret.resetPosition();
+
+		SmartDashboard.putBoolean("Test Enabled", false);
+		SmartDashboard.putNumber("Linear Actuator", 0);
+		SmartDashboard.putNumber("Shooter test RPM", 0);
 	}
 
 	@Override
 	public void testPeriodic() {
 		SmartDashboard.putNumber("turret pos", turret.getTurretDegrees());
+		SmartDashboard.putNumber("Shooter RPM", Shooter.encoder.getVelocity());
+
+		double LA = SmartDashboard.getNumber("Linear Actuator", 0);
+		double RPM = SmartDashboard.getNumber("Shooter test RPM", 0);
+
+		if (SmartDashboard.getBoolean("Test Enabled", false)) {
+			shooter.setRPM(RPM);
+			if (LA > kLinearActuatorMin && LA < kLinearActuatorMax)
+				linearActuator.set(LA);
+				loader.set(1);
+		} else {
+			shooter.setRPM(0);
+			loader.set(0);
+		}
 	}
 }

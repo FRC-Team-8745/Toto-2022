@@ -10,11 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Odometry extends SubsystemBase {
-	public static final double kRobotStartPosX = 8;
-	public static final double kRobotStartPosY = 4;
-	public static final double kRobotStartRotY = 0;
+import static frc.robot.constants.Constants.*;
 
+public class Odometry extends SubsystemBase {
 	public static AHRS IMU = new AHRS(Port.kUSB1);
 
 	private final Pose2d kStartPosition;
@@ -27,7 +25,7 @@ public class Odometry extends SubsystemBase {
 	private boolean calibrated = false;
 
 	public Odometry() {
-		Robot.drive.resetEncoders();
+		// Robot.drive.resetEncoders();
 		position = new Pose2d();
 		field = new Field2d();
 		rotation = new Rotation2d();
@@ -45,9 +43,9 @@ public class Odometry extends SubsystemBase {
 				 * Left encoder divided by the gearbox ratio, multiplied by the diameter, and
 				 * converted to meters
 				 */
-				((Robot.left.getPosition() / Robot.kDriveGearbox) * 6) / 39.37,
+				(((Robot.left.getPosition() * Math.PI) / kDriveGearbox) * 6) / 39.37,
 				/* Same for the right wheel */
-				((Robot.right.getPosition() / Robot.kDriveGearbox) * 6) / 39.37);
+				(((Robot.right.getPosition() * Math.PI) / kDriveGearbox) * 6) / 39.37);
 
 		// Update the robot position on the field
 		field.setRobotPose(position);
@@ -72,23 +70,20 @@ public class Odometry extends SubsystemBase {
 		return radians * (180 / Math.PI);
 	}
 
-	public static final double kHubCenterX = 8;
-	public static final double kHubCenterY = 4;
-
 	public Pose2d getPose() {
 		return position;
 	}
 
-	// Adjust the turret 
+	// Adjust the turret
 	public double calculateTurretDegreesFromPoint(Pose2d pose) {
-
 		// Calculate the angle between the center of the hub and the current robot
 		// position. This returns a value in radians.
 		double angleInRadians = Math.atan2(pose.getY() - kHubCenterY, pose.getX() - kHubCenterX);
 
 		// Changes the direction of the angle so 0 is north, not east. We can use this
 		// to adjust the angle if it's working, but in the wrong direction.
-		angleInRadians += Math.PI / 2.0;
+
+		//angleInRadians += Math.PI / 2.0;
 
 		// Convert from radians to degrees
 		double angleInDegrees = Math.toDegrees(angleInRadians);

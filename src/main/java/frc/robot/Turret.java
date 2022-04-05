@@ -1,5 +1,6 @@
 package frc.robot;
 
+import static frc.robot.constants.Constants.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -9,8 +10,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
 	public CANSparkMax turret = new CANSparkMax(7, MotorType.kBrushless);
-
-	private final int kTurretRatio = 120;
 
 	public SparkMaxPIDController pid = turret.getPIDController();
 	public RelativeEncoder encoder = turret.getEncoder();
@@ -92,9 +91,14 @@ public class Turret extends SubsystemBase {
 		return false;
 	}
 
-	// Adjust the turret via odometry to give a loose position if the limelight can't see the hub
+	// Adjust the turret via odometry to give a loose position if the limelight
+	// can't see the hub
 	public void odometryAlign() {
-		rotateDegrees(-odometry.getPose().getRotation().getDegrees() + -odometry.calculateTurretDegreesFromPoint(odometry.getPose()));
+		if (!atLimitLeft() && !atLimitRight())
+			rotateDegrees(-odometry.getPose().getRotation().getDegrees()
+					+ -odometry.calculateTurretDegreesFromPoint(odometry.getPose()));
+		else
+			turret.set(0);
 	}
 
 	// Align the turret precisely with the limelight
