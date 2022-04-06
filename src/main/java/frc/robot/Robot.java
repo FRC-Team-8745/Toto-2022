@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
 	public static Limelight limelight = new Limelight();
 	public static Odometry odometry = new Odometry();
 
-	public static Servo linearActuator = new Servo(1);
+	public static Servo linearActuator = new Servo(2);
 
 	@Override
 	public void robotInit() {
@@ -119,11 +119,19 @@ public class Robot extends TimedRobot {
 		loader.stopMotor();
 		Odometry.IMU.zeroYaw();
 		turret.turret.setIdleMode(IdleMode.kBrake);
+
+		SmartDashboard.putNumber("Linear Actuator", 0);
+		SmartDashboard.putNumber("Shooter test RPM", 0);
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		drive.driveTeleop();
+
+		double LA = SmartDashboard.getNumber("Linear Actuator", 0);
+		if (LA > kLinearActuatorMin && LA < kLinearActuatorMax)
+			linearActuator.set(LA);
+
 	}
 
 	@Override
@@ -150,16 +158,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Shooter RPM", Shooter.encoder.getVelocity());
 
 		double LA = SmartDashboard.getNumber("Linear Actuator", 0);
-		double RPM = SmartDashboard.getNumber("Shooter test RPM", 0);
-
-		if (SmartDashboard.getBoolean("Test Enabled", false)) {
-			shooter.setRPM(RPM);
-			if (LA > kLinearActuatorMin && LA < kLinearActuatorMax)
-				linearActuator.set(LA);
-				loader.set(1);
-		} else {
-			shooter.setRPM(0);
-			loader.set(0);
-		}
+		if (LA > kLinearActuatorMin && LA < kLinearActuatorMax)
+			linearActuator.set(LA);
 	}
 }

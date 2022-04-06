@@ -59,7 +59,7 @@ public class Shooter extends SubsystemBase {
 
 	// Shoot two balls at full speed
 	SequentialCommandGroup shootDouble = new SequentialCommandGroup(
-			new InstantCommand(() -> setRPM(kFenderSpeed)),
+			new InstantCommand(() -> setRPM(SmartDashboard.getNumber("Shooter test RPM", 0))),
 			new WaitCommand(1),
 			new InstantCommand(() -> Robot.loader.set(1)),
 			new WaitCommand(3),
