@@ -1,6 +1,7 @@
 package frc.robot;
 
-import static frc.robot.constants.Constants.*;
+import static frc.robot.Constants.Constants.*;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 

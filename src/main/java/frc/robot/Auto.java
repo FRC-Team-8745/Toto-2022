@@ -1,6 +1,7 @@
 package frc.robot;
 
-import static frc.robot.constants.Constants.*;
+import static frc.robot.Constants.Constants.*;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;

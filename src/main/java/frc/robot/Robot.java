@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import static frc.robot.constants.Constants.*;
+import static frc.robot.Constants.Constants.*;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
 	 * 
 	 * Motor PWM ID's:
 	 * Loader: 0
+	 * Linear Actuator: 1
 	 * 
 	 * Robot perimiter with bumpers is 33" x 39"
 	 * Robot weight is 107 pounds
@@ -52,8 +53,7 @@ public class Robot extends TimedRobot {
 	public static Shooter shooter = new Shooter();
 	public static Limelight limelight = new Limelight();
 	public static Odometry odometry = new Odometry();
-
-	public static Servo linearActuator = new Servo(2);
+	public static Servo linearActuator = new Servo(1);
 
 	@Override
 	public void robotInit() {
@@ -118,10 +118,11 @@ public class Robot extends TimedRobot {
 		shooter.stop();
 		loader.stopMotor();
 		Odometry.IMU.zeroYaw();
-		turret.turret.setIdleMode(IdleMode.kBrake);
+		
 
 		SmartDashboard.putNumber("Linear Actuator", 0);
 		SmartDashboard.putNumber("Shooter test RPM", 0);
+		SmartDashboard.putNumber("Loader Time", 0);
 	}
 
 	@Override
@@ -131,7 +132,6 @@ public class Robot extends TimedRobot {
 		double LA = SmartDashboard.getNumber("Linear Actuator", 0);
 		if (LA > kLinearActuatorMin && LA < kLinearActuatorMax)
 			linearActuator.set(LA);
-
 	}
 
 	@Override
@@ -144,7 +144,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-		turret.turret.setIdleMode(IdleMode.kCoast);
 		turret.resetPosition();
 
 		SmartDashboard.putBoolean("Test Enabled", false);

@@ -1,5 +1,7 @@
 package frc.robot;
 
+import static frc.robot.Constants.Constants.*;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -9,8 +11,6 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import static frc.robot.constants.Constants.*;
 
 public class Odometry extends SubsystemBase {
 	public static AHRS IMU = new AHRS(Port.kUSB1);

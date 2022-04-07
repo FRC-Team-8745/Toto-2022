@@ -1,6 +1,8 @@
 package frc.robot;
 
-import static frc.robot.constants.Constants.*;
+import static frc.robot.Constants.Constants.*;
+import static frc.robot.Constants.ShooterTable.*;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -9,14 +11,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
-	public CANSparkMax turret = new CANSparkMax(7, MotorType.kBrushless);
+	private CANSparkMax turret = new CANSparkMax(7, MotorType.kBrushless);
 
 	public SparkMaxPIDController pid = turret.getPIDController();
 	public RelativeEncoder encoder = turret.getEncoder();
 
-	public static Odometry odometry = new Odometry();
+	public Odometry odometry = new Odometry();
 
-	public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+	private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
 	public Turret() {
 		turret.restoreFactoryDefaults();
@@ -39,10 +41,23 @@ public class Turret extends SubsystemBase {
 		pid.setOutputRange(kMinOutput, kMaxOutput);
 	}
 
-	@Override
-	public void periodic() {
+	// Get the position the linear actuator should be set to from any specified distance
+	public double getLinearActuatorFromDistance(double distance) {
+		return linearActuatorInterpolator.getInterpolatedValue(distance);
 	}
 
+	// Get the speed the shooter should be set to from any specified distance
+	public double getShooterRPMFromDistance(double distance) {
+		return shooterRPMInterpolator.getInterpolatedValue(distance);
+	}
+
+	// Test method for setting the value of the linear actuator and shooter from a distance
+	public void testShootDistance(double distance) {
+		Robot.linearActuator.set(getLinearActuatorFromDistance(distance));
+		Robot.shooter.setRPM(getShooterRPMFromDistance(distance));
+	}
+
+	// Set the speed of the turret, unless it is at one of the limits
 	public void set(double speed) {
 		if (!(Math.signum(speed) == 1 && !atLimitLeft()) ^ !(Math.signum(speed) == -1 && !atLimitRight()))
 			turret.set(speed);
@@ -50,10 +65,12 @@ public class Turret extends SubsystemBase {
 			turret.set(0);
 	}
 
+	// Reset the position of the turret
 	public void resetPosition() {
 		encoder.setPosition(0);
 	}
 
+	// Stop the turret motor
 	public void stop() {
 		turret.stopMotor();
 	}
@@ -78,13 +95,14 @@ public class Turret extends SubsystemBase {
 		pid.setReference(-convertDegrees(targetDegrees), CANSparkMax.ControlType.kPosition);
 	}
 
-	// Returnes true if the turret is rotated to it's limit
+	// Returns true if the turret is rotated to it's limit to the left
 	public boolean atLimitLeft() {
 		if (getTurretDegrees() > 180)
 			return true;
 		return false;
 	}
 
+	// Returns true if the turret is rotated to it's limit to the right
 	public boolean atLimitRight() {
 		if (getTurretDegrees() < -180)
 			return true;
@@ -124,6 +142,7 @@ public class Turret extends SubsystemBase {
 		return false;
 	}
 
+	// Keep the turret aligned
 	public void fullAlign() {
 		if (Robot.limelight.hasTarget())
 			limelightAlign();

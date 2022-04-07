@@ -1,13 +1,13 @@
 package frc.robot;
 
+import static frc.robot.Constants.Constants.*;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
-
-import static frc.robot.constants.Constants.*;
 
 public class Shooter extends SubsystemBase {
 	public static CANSparkMax shooter = new CANSparkMax(3, MotorType.kBrushless);
@@ -60,9 +60,13 @@ public class Shooter extends SubsystemBase {
 	// Shoot two balls at full speed
 	SequentialCommandGroup shootDouble = new SequentialCommandGroup(
 			new InstantCommand(() -> setRPM(SmartDashboard.getNumber("Shooter test RPM", 0))),
-			new WaitCommand(1),
+			new WaitCommand(2),
 			new InstantCommand(() -> Robot.loader.set(1)),
-			new WaitCommand(3),
+			new WaitCommand(1.75),
+			new InstantCommand(() -> Robot.loader.stopMotor()),
+			new WaitCommand(0.5),
+			new InstantCommand(() -> Robot.loader.set(1)),
+			new WaitCommand(1.25),
 			new InstantCommand(() -> Robot.loader.stopMotor()),
 			new InstantCommand(() -> shooter.set(0)));
 

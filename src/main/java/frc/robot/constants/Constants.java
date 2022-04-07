@@ -1,4 +1,4 @@
-package frc.robot.constants;
+package frc.robot.Constants;
 
 public class Constants {
 	/* Motor limits */
@@ -48,7 +48,7 @@ public class Constants {
 	public static final double kLimelightMountAngleDegrees = 25.0;
 
 	// Distance from the center of the Limelight lens to the floor
-	public static final double kLimelightLensHeight = 20.0;
+	public static final double kLimelightLensHeight = 44.5;
 
 	/* Field Constants */
 
