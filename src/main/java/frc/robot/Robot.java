@@ -156,8 +156,13 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("turret pos", turret.getTurretDegrees());
 		SmartDashboard.putNumber("Shooter RPM", Shooter.encoder.getVelocity());
 
+		
 		double LA = SmartDashboard.getNumber("Linear Actuator", 0);
+		/*
 		if (LA > kLinearActuatorMin && LA < kLinearActuatorMax)
 			linearActuator.set(LA);
+			*/
+		if (!turret.atLimitLeft() && !turret.atLimitRight())
+			turret.rotateDegrees(LA);
 	}
 }

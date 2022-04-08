@@ -80,10 +80,9 @@ public class Odometry extends SubsystemBase {
 		// position. This returns a value in radians.
 		double angleInRadians = Math.atan2(pose.getY() - kHubCenterY, pose.getX() - kHubCenterX);
 
-		// Changes the direction of the angle so 0 is north, not east. We can use this
+		// Changes the direction of the angle by 180 degrees. We can use this
 		// to adjust the angle if it's working, but in the wrong direction.
-
-		//angleInRadians += Math.PI / 2.0;
+		angleInRadians += Math.PI;
 
 		// Convert from radians to degrees
 		double angleInDegrees = Math.toDegrees(angleInRadians);
@@ -91,9 +90,8 @@ public class Odometry extends SubsystemBase {
 		// Normalize the angle to a number between 0 and 360.
 		angleInDegrees %= 360.0;
 
-		// Convert the number of degrees to a positive value.
-		if (angleInDegrees < 0)
-			angleInDegrees += 360;
+		if (angleInDegrees > 180)
+			angleInDegrees = -(angleInDegrees - 180);
 
 		// Return the angle to which the turret needs to be adjusted.
 		return angleInDegrees;

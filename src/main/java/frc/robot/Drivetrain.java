@@ -179,7 +179,7 @@ public class Drivetrain {
 		else if (this.xbox.getRawButton(10))
 			Robot.limelight.setLEDMode(LEDMode.kOn);
 
-		if(cont.getRawButton(12))
+		if(xbox.getRawButton(1))
 			turret.odometryAlign();
 		
 	}

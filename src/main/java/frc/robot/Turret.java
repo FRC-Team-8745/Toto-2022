@@ -113,8 +113,7 @@ public class Turret extends SubsystemBase {
 	// can't see the hub
 	public void odometryAlign() {
 		if (!atLimitLeft() && !atLimitRight())
-			rotateDegrees(-odometry.getPose().getRotation().getDegrees()
-					+ -odometry.calculateTurretDegreesFromPoint(odometry.getPose()));
+			rotateDegrees(Math.toDegrees(-odometry.getPose().getRotation().getDegrees()) + -odometry.calculateTurretDegreesFromPoint(odometry.getPose()));
 		else
 			turret.set(0);
 	}
