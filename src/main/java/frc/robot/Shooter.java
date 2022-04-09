@@ -13,10 +13,22 @@ public class Shooter extends SubsystemBase {
 	public static CANSparkMax shooter = new CANSparkMax(3, MotorType.kBrushless);
 	public static RelativeEncoder encoder = shooter.getEncoder();
 
+	public double RPM;
+	public double LA;
+	public double Ramp;
+	public double Time;
+
 	@Override
 	public void periodic() {
 		// Shooter status
 		SmartDashboard.putNumber("Shooter RPM", encoder.getVelocity());
+
+		RPM = Robot.turret.getShooterRPMFromDistance(Robot.limelight.getDistance());
+		LA = Robot.turret.getLinearActuatorFromDistance(Robot.limelight.getDistance());
+		Time = Robot.turret.getShooterTimingFromDistance(Robot.limelight.getDistance());
+		Ramp = Robot.turret.getShooterRampFromDistance(Robot.limelight.getDistance());
+
+
 	}
 
 	public Shooter() {
@@ -28,6 +40,8 @@ public class Shooter extends SubsystemBase {
 	public void stop() {
 		shooter.set(0);
 	}
+
+
 
 	// Sets the RPM of the shooter motor
 	public void setRPM(double rpm) {
@@ -59,12 +73,13 @@ public class Shooter extends SubsystemBase {
 
 	// Shoot two balls at full speed
 	SequentialCommandGroup shootDouble = new SequentialCommandGroup(
-			new InstantCommand(() -> setRPM(SmartDashboard.getNumber("Shooter test RPM", 0))),
+			new InstantCommand(() -> setRPM(RPM)),
+			new InstantCommand(() -> Robot.linearActuator.set(LA)),
 			new WaitCommand(2),
 			new InstantCommand(() -> Robot.loader.set(1)),
 			new WaitCommand(1.75),
 			new InstantCommand(() -> Robot.loader.stopMotor()),
-			new WaitCommand(0.5),
+			new WaitCommand(Time),
 			new InstantCommand(() -> Robot.loader.set(1)),
 			new WaitCommand(1.25),
 			new InstantCommand(() -> Robot.loader.stopMotor()),

@@ -45,10 +45,10 @@ public class Constants {
 	/* Limelight Constants */
 
 	// Limelight mounting angle from perfectly vertical
-	public static final double kLimelightMountAngleDegrees = 25.0;
+	public static final double kLimelightMountAngleDegrees = 34.45;
 
 	// Distance from the center of the Limelight lens to the floor
-	public static final double kLimelightLensHeight = 44.5;
+	public static final double kLimelightLensHeight = 45;
 
 	/* Field Constants */
 

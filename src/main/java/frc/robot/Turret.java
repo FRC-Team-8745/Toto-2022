@@ -51,6 +51,14 @@ public class Turret extends SubsystemBase {
 		return shooterRPMInterpolator.getInterpolatedValue(distance);
 	}
 
+	public double getShooterTimingFromDistance(double distance){
+		return shooterTimingInterpolator.getInterpolatedValue(distance);
+	}
+
+	public double getShooterRampFromDistance(double distance) {
+		return shooterRampInterpolator.getInterpolatedValue(distance);
+	}
+
 	// Test method for setting the value of the linear actuator and shooter from a distance
 	public void testShootDistance(double distance) {
 		Robot.linearActuator.set(getLinearActuatorFromDistance(distance));
@@ -135,6 +143,8 @@ public class Turret extends SubsystemBase {
 			turretSpeed = (kP * tx + ((minimumPower) * Math.signum(tx)));
 
 		set(-turretSpeed);
+
+		Robot.linearActuator.set(getLinearActuatorFromDistance(Robot.limelight.getDistance()));
 
 		if (Math.abs(tx) < allowedError)
 			return true;
