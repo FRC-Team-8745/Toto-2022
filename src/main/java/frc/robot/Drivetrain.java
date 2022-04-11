@@ -88,12 +88,14 @@ public class Drivetrain {
 		}
 
 		// Turret
-		if (this.xbox.getRawButton(5))
-			this.turret.set(0.3);
-		else if (this.xbox.getRawButton(6))
-			this.turret.set(-0.3);
-		else
-			this.turret.stop();
+		if (!turret.flipInProgress) {
+			if (this.xbox.getRawButton(5))
+				this.turret.set(0.3);
+			else if (this.xbox.getRawButton(6))
+				this.turret.set(-0.3);
+			else
+				this.turret.stop();
+		}
 
 		// Climber Calibration
 		if (this.cont.getRawButton(7)) {
@@ -179,8 +181,11 @@ public class Drivetrain {
 		else if (this.xbox.getRawButton(10))
 			Robot.limelight.setLEDMode(LEDMode.kOn);
 
-		if(xbox.getRawButton(1))
+		if (xbox.getRawButton(1))
 			turret.odometryAlign();
-		
+
+		if (cont.getRawButton(12))
+			SmartDashboard.putBoolean("flip", turret.flip());
+
 	}
 }

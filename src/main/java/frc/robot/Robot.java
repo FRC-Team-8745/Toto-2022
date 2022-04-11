@@ -130,6 +130,7 @@ public class Robot extends TimedRobot {
 		drive.driveTeleop();
 
 		double LA = SmartDashboard.getNumber("Linear Actuator", 0);
+		SmartDashboard.putNumber("gyro", odometry.getPose().getRotation().getDegrees());
 		if (LA > kLinearActuatorMin && LA < kLinearActuatorMax)
 			linearActuator.set(LA);
 	}
@@ -149,6 +150,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putBoolean("Test Enabled", false);
 		SmartDashboard.putNumber("Linear Actuator", 0);
 		SmartDashboard.putNumber("Shooter test RPM", 0);
+		limelight.enableProcessing();
 	}
 
 	@Override

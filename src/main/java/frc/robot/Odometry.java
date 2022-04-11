@@ -82,16 +82,13 @@ public class Odometry extends SubsystemBase {
 
 		// Changes the direction of the angle by 180 degrees. We can use this
 		// to adjust the angle if it's working, but in the wrong direction.
-		angleInRadians += Math.PI;
+		// angleInRadians += Math.PI;
 
 		// Convert from radians to degrees
 		double angleInDegrees = Math.toDegrees(angleInRadians);
 
 		// Normalize the angle to a number between 0 and 360.
 		angleInDegrees %= 360.0;
-
-		if (angleInDegrees > 180)
-			angleInDegrees = -(angleInDegrees - 180);
 
 		// Return the angle to which the turret needs to be adjusted.
 		return angleInDegrees;
