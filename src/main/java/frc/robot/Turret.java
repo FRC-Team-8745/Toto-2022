@@ -42,9 +42,8 @@ public class Turret extends SubsystemBase {
 			if (!atLimitLeft() && !atLimitRight()) {
 				double x = -odometry.getPose().getRotation().getDegrees()
 						+ odometry.calculateTurretDegreesFromPoint(odometry.getPose());
-				// TODO: Rework logic to set to negate value when past 180 (and vice versa)
 				if (x > 180)
-					x = -(x - 180);
+					x -= 360;
 				rotateDegrees(x);
 			} else
 				turret.set(0);
