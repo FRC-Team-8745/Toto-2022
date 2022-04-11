@@ -21,7 +21,8 @@ public class Drivetrain {
 	private BrushlessNEO right = new BrushlessNEO(1, true);
 	private BrushlessNEO left = new BrushlessNEO(2, false);
 
-	public Drivetrain(Turret turret_, Shooter autoShooter_) {
+	public Drivetrain(BrushlessNEO intake_, Turret turret_, Shooter autoShooter_) {
+		intake = intake_;
 		turret = turret_;
 		autoShooter = autoShooter_;
 

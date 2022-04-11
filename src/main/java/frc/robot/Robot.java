@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 	public static Turret turret = new Turret();
 	public static Spark loader = new Spark(0);
 	public static Shooter autoShooter = new Shooter();
-	public static Drivetrain drive = new Drivetrain(turret, autoShooter);
+	public static Drivetrain drive = new Drivetrain(intake, turret, autoShooter);
 	public static Auto noCont = new Auto();
 	public static Shooter shooter = new Shooter();
 	public static Limelight limelight = new Limelight();
