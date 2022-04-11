@@ -12,26 +12,16 @@ import frc.robot.Limelight.LEDMode;
  */
 
 public class Drivetrain {
-	private BrushlessNEO right;
-	private BrushlessNEO left;
 	private BrushlessNEO intake;
-	private BrushlessNEO climberRight;
-	private BrushlessNEO climberLeft;
 	private Turret turret;
-	private Joystick cont;
-	private XboxController xbox;
 	private Shooter autoShooter;
 
-	public Drivetrain(BrushlessNEO right_, BrushlessNEO left_, BrushlessNEO intake_,
-			BrushlessNEO climberRight_, BrushlessNEO climberLeft_, Turret turret_, Joystick cont_,
-			XboxController xbox_, Shooter autoShooter_) {
-		right = right_;
-		left = left_;
-		intake = intake_;
-		climberRight = climberRight_;
-		climberLeft = climberLeft_;
-		cont = cont_;
-		xbox = xbox_;
+	private Joystick cont = new Joystick(1);
+	private XboxController xbox = new XboxController(0);
+	private BrushlessNEO right = new BrushlessNEO(1, true);
+	private BrushlessNEO left = new BrushlessNEO(2, false);
+
+	public Drivetrain(Turret turret_, Shooter autoShooter_) {
 		turret = turret_;
 		autoShooter = autoShooter_;
 
@@ -52,6 +42,22 @@ public class Drivetrain {
 	public void resetEncoders() {
 		this.right.resetPosition();
 		this.left.resetPosition();
+	}
+
+	public double getRightEncoder() {
+		return right.getPosition();
+	}
+
+	public double getLeftEncoder() {
+		return left.getPosition();
+	}
+
+	public void setRight(double speed) {
+		right.set(speed);
+	}
+
+	public void setLeft(double speed) {
+		left.set(speed);
 	}
 
 	// Declare variable for drive speed
@@ -77,18 +83,18 @@ public class Drivetrain {
 
 		// Climbers
 		if (this.xbox.getPOV() == 0) {
-			this.climberRight.set(.75);
-			this.climberLeft.set(.75);
+			Robot.climberRight.set(.75);
+			Robot.climberLeft.set(.75);
 		} else if (this.xbox.getPOV() == 180) {
-			this.climberRight.set(-.75);
-			this.climberLeft.set(-.75);
+			Robot.climberRight.set(-.75);
+			Robot.climberLeft.set(-.75);
 		} else {
-			this.climberRight.set(0);
-			this.climberLeft.set(0);
+			Robot.climberRight.set(0);
+			Robot.climberLeft.set(0);
 		}
 
 		// Turret
-		if (!turret.flipInProgress) {
+		if (turret.isMovable()) {
 			if (this.xbox.getRawButton(5))
 				this.turret.set(0.3);
 			else if (this.xbox.getRawButton(6))
@@ -100,34 +106,34 @@ public class Drivetrain {
 		// Climber Calibration
 		if (this.cont.getRawButton(7)) {
 			if (this.cont.getRawButton(9))
-				this.climberLeft.set(.1);
+				Robot.climberLeft.set(.1);
 			else if (this.cont.getRawButton(11))
-				this.climberLeft.set(-.1);
+				Robot.climberLeft.set(-.1);
 			else
-				this.climberLeft.stop();
+				Robot.climberLeft.stop();
 
 			if (this.cont.getRawButton(10))
-				this.climberRight.set(.1);
+				Robot.climberRight.set(.1);
 			else if (this.cont.getRawButton(12))
-				this.climberRight.set(-.1);
+				Robot.climberRight.set(-.1);
 			else
-				this.climberRight.stop();
+				Robot.climberRight.stop();
 		}
 
 		if (this.cont.getRawButton(8)) {
 			if (this.cont.getRawButton(9))
-				this.climberLeft.set(.5);
+				Robot.climberLeft.set(.5);
 			else if (this.cont.getRawButton(11))
-				this.climberLeft.set(-.5);
+				Robot.climberLeft.set(-.5);
 			else
-				this.climberLeft.stop();
+				Robot.climberLeft.stop();
 
 			if (this.cont.getRawButton(10))
-				this.climberRight.set(.5);
+				Robot.climberRight.set(.5);
 			else if (this.cont.getRawButton(12))
-				this.climberRight.set(-.5);
+				Robot.climberRight.set(-.5);
 			else
-				this.climberRight.stop();
+				Robot.climberRight.stop();
 		}
 
 		// Load a single cargo
@@ -169,12 +175,6 @@ public class Drivetrain {
 		if (this.xbox.getRawButton(7)) {
 			SmartDashboard.putBoolean("target aquired", turret.limelightAlign());
 		}
-
-		// Linear actuator testing
-		if (cont.getRawButtonPressed(6))
-			Robot.linearActuator.set(0.4);
-		else if (cont.getRawButtonPressed(4))
-			Robot.linearActuator.set(0.125);
 
 		if (this.xbox.getRawButton(9))
 			Robot.limelight.setLEDMode(LEDMode.kOff);

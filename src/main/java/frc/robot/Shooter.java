@@ -14,7 +14,6 @@ public class Shooter extends SubsystemBase {
 	public static RelativeEncoder encoder = shooter.getEncoder();
 
 	public double RPM;
-	public double LA;
 	public double Ramp;
 	public double Time;
 
@@ -24,11 +23,8 @@ public class Shooter extends SubsystemBase {
 		SmartDashboard.putNumber("Shooter RPM", encoder.getVelocity());
 
 		RPM = Robot.turret.getShooterRPMFromDistance(Robot.limelight.getDistance());
-		LA = Robot.turret.getLinearActuatorFromDistance(Robot.limelight.getDistance());
 		Time = Robot.turret.getShooterTimingFromDistance(Robot.limelight.getDistance());
 		Ramp = Robot.turret.getShooterRampFromDistance(Robot.limelight.getDistance());
-
-
 	}
 
 	public Shooter() {
@@ -74,7 +70,6 @@ public class Shooter extends SubsystemBase {
 	// Shoot two balls at full speed
 	SequentialCommandGroup shootDouble = new SequentialCommandGroup(
 			new InstantCommand(() -> setRPM(RPM)),
-			new InstantCommand(() -> Robot.linearActuator.set(LA)),
 			new WaitCommand(2),
 			new InstantCommand(() -> Robot.loader.set(1)),
 			new WaitCommand(1.75),

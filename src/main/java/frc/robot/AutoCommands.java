@@ -10,15 +10,15 @@ public class AutoCommands extends SubsystemBase {
 	private final PIDController drivePID = new PIDController(kP, kI, kD);
 
 	public Boolean driveFeet(double feet, double speed, boolean resetOnEnd) {
-		if (Math.abs(feet / ((kDiameter / 12) * Math.PI)) < Math.abs(Robot.right.getPosition() / kDriveGearbox)) {
+		if (Math.abs(feet / ((kDiameter / 12) * Math.PI)) < Math.abs(Robot.drive.getRightEncoder() / kDriveGearbox)) {
 			Robot.drive.stopDrive();
 			if (resetOnEnd)
 				Robot.drive.resetEncoders();
 			return true;
 		}
 
-		Robot.left.set(speed);
-		Robot.right.set(speed + drivePID.calculate(Robot.right.getPosition() - Robot.left.getPosition(), 0));
+		Robot.drive.setLeft(speed);
+		Robot.drive.setRight(speed + drivePID.calculate(Robot.drive.getRightEncoder() - Robot.drive.getLeftEncoder(), 0));
 		return false;
 	}
 }

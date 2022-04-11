@@ -10,10 +10,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -37,32 +34,22 @@ public class Robot extends TimedRobot {
 	 * Robot weight is 107 pounds
 	 */
 
-	public static BrushlessNEO right = new BrushlessNEO(1, true);
-	public static BrushlessNEO left = new BrushlessNEO(2, false);
-	public static BrushlessNEO intake = new BrushlessNEO(4, false);
 	public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
 	public static BrushlessNEO climberLeft = new BrushlessNEO(6, false);
+	public static BrushlessNEO intake = new BrushlessNEO(4, false);
 	public static Turret turret = new Turret();
 	public static Spark loader = new Spark(0);
-	public static Joystick cont = new Joystick(1);
-	public static XboxController xbox = new XboxController(0);
 	public static Shooter autoShooter = new Shooter();
-	public static Drivetrain drive = new Drivetrain(right, left, intake, climberRight, climberLeft, turret, cont,
-			xbox, autoShooter);
+	public static Drivetrain drive = new Drivetrain(turret, autoShooter);
 	public static Auto noCont = new Auto();
 	public static Shooter shooter = new Shooter();
 	public static Limelight limelight = new Limelight();
 	public static Odometry odometry = new Odometry();
-	public static Servo linearActuator = new Servo(1);
 
 	@Override
 	public void robotInit() {
 		// Reset encoders
-		right.resetPosition();
-		left.resetPosition();
-		intake.resetPosition();
-		climberRight.resetPosition();
-		climberLeft.resetPosition();
+		drive.resetEncoders();
 		turret.resetPosition();
 		// Set the Spark controller to inverted
 		loader.setInverted(true);
@@ -82,14 +69,10 @@ public class Robot extends TimedRobot {
 
 		Shooter.shooter.setInverted(true);
 
-		linearActuator.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 	}
 
 	@Override
 	public void robotPeriodic() {
-		// Temprature warnings
-		SmartDashboard.putBoolean("Right Tempratue", (right.getTemp() < 150));
-		SmartDashboard.putBoolean("Left Tempratue", (left.getTemp() < 150));
 
 		// Runs the command scheduler while the robot is on
 		CommandScheduler.getInstance().run();
@@ -105,8 +88,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		noCont.auto();
-		right.resetPosition();
-		left.resetPosition();
+		drive.resetEncoders();
 	}
 
 	@Override
@@ -118,7 +100,6 @@ public class Robot extends TimedRobot {
 		shooter.stop();
 		loader.stopMotor();
 		Odometry.IMU.zeroYaw();
-		
 
 		SmartDashboard.putNumber("Linear Actuator", 0);
 		SmartDashboard.putNumber("Shooter test RPM", 0);
@@ -128,11 +109,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.driveTeleop();
-
-		double LA = SmartDashboard.getNumber("Linear Actuator", 0);
 		SmartDashboard.putNumber("gyro", odometry.getPose().getRotation().getDegrees());
-		if (LA > kLinearActuatorMin && LA < kLinearActuatorMax)
-			linearActuator.set(LA);
 	}
 
 	@Override
@@ -158,12 +135,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("turret pos", turret.getTurretDegrees());
 		SmartDashboard.putNumber("Shooter RPM", Shooter.encoder.getVelocity());
 
-		
 		double LA = SmartDashboard.getNumber("Linear Actuator", 0);
 		/*
-		if (LA > kLinearActuatorMin && LA < kLinearActuatorMax)
-			linearActuator.set(LA);
-			*/
+		 * if (LA > kLinearActuatorMin && LA < kLinearActuatorMax)
+		 * linearActuator.set(LA);
+		 */
 		if (!turret.atLimitLeft() && !turret.atLimitRight())
 			turret.rotateDegrees(LA);
 	}

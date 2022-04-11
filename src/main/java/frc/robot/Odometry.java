@@ -43,9 +43,9 @@ public class Odometry extends SubsystemBase {
 				 * Left encoder divided by the gearbox ratio, multiplied by the diameter, and
 				 * converted to meters
 				 */
-				(((Robot.left.getPosition() * Math.PI) / kDriveGearbox) * 6) / 39.37,
+				(((Robot.drive.getLeftEncoder() * Math.PI) / kDriveGearbox) * 6) / 39.37,
 				/* Same for the right wheel */
-				(((Robot.right.getPosition() * Math.PI) / kDriveGearbox) * 6) / 39.37);
+				(((Robot.drive.getRightEncoder() * Math.PI) / kDriveGearbox) * 6) / 39.37);
 
 		// Update the robot position on the field
 		field.setRobotPose(position);
