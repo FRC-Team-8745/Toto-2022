@@ -1,6 +1,6 @@
 package frc.robot;
 
-import static frc.robot.Constants.Constants.*;
+import static frc.robot.constants.Constants.*;
 
 import com.kauailabs.navx.frc.AHRS;
 

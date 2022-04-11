@@ -1,7 +1,7 @@
 package frc.robot;
 
-import static frc.robot.Constants.Constants.*;
-import static frc.robot.Constants.ShooterTable.*;
+import static frc.robot.constants.Constants.*;
+import static frc.robot.constants.ShooterTable.*;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;

@@ -1,6 +1,6 @@
 package frc.robot;
 
-import static frc.robot.Constants.Constants.*;
+import static frc.robot.constants.Constants.*;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
