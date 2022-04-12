@@ -53,8 +53,8 @@ public class Limelight extends SubsystemBase {
 	 * target will have a low fullness.
 	 * 
 	 * ASPECT RATIO:
-	 * A low aspect ratio describes a “tall” rectangle, while a high aspect ratio
-	 * describes a “wide” rectangle.
+	 * A low aspect ratio describes a tall rectangle, while a high aspect ratio
+	 * describes a wide rectangle.
 	 * 
 	 * DIRECTION FILTER:
 	 * Removes targets at unwanted orientations

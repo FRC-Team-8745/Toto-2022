@@ -38,16 +38,21 @@ public class Turret extends SubsystemBase {
 	// Adjust the turret via odometry to give a loose position if the limelight
 	// can't see the hub
 	public void odometryAlign() {
+		double linearActuator = getLinearActuatorFromDistance(odometry.getDistanceToHub(odometry.getPose()));
 		if (isMovable()) {
 			if (!atLimitLeft() && !atLimitRight()) {
 				double x = -odometry.getPose().getRotation().getDegrees()
 						+ odometry.calculateTurretDegreesFromPoint(odometry.getPose());
 				if (x > 180)
 					x -= 360;
+				else if (x < -180)
+					x += 360;
 				rotateDegrees(x);
 			} else
 				turret.set(0);
 		}
+		if (linearActuator > 0.125)
+			this.linearActuator.set(linearActuator);
 	}
 
 	// Align the turret precisely with the limelight

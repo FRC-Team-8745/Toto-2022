@@ -93,4 +93,12 @@ public class Odometry extends SubsystemBase {
 		// Return the angle to which the turret needs to be adjusted.
 		return angleInDegrees;
 	}
+
+	public double getDistanceToHub(Pose2d pose) {
+		// Calculate the difference between the coordinates
+		double differenceY = pose.getY() - kHubCenterY;
+		double differenceX = pose.getX() - kHubCenterX;
+
+		return (Math.sqrt((differenceY * differenceY) + (differenceX * differenceX))) * 39.37;
+	}
 }

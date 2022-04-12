@@ -109,7 +109,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.driveTeleop();
-		SmartDashboard.putNumber("gyro", odometry.getPose().getRotation().getDegrees());
+		SmartDashboard.putNumber("inches coord", odometry.getDistanceToHub(odometry.getPose()));
 	}
 
 	@Override

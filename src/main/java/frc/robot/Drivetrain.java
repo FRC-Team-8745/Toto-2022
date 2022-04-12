@@ -174,7 +174,7 @@ public class Drivetrain {
 		}
 
 		if (this.xbox.getRawButton(7)) {
-			SmartDashboard.putBoolean("target aquired", turret.limelightAlign());
+			turret.fullAlign();
 		}
 
 		if (this.xbox.getRawButton(9))
