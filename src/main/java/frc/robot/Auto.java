@@ -34,15 +34,15 @@ public class Auto {
 			case ShootnTarmac: // Deploy intake, shoot, and exit the tarmac
 				new SequentialCommandGroup(
 						new InstantCommand(() -> deployIntake()),
-						new InstantCommand(() -> Robot.autoShooter.shootFull.schedule()),
+						new InstantCommand(() -> Robot.autoShooter.shootFull()),
 						new WaitCommand(4),
-						new InstantCommand(() -> auto.driveFeet(7.583, 0.25, true))).schedule();
+						new InstantCommand(() -> auto.driveFeetRelitave(7.583, 0.25))).schedule();
 				break;
 
 			case Shoot: // Deploy intake, shoot
 				new SequentialCommandGroup(
 						new InstantCommand(() -> deployIntake()),
-						new InstantCommand(() -> Robot.autoShooter.shootFull.schedule())).schedule();
+						new InstantCommand(() -> Robot.autoShooter.shootFull())).schedule();
 				break;
 
 		}
@@ -60,27 +60,27 @@ public class Auto {
 	public void fullAuto(double distance) {
 		new SequentialCommandGroup(
 				new InstantCommand(() -> deployIntake()),
-				new InstantCommand(() -> Robot.autoShooter.shootFull.schedule()),
+				new InstantCommand(() -> Robot.autoShooter.shootFull()),
 				new WaitCommand(4),
 				new InstantCommand(() -> Robot.intake.set(0.5)),
-				new WaitUntilCommand(() -> auto.driveFeet(distance, 0.2, true)),
+				new WaitUntilCommand(() -> auto.driveFeetRelitave(distance, 0.2)),
 				new WaitCommand(1),
 				new InstantCommand(() -> Robot.intake.set(1)),
 				new WaitCommand(1),
-				new WaitUntilCommand(() -> auto.driveFeet(distance - 0.25, -0.35, true)),
+				new WaitUntilCommand(() -> auto.driveFeetRelitave(distance - 0.25, -0.35)),
 				new InstantCommand(() -> Robot.intake.stop()),
-				new InstantCommand(() -> Robot.autoShooter.shootFull.schedule())).schedule();
+				new InstantCommand(() -> Robot.autoShooter.shootFull())).schedule();
 	}
 
 	// Auto for testing the intake, never used in actual code
 	public static void testAuto(double speed, double intake) {
 		new SequentialCommandGroup(
 				new InstantCommand(() -> Robot.intake.set(intake)),
-				new WaitUntilCommand(() -> auto.driveFeet(4, speed, true)),
+				new WaitUntilCommand(() -> auto.driveFeetRelitave(4, speed)),
 				new WaitCommand(1),
 				new InstantCommand(() -> Robot.intake.set(1)),
 				new WaitCommand(1),
-				new WaitUntilCommand(() -> auto.driveFeet(4, -speed, true)),
+				new WaitUntilCommand(() -> auto.driveFeetRelitave(4, -speed)),
 				new InstantCommand(() -> Robot.intake.stop())).schedule();
 	}
 }

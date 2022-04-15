@@ -31,18 +31,18 @@ public class Drivetrain {
 	}
 
 	public void setDrive(double speed) {
-		this.right.set(speed);
-		this.left.set(speed);
+		right.set(speed);
+		left.set(speed);
 	}
 
 	public void stopDrive() {
-		this.right.stop();
-		this.left.stop();
+		right.stop();
+		left.stop();
 	}
 
 	public void resetEncoders() {
-		this.right.resetPosition();
-		this.left.resetPosition();
+		right.resetPosition();
+		left.resetPosition();
 	}
 
 	public double getRightEncoder() {
@@ -66,27 +66,27 @@ public class Drivetrain {
 
 	public void driveTeleop() {
 		// Shoot cargo
-		if (this.xbox.getRawButtonPressed(8))
-			this.autoShooter.shootDouble.schedule();
+		if (xbox.getRawButtonPressed(8))
+			autoShooter.shootDouble();
 
 		// Shoot two cargo
-		if (this.xbox.getRawButtonPressed(3))
-			this.autoShooter.shootSingle.schedule();
+		if (xbox.getRawButtonPressed(3))
+			autoShooter.shootSingle();
 
 		// Intake
-		if (this.cont.getRawButton(5))
-			this.intake.set(-1);
-		else if (this.cont.getRawButton(3)) {
-			this.intake.set(0.5);
+		if (cont.getRawButton(5))
+			intake.set(-1);
+		else if (cont.getRawButton(3)) {
+			intake.set(0.5);
 			driveSpeed = 0.3;
 		} else
-			this.intake.stop();
+			intake.stop();
 
 		// Climbers
-		if (this.xbox.getPOV() == 0) {
+		if (xbox.getPOV() == 0) {
 			Robot.climberRight.set(.75);
 			Robot.climberLeft.set(.75);
-		} else if (this.xbox.getPOV() == 180) {
+		} else if (xbox.getPOV() == 180) {
 			Robot.climberRight.set(-.75);
 			Robot.climberLeft.set(-.75);
 		} else {
@@ -96,59 +96,59 @@ public class Drivetrain {
 
 		// Turret
 		if (turret.isMovable()) {
-			if (this.xbox.getRawButton(5))
-				this.turret.set(0.3);
-			else if (this.xbox.getRawButton(6))
-				this.turret.set(-0.3);
+			if (xbox.getRawButton(5))
+				turret.set(0.3);
+			else if (xbox.getRawButton(6))
+				turret.set(-0.3);
 			else
-				this.turret.stop();
+				turret.set(0);
 		}
 
 		// Climber Calibration
-		if (this.cont.getRawButton(7)) {
-			if (this.cont.getRawButton(9))
+		if (cont.getRawButton(7)) {
+			if (cont.getRawButton(9))
 				Robot.climberLeft.set(.1);
-			else if (this.cont.getRawButton(11))
+			else if (cont.getRawButton(11))
 				Robot.climberLeft.set(-.1);
 			else
 				Robot.climberLeft.stop();
 
-			if (this.cont.getRawButton(10))
+			if (cont.getRawButton(10))
 				Robot.climberRight.set(.1);
-			else if (this.cont.getRawButton(12))
+			else if (cont.getRawButton(12))
 				Robot.climberRight.set(-.1);
 			else
 				Robot.climberRight.stop();
 		}
 
-		if (this.cont.getRawButton(8)) {
-			if (this.cont.getRawButton(9))
+		if (cont.getRawButton(8)) {
+			if (cont.getRawButton(9))
 				Robot.climberLeft.set(.5);
-			else if (this.cont.getRawButton(11))
+			else if (cont.getRawButton(11))
 				Robot.climberLeft.set(-.5);
 			else
 				Robot.climberLeft.stop();
 
-			if (this.cont.getRawButton(10))
+			if (cont.getRawButton(10))
 				Robot.climberRight.set(.5);
-			else if (this.cont.getRawButton(12))
+			else if (cont.getRawButton(12))
 				Robot.climberRight.set(-.5);
 			else
 				Robot.climberRight.stop();
 		}
 
 		// Load a single cargo
-		if (this.xbox.getRawButtonPressed(2))
-			this.autoShooter.loadSingle.schedule();
+		if (xbox.getRawButtonPressed(2))
+			autoShooter.loadSingle.schedule();
 
 		// Unload a single cargo
-		if (this.xbox.getRawButtonPressed(4))
-			this.autoShooter.unloadSingle.schedule();
+		if (xbox.getRawButtonPressed(4))
+			autoShooter.unloadSingle();
 
 		// Set the speed based on the trigger(1) of the joystick
-		if (this.cont.getRawButton(1) && !this.cont.getRawButton(5) && !this.cont.getRawButton(3)) {
+		if (cont.getRawButton(1) && !cont.getRawButton(5) && !cont.getRawButton(3)) {
 			driveSpeed = 1;
-		} else if (!this.cont.getRawButton(5) && !this.cont.getRawButton(3)) {
+		} else if (!cont.getRawButton(5) && !cont.getRawButton(3)) {
 			driveSpeed = 0.5;
 		}
 
@@ -161,25 +161,24 @@ public class Drivetrain {
 		 * robot acts as the front while driving
 		 */
 
-		if (this.cont.getRawButton(2)) {
-			this.left.set(
-					(this.cont.getRawAxis(1) + this.cont.getRawAxis(0) * 0.25) * driveSpeed);
-			this.right.set(
-					(this.cont.getRawAxis(1) - this.cont.getRawAxis(0) * 0.25) * driveSpeed);
+		if (cont.getRawButton(2)) {
+			left.set(
+					(cont.getRawAxis(1) + cont.getRawAxis(0) * 0.25) * driveSpeed);
+			right.set(
+					(cont.getRawAxis(1) - cont.getRawAxis(0) * 0.25) * driveSpeed);
 		} else {
-			this.left.set(
-					(-this.cont.getRawAxis(1) + this.cont.getRawAxis(0) * 0.25) * driveSpeed);
-			this.right.set(
-					(-this.cont.getRawAxis(1) - this.cont.getRawAxis(0) * 0.25) * driveSpeed);
+			left.set(
+					(-cont.getRawAxis(1) + cont.getRawAxis(0) * 0.25) * driveSpeed);
+			right.set(
+					(-cont.getRawAxis(1) - cont.getRawAxis(0) * 0.25) * driveSpeed);
 		}
 
-		if (this.xbox.getRawButton(7)) {
+		if (xbox.getRawButton(7))
 			turret.fullAlign();
-		}
 
-		if (this.xbox.getRawButton(9))
+		if (xbox.getRawButton(9))
 			Robot.limelight.setLEDMode(LEDMode.kOff);
-		else if (this.xbox.getRawButton(10))
+		else if (xbox.getRawButton(10))
 			Robot.limelight.setLEDMode(LEDMode.kOn);
 
 		if (xbox.getRawButton(1))

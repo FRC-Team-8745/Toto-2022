@@ -7,10 +7,14 @@ package frc.robot;
 import static frc.robot.constants.Constants.*;
 
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.ColorSensorV3.ProximitySensorMeasurementRate;
+import com.revrobotics.ColorSensorV3.ProximitySensorResolution;
+import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -46,6 +50,8 @@ public class Robot extends TimedRobot {
 	public static Limelight limelight = new Limelight();
 	public static Odometry odometry = new Odometry();
 
+	public static ColorSensorV3 colorSensor = new ColorSensorV3(Port.kOnboard);
+
 	@Override
 	public void robotInit() {
 		// Reset encoders
@@ -68,7 +74,6 @@ public class Robot extends TimedRobot {
 		limelight.enableProcessing();
 
 		Shooter.shooter.setInverted(true);
-
 	}
 
 	@Override
@@ -83,6 +88,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("turret pos", turret.getTurretDegrees());
 		SmartDashboard.putBoolean("Limit right", turret.atLimitRight());
 		SmartDashboard.putBoolean("Limit left", turret.atLimitLeft());
+		SmartDashboard.putBoolean("color sensor connection", colorSensor.isConnected());
+		SmartDashboard.putNumber("proximity", colorSensor.getIR());
 	}
 
 	@Override
@@ -104,6 +111,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Linear Actuator", 0);
 		SmartDashboard.putNumber("Shooter test RPM", 0);
 		SmartDashboard.putNumber("Loader Time", 0);
+
+		colorSensor.configureProximitySensor(ProximitySensorResolution.kProxRes8bit, ProximitySensorMeasurementRate.kProxRate6ms);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ public class Shooter extends SubsystemBase {
 	public double RPM;
 	public double Ramp;
 	public double Time;
+	public boolean canLoad;
 
 	@Override
 	public void periodic() {
@@ -25,6 +26,10 @@ public class Shooter extends SubsystemBase {
 		RPM = Robot.turret.getShooterRPMFromDistance(Robot.limelight.getDistance());
 		Time = Robot.turret.getShooterTimingFromDistance(Robot.limelight.getDistance());
 		Ramp = Robot.turret.getShooterRampFromDistance(Robot.limelight.getDistance());
+		
+		System.out.println(canLoad);
+
+		load();
 	}
 
 	public Shooter() {
@@ -37,20 +42,39 @@ public class Shooter extends SubsystemBase {
 		shooter.set(0);
 	}
 
-
+	public void load() {
+		if (this.canLoad) {
+			if (Robot.colorSensor.getIR() < 400)
+				Robot.loader.set(1);
+			else {
+				Robot.loader.stopMotor();
+				System.out.println("x");
+			}
+		}
+	}
 
 	// Sets the RPM of the shooter motor
 	public void setRPM(double rpm) {
 		shooter.setVoltage((rpm / kmaxRPM) * kbatteryMax);
 	}
 
-	// Unload a single ball from the loader & shooter
-	SequentialCommandGroup unloadSingle = new SequentialCommandGroup(
-			new InstantCommand(() -> Robot.loader.set(-1)),
-			new InstantCommand(() -> shooter.set(-0.2)),
-			new WaitCommand(2),
-			new InstantCommand(() -> Robot.loader.stopMotor()),
-			new InstantCommand(() -> shooter.set(0)));
+	public void enableLoading() {
+		this.canLoad = true;
+	}
+
+	public void unloadSingle() {
+		this.canLoad = false;
+		System.out.println("Unloading");
+		// Unload a single ball from the loader & shooter
+		new SequentialCommandGroup(
+				new InstantCommand(() -> Robot.loader.set(-1)),
+				new InstantCommand(() -> shooter.set(-0.2)),
+				new WaitCommand(2),
+				new InstantCommand(() -> Robot.loader.stopMotor()),
+				new InstantCommand(() -> shooter.set(0)),
+				new InstantCommand(() -> System.out.println("done")),
+				new InstantCommand(() -> enableLoading())).schedule();
+	}
 
 	// Load a single ball to a point directly before the shooter
 	SequentialCommandGroup loadSingle = new SequentialCommandGroup(
@@ -58,33 +82,46 @@ public class Shooter extends SubsystemBase {
 			new WaitCommand(1.5),
 			new InstantCommand(() -> Robot.loader.stopMotor()));
 
-	// Shoot the ball at full speed
-	SequentialCommandGroup shootSingle = new SequentialCommandGroup(
-			new InstantCommand(() -> setRPM(kFenderSpeed)),
-			new WaitCommand(1.5),
-			new InstantCommand(() -> Robot.loader.set(1)),
-			new WaitCommand(1),
-			new InstantCommand(() -> Robot.loader.stopMotor()),
-			new InstantCommand(() -> shooter.set(0)));
+	public void shootSingle() {
+		this.canLoad = false;
+		// Shoot the ball at full speed
+		new SequentialCommandGroup(
+				new InstantCommand(() -> setRPM(kFenderSpeed)),
+				new WaitCommand(1.5),
+				new InstantCommand(() -> Robot.loader.set(1)),
+				new WaitCommand(1),
+				new InstantCommand(() -> Robot.loader.stopMotor()),
+				new InstantCommand(() -> shooter.set(0)),
+				new InstantCommand(() -> enableLoading())).schedule();
+	}
 
-	// Shoot two balls at full speed
-	SequentialCommandGroup shootDouble = new SequentialCommandGroup(
-			new InstantCommand(() -> setRPM(RPM)),
-			new WaitCommand(2),
-			new InstantCommand(() -> Robot.loader.set(1)),
-			new WaitCommand(1.75),
-			new InstantCommand(() -> Robot.loader.stopMotor()),
-			new WaitCommand(Time),
-			new InstantCommand(() -> Robot.loader.set(1)),
-			new WaitCommand(1.25),
-			new InstantCommand(() -> Robot.loader.stopMotor()),
-			new InstantCommand(() -> shooter.set(0)));
+	public void shootDouble() {
+		this.canLoad = false;
+		// Shoot two balls at full speed
+		new SequentialCommandGroup(
+				new InstantCommand(() -> setRPM(RPM)),
+				new WaitCommand(2),
+				new InstantCommand(() -> Robot.loader.set(1)),
+				new WaitCommand(1.75),
+				new InstantCommand(() -> Robot.loader.stopMotor()),
+				new WaitCommand(Time),
+				new InstantCommand(() -> Robot.loader.set(1)),
+				new WaitCommand(1.25),
+				new InstantCommand(() -> Robot.loader.stopMotor()),
+				new InstantCommand(() -> shooter.set(0)),
+				new InstantCommand(() -> enableLoading())).schedule();
+	}
 
-	// Shoot and load a single ball
-	SequentialCommandGroup shootFull = new SequentialCommandGroup(
-			new InstantCommand(() -> setRPM(kFenderSpeed)),
-			new InstantCommand(() -> Robot.loader.set(1)),
-			new WaitCommand(4),
-			new InstantCommand(() -> shooter.set(0)),
-			new InstantCommand(() -> Robot.loader.stopMotor()));
+	public void shootFull() {
+		this.canLoad = false;
+		// Shoot and load a single ball
+		new SequentialCommandGroup(
+				new InstantCommand(() -> setRPM(kFenderSpeed)),
+				new InstantCommand(() -> Robot.loader.set(1)),
+				new WaitCommand(4),
+				new InstantCommand(() -> shooter.set(0)),
+				new InstantCommand(() -> Robot.loader.stopMotor()),
+				new InstantCommand(() -> enableLoading())).schedule();
+	}
+	
 }

@@ -25,7 +25,6 @@ public class Odometry extends SubsystemBase {
 	private boolean calibrated = false;
 
 	public Odometry() {
-		// Robot.drive.resetEncoders();
 		position = new Pose2d();
 		field = new Field2d();
 		rotation = new Rotation2d();

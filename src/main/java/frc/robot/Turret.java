@@ -77,10 +77,9 @@ public class Turret extends SubsystemBase {
 
 			linearActuator.set(getLinearActuatorFromDistance(Robot.limelight.getDistance()));
 
-			if (Math.abs(tx) < allowedError)
-				atTarget = true;
-			atTarget = false;
+			atTarget = (Math.abs(tx) < allowedError) ? true : false;
 		}
+
 		return atTarget;
 	}
 
@@ -260,8 +259,6 @@ public class Turret extends SubsystemBase {
 	 * @return Returns true if the turret is able to be controlled
 	 */
 	public boolean isMovable() {
-		if (!flip())
-			return true;
-		return false;
+		return !flip();
 	}
 }
