@@ -17,12 +17,11 @@ public class Turret extends SubsystemBase {
 	private SparkMaxPIDController pid = turret.getPIDController();
 	private RelativeEncoder encoder = turret.getEncoder();
 	private Servo linearActuator = new Servo(1);
-
 	private Odometry odometry = new Odometry();
-
 	private boolean flipInProgress = false;
-
 	private boolean flippingLeft = false;
+
+	public boolean autoTurretEnabled = true;
 
 	public Turret() {
 		turret.restoreFactoryDefaults();
@@ -35,60 +34,72 @@ public class Turret extends SubsystemBase {
 		linearActuator.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 	}
 
+	@Override
+	public void periodic() {
+		odometryAlign();
+	}
+
+	public void setActuator(double position) {
+		linearActuator.set(position);
+	}
+
 	// Adjust the turret via odometry to give a loose position if the limelight
 	// can't see the hub
 	public void odometryAlign() {
-		double linearActuator = getLinearActuatorFromDistance(odometry.getDistanceToHub(odometry.getPose()));
-		if (isMovable()) {
-			if (!atLimitLeft() && !atLimitRight()) {
-				double x = -odometry.getPose().getRotation().getDegrees()
-						+ odometry.calculateTurretDegreesFromPoint(odometry.getPose());
-				if (x > 180)
-					x -= 360;
-				else if (x < -180)
-					x += 360;
-				rotateDegrees(x);
-			} else
-				turret.set(0);
+		if (autoTurretEnabled && !Robot.drive.xbox.getRawButton(7)) {
+			double linearActuator = getLinearActuatorFromDistance(odometry.getDistanceToHub(odometry.getPose()));
+			if (isMovable()) {
+				if (!atLimitLeft() && !atLimitRight()) {
+					double x = -odometry.getPose().getRotation().getDegrees()
+							+ odometry.calculateTurretDegreesFromPoint(odometry.getPose());
+					if (x > 180)
+						x -= 360;
+					else if (x < -180)
+						x += 360;
+					rotateDegrees(x);
+				} else
+					turret.set(0);
+			}
+			if (linearActuator > 0.125)
+				this.linearActuator.set(linearActuator);
 		}
-		if (linearActuator > 0.125)
-			this.linearActuator.set(linearActuator);
 	}
 
 	// Align the turret precisely with the limelight
 	public boolean limelightAlign() {
-		boolean atTarget = false;
-		if (!flipInProgress) {
-			// Proportional constant
-			double kP = (0.02);
-			// Minimum power needed to make the turret move
-			double minimumPower = 0.03;
-			// The allowed error from the center
-			double allowedError = 0.25;
-			// Distance from the center of the hub
-			double tx = Robot.limelight.getTx();
-			// Speed to set the turret to, defaults to 0
-			double turretSpeed = 0;
+			boolean atTarget = false;
+			if (!flipInProgress) {
+				// Proportional constant
+				double kP = (0.02);
+				// Minimum power needed to make the turret move
+				double minimumPower = 0.03;
+				// The allowed error from the center
+				double allowedError = 0.35;
+				// Distance from the center of the hub
+				double tx = Robot.limelight.getTx();
+				// Speed to set the turret to, defaults to 0
+				double turretSpeed = 0;
 
-			if (Math.abs(tx) > allowedError)
-				turretSpeed = (kP * tx + ((minimumPower) * Math.signum(tx)));
+				if (Math.abs(tx) > allowedError)
+					turretSpeed = (kP * tx + ((minimumPower) * Math.signum(tx)));
 
-			set(-turretSpeed);
+				set(-turretSpeed);
 
-			linearActuator.set(getLinearActuatorFromDistance(Robot.limelight.getDistance()));
+				linearActuator.set(getLinearActuatorFromDistance(Robot.limelight.getDistance()));
 
-			atTarget = (Math.abs(tx) < allowedError) ? true : false;
-		}
-
-		return atTarget;
+				atTarget = (Math.abs(tx) < allowedError) ? true : false;
+			}
+			return atTarget;
 	}
 
 	// Keep the turret aligned
 	public void fullAlign() {
-		if (Robot.limelight.hasTarget())
-			limelightAlign();
-		else
-			odometryAlign();
+		if (autoTurretEnabled) {
+			if (Robot.limelight.hasTarget())
+				limelightAlign();
+			else
+				odometryAlign();
+		}
 	}
 
 	/**

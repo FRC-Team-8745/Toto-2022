@@ -18,18 +18,25 @@ public class Shooter extends SubsystemBase {
 	public double Time;
 	public boolean canLoad;
 
+	public boolean autoLoadEnabled = true;
+
 	@Override
 	public void periodic() {
 		// Shooter status
 		SmartDashboard.putNumber("Shooter RPM", encoder.getVelocity());
 
-		RPM = Robot.turret.getShooterRPMFromDistance(Robot.limelight.getDistance());
-		Time = Robot.turret.getShooterTimingFromDistance(Robot.limelight.getDistance());
-		Ramp = Robot.turret.getShooterRampFromDistance(Robot.limelight.getDistance());
-		
-		System.out.println(canLoad);
+		if (Robot.turret.autoTurretEnabled) {
+			RPM = Robot.turret.getShooterRPMFromDistance(Robot.limelight.getDistance());
+			Time = Robot.turret.getShooterTimingFromDistance(Robot.limelight.getDistance());
+			Ramp = Robot.turret.getShooterRampFromDistance(Robot.limelight.getDistance());
+		} else if (!Robot.turret.autoTurretEnabled) {
+			RPM = 3000;
+			Time = 2;
+			Ramp = 2;
+		}
 
-		load();
+		//if (autoLoadEnabled)
+			//oad();
 	}
 
 	public Shooter() {
@@ -123,5 +130,5 @@ public class Shooter extends SubsystemBase {
 				new InstantCommand(() -> Robot.loader.stopMotor()),
 				new InstantCommand(() -> enableLoading())).schedule();
 	}
-	
+
 }

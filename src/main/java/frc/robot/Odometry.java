@@ -34,7 +34,7 @@ public class Odometry extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		rotation = new Rotation2d(degreesToRadians(-IMU.getYaw()));
+		rotation = new Rotation2d(degreesToRadians(-IMU.getYaw() + kRobotStartRotY));
 		position = odometry.update(
 				/* Rotation of the robot */
 				rotation,

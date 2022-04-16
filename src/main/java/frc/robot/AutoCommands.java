@@ -11,7 +11,18 @@ public class AutoCommands extends SubsystemBase {
 	private double startDistance;
 
 	public Boolean driveFeet(double feet, double speed) {
-		if (Math.abs(feet / (kDiameter / 12) * Math.PI) < Math.abs(Robot.drive.getRightEncoder() / kDriveGearbox)) {
+		if (Math.abs(feet / ((kDiameter / 12) * Math.PI)) < Math.abs(Robot.drive.getRightEncoder() / kDriveGearbox)) {
+			Robot.drive.stopDrive();
+			return true;
+		}
+
+		Robot.drive.setLeft(speed);
+		Robot.drive.setRight(speed + drivePID.calculate(Robot.drive.getRightEncoder() - Robot.drive.getLeftEncoder(), 0));
+		return false;
+	}
+
+	public Boolean driveFeetBackwards(double feet, double speed) {
+		if (Math.abs(feet / ((kDiameter / 12) * Math.PI)) > Math.abs(Robot.drive.getRightEncoder() / kDriveGearbox)) {
 			Robot.drive.stopDrive();
 			return true;
 		}

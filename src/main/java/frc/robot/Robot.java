@@ -74,6 +74,7 @@ public class Robot extends TimedRobot {
 		limelight.enableProcessing();
 
 		Shooter.shooter.setInverted(true);
+		turret.autoTurretEnabled = true;
 	}
 
 	@Override
@@ -94,19 +95,21 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		noCont.auto();
+		turret.autoTurretEnabled = true;
 		drive.resetEncoders();
+		noCont.auto();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
+		turret.fullAlign();
 	}
 
 	@Override
 	public void teleopInit() {
 		shooter.stop();
 		loader.stopMotor();
-		Odometry.IMU.zeroYaw();
+		turret.autoTurretEnabled = true;
 
 		SmartDashboard.putNumber("Linear Actuator", 0);
 		SmartDashboard.putNumber("Shooter test RPM", 0);
@@ -118,7 +121,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.driveTeleop();
+
 		SmartDashboard.putNumber("inches coord", odometry.getDistanceToHub(odometry.getPose()));
+		SmartDashboard.putBoolean("auto turret", turret.autoTurretEnabled);
 	}
 
 	@Override

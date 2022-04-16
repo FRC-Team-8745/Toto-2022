@@ -56,9 +56,9 @@ public class Constants {
 	public static final double kVisionTapeHeight = 101.625;
 
 	/* Odometry Constants */
-	public static final double kRobotStartPosX = 8;
-	public static final double kRobotStartPosY = 4;
-	public static final double kRobotStartRotY = 0;
+	public static final double kRobotStartPosX = 6.951;
+	public static final double kRobotStartPosY = 2.947;
+	public static final double kRobotStartRotY = -155;
 
 	public static final double kHubCenterX = 8;
 	public static final double kHubCenterY = 4;

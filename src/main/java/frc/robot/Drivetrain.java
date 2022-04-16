@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Limelight.LEDMode;
 
 /*
  * Button numbers: [1: trigger] [2: sidebutton] [3:labeled] [4: labeled] [5:
@@ -17,7 +16,7 @@ public class Drivetrain {
 	private Shooter autoShooter;
 
 	private Joystick cont = new Joystick(1);
-	private XboxController xbox = new XboxController(0);
+	public XboxController xbox = new XboxController(0);
 	private BrushlessNEO right = new BrushlessNEO(1, true);
 	private BrushlessNEO left = new BrushlessNEO(2, false);
 
@@ -95,7 +94,7 @@ public class Drivetrain {
 		}
 
 		// Turret
-		if (turret.isMovable()) {
+		if (turret.isMovable() && !turret.autoTurretEnabled) {
 			if (xbox.getRawButton(5))
 				turret.set(0.3);
 			else if (xbox.getRawButton(6))
@@ -174,18 +173,21 @@ public class Drivetrain {
 		}
 
 		if (xbox.getRawButton(7))
-			turret.fullAlign();
-
-		if (xbox.getRawButton(9))
-			Robot.limelight.setLEDMode(LEDMode.kOff);
-		else if (xbox.getRawButton(10))
-			Robot.limelight.setLEDMode(LEDMode.kOn);
+			turret.limelightAlign();
 
 		if (xbox.getRawButton(1))
 			turret.odometryAlign();
+		
+		if (xbox.getRawButtonPressed(9)) {
+			turret.autoTurretEnabled = false;
+		}
+
+		if (xbox.getRawButton(10)) {
+			turret.setActuator(0.125);
+			turret.rotateDegrees(0);
+		}
 
 		if (cont.getRawButton(12))
 			SmartDashboard.putBoolean("flip", turret.flip());
-
 	}
 }

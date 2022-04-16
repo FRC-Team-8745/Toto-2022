@@ -63,11 +63,11 @@ public class Auto {
 				new InstantCommand(() -> Robot.autoShooter.shootFull()),
 				new WaitCommand(4),
 				new InstantCommand(() -> Robot.intake.set(0.5)),
-				new WaitUntilCommand(() -> auto.driveFeetRelitave(distance, 0.2)),
+				new WaitUntilCommand(() -> auto.driveFeet(distance, 0.2)),
 				new WaitCommand(1),
 				new InstantCommand(() -> Robot.intake.set(1)),
 				new WaitCommand(1),
-				new WaitUntilCommand(() -> auto.driveFeetRelitave(distance - 0.25, -0.35)),
+				new WaitUntilCommand(() -> auto.driveFeetBackwards(1.5, -0.35)),
 				new InstantCommand(() -> Robot.intake.stop()),
 				new InstantCommand(() -> Robot.autoShooter.shootFull())).schedule();
 	}
