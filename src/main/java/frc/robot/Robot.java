@@ -98,6 +98,7 @@ public class Robot extends TimedRobot {
 		turret.autoTurretEnabled = true;
 		drive.resetEncoders();
 		noCont.auto();
+		drive.setBrakeMode(IdleMode.kBrake);
 	}
 
 	@Override

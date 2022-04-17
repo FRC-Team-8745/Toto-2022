@@ -52,7 +52,9 @@ public class Auto {
 	public void deployIntake() {
 		new SequentialCommandGroup(
 				new InstantCommand(() -> Robot.climberLeft.set(-0.5)),
+				new InstantCommand(() -> Robot.intake.set(0.2)),
 				new WaitCommand(0.3),
+				new InstantCommand(() -> Robot.intake.set(0)),
 				new InstantCommand(() -> Robot.climberLeft.stop())).schedule();
 	}
 
@@ -67,7 +69,7 @@ public class Auto {
 				new WaitCommand(1),
 				new InstantCommand(() -> Robot.intake.set(1)),
 				new WaitCommand(1),
-				new WaitUntilCommand(() -> auto.driveFeetBackwards(1.5, -0.35)),
+				new WaitUntilCommand(() -> auto.driveFeetBackwards(2, -0.35)),
 				new InstantCommand(() -> Robot.intake.stop()),
 				new InstantCommand(() -> Robot.autoShooter.shootFull())).schedule();
 	}

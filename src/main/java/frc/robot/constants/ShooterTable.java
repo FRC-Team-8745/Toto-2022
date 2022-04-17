@@ -12,10 +12,10 @@ public final class ShooterTable {
 			{ 108, 3500 },
 			{ 120, 3500 },
 			{ 121, 3750 },
-			{ 132, 3750 },
-			{ 144, 3750 },
-			{ 156, 4000 },
-			{ 172, 4500 }
+			{ 132, 4500 },
+			{ 144, 4500 },
+			{ 156, 4500 },
+			{ 172, 5000 }
 	};
 
 	public static final double[][] linearActuatorAngle = {
@@ -41,7 +41,7 @@ public final class ShooterTable {
 			{ 120, 3 },
 			{ 132, 3 },
 			{ 144, 3 },
-			{ 156, 3 }
+			{ 156, 4 }
 	};
 
 	public static final double[][] shooterShotTime = {
@@ -51,10 +51,10 @@ public final class ShooterTable {
 			{ 84, 2 },
 			{ 96, 2 },
 			{ 108, 2 },
-			{ 120, 2 },
-			{ 132, 2 },
-			{ 144, 2 },
-			{ 156, 1.5 }
+			{ 120, 3 },
+			{ 132, 3 },
+			{ 144, 3 },
+			{ 156, 4 }
 	};
 
 	public static final LinearInterpolator shooterRPMInterpolator = new LinearInterpolator(shooterRPM);
