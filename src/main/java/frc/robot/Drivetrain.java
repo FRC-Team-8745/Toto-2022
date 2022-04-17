@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,6 +29,11 @@ public class Drivetrain {
 
 		right.setRamp(0.5);
 		left.setRamp(0.5);
+	}
+
+	public void setBrakeMode(IdleMode mode) {
+		right.idleMode(mode);
+		left.idleMode(mode);
 	}
 
 	public void setDrive(double speed) {
