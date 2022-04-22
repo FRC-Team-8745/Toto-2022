@@ -99,13 +99,6 @@ public class Limelight extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// Read values periodically
-		double x = tx.getDouble(0.0);
-		double y = ty.getDouble(0.0);
-
-		// Post to smart dashboard periodically
-		SmartDashboard.putNumber("LimelightX", x);
-		SmartDashboard.putNumber("LimelightY", y);
 		SmartDashboard.putNumber("Distance", distanceToGoal);
 
 		// Calculate distance to the hub

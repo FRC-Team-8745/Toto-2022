@@ -2,24 +2,23 @@ package frc.robot;
 
 import static frc.robot.constants.Constants.*;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class Auto {
-	// The four auto programs
+	// The three auto programs
 	public enum AutoSelections {
-		FullAuto, ShortAuto, ShootnTarmac, Shoot;
+		FullAuto, ShootnTarmac, Shoot;
 	}
 
 	// Start AutoCommands
 	public static AutoCommands auto = new AutoCommands();
 
-	public void auto() {
+	public void auto(int program) {
 		// Set the auto program based on the number from shuffleboard
-		int autoProgram = (int) SmartDashboard.getNumber("Auto", 0);
+		int autoProgram = program;
 		AutoSelections selection = AutoSelections.values()[autoProgram];
 
 		switch (selection) {
@@ -27,16 +26,14 @@ public class Auto {
 				fullAuto(kNormalAutoDriveDistance);
 				break;
 
-			case ShortAuto: // Full auto, with a shorter distance to drive
-				fullAuto(kShortAutoDriveDistance);
-				break;
-
 			case ShootnTarmac: // Deploy intake, shoot, and exit the tarmac
 				new SequentialCommandGroup(
 						new InstantCommand(() -> deployIntake()),
 						new InstantCommand(() -> Robot.autoShooter.shootFull()),
-						new WaitCommand(4),
-						new InstantCommand(() -> auto.driveFeetRelitave(7.583, 0.25))).schedule();
+						new WaitCommand(9),
+						new InstantCommand(() -> Robot.drive.setDrive(0.2)),
+						new WaitCommand(3),
+						new InstantCommand(() -> Robot.drive.stopDrive())).schedule();
 				break;
 
 			case Shoot: // Deploy intake, shoot

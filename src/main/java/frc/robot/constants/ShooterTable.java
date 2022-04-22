@@ -15,7 +15,7 @@ public final class ShooterTable {
 			{ 132, 4500 },
 			{ 144, 4500 },
 			{ 156, 4500 },
-			{ 172, 5000 }
+			{ 172, 5250 }
 	};
 
 	public static final double[][] linearActuatorAngle = {
@@ -23,12 +23,12 @@ public final class ShooterTable {
 			{ 60, 0.125 },
 			{ 72, 0.2 },
 			{ 84, 0.2 },
-			{ 96, 0.3 },
-			{ 108, 0.3 },
-			{ 120, 0.4 },
-			{ 132, 0.4 },
-			{ 144, 0.4 },
-			{ 156, 0.4 }
+			{ 96, 0.25 },
+			{ 108, 0.25 },
+			{ 120, 0.35 },
+			{ 132, 0.35 },
+			{ 144, 0.35 },
+			{ 156, 0.35 }
 	};
 
 	public static final double[][] shooterRampTime = {

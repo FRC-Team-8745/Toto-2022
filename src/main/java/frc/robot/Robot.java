@@ -7,14 +7,10 @@ package frc.robot;
 import static frc.robot.constants.Constants.*;
 
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.ColorSensorV3.ProximitySensorMeasurementRate;
-import com.revrobotics.ColorSensorV3.ProximitySensorResolution;
-import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -35,7 +31,7 @@ public class Robot extends TimedRobot {
 	 * Linear Actuator: 1
 	 * 
 	 * Robot perimiter with bumpers is 33" x 39"
-	 * Robot weight is 107 pounds
+	 * Robot weight is 109 pounds
 	 */
 
 	public static BrushlessNEO climberRight = new BrushlessNEO(5, false);
@@ -48,9 +44,10 @@ public class Robot extends TimedRobot {
 	public static Auto noCont = new Auto();
 	public static Shooter shooter = new Shooter();
 	public static Limelight limelight = new Limelight();
+	public static double kRobotStartPosX;
+	public static double kRobotStartPosY;
+	public static double kRobotStartRotY;
 	public static Odometry odometry = new Odometry();
-
-	public static ColorSensorV3 colorSensor = new ColorSensorV3(Port.kOnboard);
 
 	@Override
 	public void robotInit() {
@@ -63,7 +60,6 @@ public class Robot extends TimedRobot {
 		climberRight.idleMode(IdleMode.kBrake);
 		climberLeft.idleMode(IdleMode.kBrake);
 		SmartDashboard.putNumber("Auto", kDefaultAuto);
-		SmartDashboard.putNumber("Short Auto Distance", 6.61);
 
 		// Setup and put the front camera on the dashboard
 		UsbCamera frontCamera = CameraServer.startAutomaticCapture();
@@ -75,30 +71,28 @@ public class Robot extends TimedRobot {
 
 		Shooter.shooter.setInverted(true);
 		turret.autoTurretEnabled = true;
+
+		SmartDashboard.putNumber("Start X", 6.951);
+		SmartDashboard.putNumber("Start Y", 2.947);
+		SmartDashboard.putNumber("Start Rotation", -155);
+
+		// Set motor ramp speed
+		intake.setRamp(0.5);
 	}
 
 	@Override
 	public void robotPeriodic() {
-
 		// Runs the command scheduler while the robot is on
 		CommandScheduler.getInstance().run();
-
-		// Set motor ramp speed
-		intake.setRamp(0.5);
-
-		SmartDashboard.putNumber("turret pos", turret.getTurretDegrees());
-		SmartDashboard.putBoolean("Limit right", turret.atLimitRight());
-		SmartDashboard.putBoolean("Limit left", turret.atLimitLeft());
-		SmartDashboard.putBoolean("color sensor connection", colorSensor.isConnected());
-		SmartDashboard.putNumber("proximity", colorSensor.getIR());
 	}
 
 	@Override
 	public void autonomousInit() {
 		turret.autoTurretEnabled = true;
 		drive.resetEncoders();
-		noCont.auto();
+		noCont.auto(autoToRun);
 		drive.setBrakeMode(IdleMode.kBrake);
+		turret.resetPosition();
 	}
 
 	@Override
@@ -111,12 +105,6 @@ public class Robot extends TimedRobot {
 		shooter.stop();
 		loader.stopMotor();
 		turret.autoTurretEnabled = true;
-
-		SmartDashboard.putNumber("Linear Actuator", 0);
-		SmartDashboard.putNumber("Shooter test RPM", 0);
-		SmartDashboard.putNumber("Loader Time", 0);
-
-		colorSensor.configureProximitySensor(ProximitySensorResolution.kProxRes8bit, ProximitySensorMeasurementRate.kProxRate6ms);
 	}
 
 	@Override
@@ -125,6 +113,7 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putNumber("inches coord", odometry.getDistanceToHub(odometry.getPose()));
 		SmartDashboard.putBoolean("auto turret", turret.autoTurretEnabled);
+		SmartDashboard.putNumber("RPM", Shooter.encoder.getVelocity());
 	}
 
 	@Override

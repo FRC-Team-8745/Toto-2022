@@ -31,8 +31,6 @@ public class Constants {
 
 	// The distances to drive in the two autos that collect cargo
 	public static final double kNormalAutoDriveDistance = 7.583;
-	// TODO: Actually verify this \/
-	public static final double kShortAutoDriveDistance = 6.61;
 
 	/* AutoCommands PID */
 	public static final double kP = 0.2;
@@ -56,10 +54,27 @@ public class Constants {
 	public static final double kVisionTapeHeight = 101.625;
 
 	/* Odometry Constants */
-	public static final double kRobotStartPosX = 6.951;
-	public static final double kRobotStartPosY = 2.947;
-	public static final double kRobotStartRotY = -155;
 
 	public static final double kHubCenterX = 8;
 	public static final double kHubCenterY = 4;
+	
+	// Default starting position
+	
+	/*
+	public static final double kRobotStartPosX = 6.951;
+	public static final double kRobotStartPosY = 2.947;
+	public static final double kRobotStartRotY = -155;
+	*/
+	
+	public static final double shooterSpeedOffset = 250;
+	
+	// Start position
+	public static final double kRobotStartPosX = 6.1;
+	public static final double kRobotStartPosY = 5;
+	public static final double kRobotStartRotY = 136;
+
+	// Auto code to run
+	public static final int autoToRun = 0;
+
+
 }

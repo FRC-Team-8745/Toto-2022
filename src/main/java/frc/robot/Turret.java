@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
@@ -42,7 +41,6 @@ public class Turret extends SubsystemBase {
 	@Override
 	public void periodic() {
 		odometryAlign();
-		SmartDashboard.putBoolean("at target", atTarget);
 	}
 
 	public void setActuator(double position) {
@@ -103,12 +101,10 @@ public class Turret extends SubsystemBase {
 
 	// Keep the turret aligned
 	public void fullAlign() {
-		if (autoTurretEnabled) {
-			if (Robot.limelight.hasTarget())
-				limelightAlign();
-			else
-				odometryAlign();
-		}
+		if (Robot.limelight.hasTarget())
+			limelightAlign();
+		else
+			odometryAlign();
 	}
 
 	/**
